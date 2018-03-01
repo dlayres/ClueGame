@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class IntBoard {
-	private Set<BoardCell> visited;
-	private Set<BoardCell> targets;
+	private HashSet<BoardCell> visited;
+	private HashSet<BoardCell> targets;
 	private HashMap<BoardCell, HashSet<BoardCell>> adjacencies;
 	
 	private BoardCell[][] grid;
@@ -29,7 +29,7 @@ public class IntBoard {
 	public void calcAdjacencies(){
 		for(int i = 0; i < 4; i++){
 			for(int j = 0; j < 4; j++){
-				BoardCell currCell = new BoardCell(i, j);
+				BoardCell currCell = grid[i][j];
 				HashSet<BoardCell> cellAdjList = new HashSet<BoardCell>();
 				if(i == 0){
 					cellAdjList.add(grid[i + 1][j]);
@@ -50,14 +50,14 @@ public class IntBoard {
 				adjacencies.put(currCell, cellAdjList);
 			}
 		}
-		
-		for(HashMap.Entry<BoardCell, HashSet<BoardCell>> entry : adjacencies.entrySet()){
-			System.out.println(entry.getKey() + "/" + entry.getValue());
-		}
 	}
 		
 		
-		
+	public void printAdjs() {
+		for(HashMap.Entry<BoardCell, HashSet<BoardCell>> entry : adjacencies.entrySet()){
+			System.out.println(entry.getKey() + "/ " + entry.getValue());
+		}
+	}
 		
 
 	
@@ -68,6 +68,7 @@ public class IntBoard {
 	
 	public void setVisitedToCurrentCell(BoardCell startCell) {
 		visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
 		visited.add(startCell);
 	}
 	
@@ -88,11 +89,10 @@ public class IntBoard {
 			}
 			visited.remove(nextCell);
 		}
-		return;
 	}
 	
 	// Gets the possible cells the player can move to (targets)
-	public Set<BoardCell> getTargets(){
+	public HashSet<BoardCell> getTargets(){
 		return targets;
 	}
 	

@@ -12,7 +12,7 @@ public class BoardCell {
 
 	@Override
 	public String toString() {
-		return "BoardCell [row=" + row + ", col=" + col + "]";
+		return "row=" + row + ", col=" + col;
 	}
 	
 	
