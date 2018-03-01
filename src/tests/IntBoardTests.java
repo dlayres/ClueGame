@@ -10,15 +10,13 @@ import org.junit.Test;
 import experiment.BoardCell;
 import experiment.IntBoard;
 
-
-
 public class IntBoardTests {
 	private IntBoard board;
 	
 	@Before
-    public void initialize() {
-       board = new IntBoard();
-    }
+	public void initialize() {
+		board = new IntBoard();
+	}
 
 	// Tests the adjacency list for the cell at (0, 0)
 	@Test
