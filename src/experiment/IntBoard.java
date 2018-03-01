@@ -27,6 +27,17 @@ public class IntBoard {
 	
 	// Calculates the adjacent cells for each cell in the board
 	public void calcAdjacencies(){
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				BoardCell currCell = new BoardCell(i, j);
+				HashSet<BoardCell> cellAdjList = new HashSet<BoardCell>();
+			}
+		}
+		
+		
+		
+		
+		
 		// The 4 corners
 		HashSet<BoardCell> nextSet00 = new HashSet<BoardCell>();
 		nextSet00.add(new BoardCell(0,1));
