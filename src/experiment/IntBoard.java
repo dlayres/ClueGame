@@ -14,11 +14,34 @@ public class IntBoard {
 	// Default constructor
 	public IntBoard() {
 		super();
+		// initialize grid
+		grid = new BoardCell[4][4]; // nrows = 4, ncols = 4
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				grid[i][j] = new BoardCell(i,j);
+			}
+		}
+		adjacencies = new HashMap<BoardCell, HashSet<BoardCell>>();
 		calcAdjacencies();
 	}
 	
 	// Calculates the adjacent cells for each cell in the board
 	public void calcAdjacencies(){
+		// The 4 corners
+		HashSet<BoardCell> nextSet00 = new HashSet<BoardCell>();
+		nextSet00.add(new BoardCell(0,1));
+		nextSet00.add(new BoardCell(1,0));
+		adjacencies.put(new BoardCell(0,0), nextSet00);
+
+		HashSet<BoardCell> nextSet03 = new HashSet<BoardCell>();
+		nextSet03.add(new BoardCell(0,2));
+		nextSet03.add(new BoardCell(1,3));
+		adjacencies.put(new BoardCell(0,3), nextSet03);
+		
+		HashSet<BoardCell> nextSet30 = new HashSet<BoardCell>();
+		nextSet30.add(new BoardCell(0,2));
+		nextSet30.add(new BoardCell(1,3));
+		adjacencies.put(new BoardCell(3,0), nextSet30);
 		return;
 	}
 	
