@@ -42,6 +42,11 @@ public class IntBoard {
 		nextSet30.add(new BoardCell(0,2));
 		nextSet30.add(new BoardCell(1,3));
 		adjacencies.put(new BoardCell(3,0), nextSet30);
+		
+		HashSet<BoardCell> nextSet33 = new HashSet<BoardCell>();
+		nextSet33.add(new BoardCell(2,3));
+		nextSet33.add(new BoardCell(3,2));
+		adjacencies.put(new BoardCell(3,3), nextSet33);
 		return;
 	}
 	
