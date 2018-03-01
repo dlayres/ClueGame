@@ -33,6 +33,7 @@ public class IntBoardTests {
 		assertEquals(2, testList.size());
 	}
 	
+	// Tests the adjacency list for the cell at (3, 3)
 	@Test
 	public void testAdjacency3_3(){
 		BoardCell cell = board.getCell(3, 3);
@@ -42,6 +43,7 @@ public class IntBoardTests {
 		assertEquals(2, testList.size());
 	}
 	
+	// Tests the adjacency list for the cell at (1, 3)
 	@Test
 	public void testAdjacency1_3(){
 		BoardCell cell = board.getCell(1, 3);
@@ -52,6 +54,7 @@ public class IntBoardTests {
 		assertEquals(3, testList.size());
 	}
 	
+	// Tests the adjacency list for the cell at (3, 0)
 	@Test
 	public void testAdjacency3_0(){
 		BoardCell cell = board.getCell(3, 0);
@@ -60,6 +63,8 @@ public class IntBoardTests {
 		assertTrue(testList.contains(board.getCell(3, 1)));
 		assertEquals(2, testList.size());
 	}
+	
+	// Tests the adjacency list for the cell at (1, 1)
 	@Test
 	public void testAdjacency1_1(){
 		BoardCell cell = board.getCell(1, 1);
@@ -70,6 +75,8 @@ public class IntBoardTests {
 		assertTrue(testList.contains(board.getCell(2, 1)));
 		assertEquals(4, testList.size());
 	}
+	
+	// Tests the adjacency list for the cell at (2, 2)
 	@Test
 	public void testAdjacency2_2(){
 		BoardCell cell = board.getCell(2, 2);
@@ -81,6 +88,7 @@ public class IntBoardTests {
 		assertEquals(4, testList.size());
 	}
 	
+	// Tests the targets for cell (0, 0) with length 3
 	@Test
 	public void testTargets0_0_3()
 	{
@@ -96,6 +104,8 @@ public class IntBoardTests {
 		assertTrue(targets.contains(board.getCell(0, 3)));
 		assertTrue(targets.contains(board.getCell(1, 0)));
 	}
+	
+	// Tests the targets for cell (0, 1) with length 2
 	@Test
 	public void testTargets0_1_2()
 	{
@@ -110,6 +120,7 @@ public class IntBoardTests {
 		assertTrue(targets.contains(board.getCell(1, 2)));
 	}
 	
+	// Tests the targets for cell (2, 2) with length 4
 	@Test
 	public void testTargets2_2_4()
 	{
@@ -127,6 +138,7 @@ public class IntBoardTests {
 		assertTrue(targets.contains(board.getCell(3, 3)));
 	}
 	
+	// Tests the targets for cell (3, 0) with length 6
 	@Test
 	public void testTargets3_0_6()
 	{
@@ -144,6 +156,7 @@ public class IntBoardTests {
 		assertTrue(targets.contains(board.getCell(2, 3)));
 	}
 	
+	// Tests the targets for cell (3, 2) with length 1
 	@Test
 	public void testTargets3_2_1()
 	{
@@ -157,6 +170,7 @@ public class IntBoardTests {
 		assertTrue(targets.contains(board.getCell(2, 2)));
 	}
 	
+	// Tests the targets for cell (1, 1) with length 5
 	@Test
 	public void testTargets1_1_5()
 	{
