@@ -1,3 +1,8 @@
+/**
+ * @author Johnathan Castillo
+ * @author David Ayres
+ * C12A-1 Clue Paths
+ */
 package experiment;
 
 import java.util.HashMap;
