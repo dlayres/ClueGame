@@ -37,7 +37,7 @@ public class IntBoard {
 		
 		
 		
-		
+		/*
 		// The 4 corners
 		HashSet<BoardCell> nextSet00 = new HashSet<BoardCell>();
 		nextSet00.add(new BoardCell(0,1));
@@ -58,6 +58,7 @@ public class IntBoard {
 		nextSet33.add(new BoardCell(2,3));
 		nextSet33.add(new BoardCell(3,2));
 		adjacencies.put(new BoardCell(3,3), nextSet33);
+		*/
 		return;
 	}
 	
