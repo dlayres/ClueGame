@@ -7,8 +7,8 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 
-import experiment.IntBoard;
 import experiment.BoardCell;
+import experiment.IntBoard;
 
 
 
