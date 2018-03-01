@@ -27,48 +27,67 @@ public class IntBoard {
 	
 	// Calculates the adjacent cells for each cell in the board
 	public void calcAdjacencies(){
-		for(int i = 0; i < 3; i++){
-			for(int j = 0; j < 3; j++){
+		for(int i = 0; i < 4; i++){
+			for(int j = 0; j < 4; j++){
 				BoardCell currCell = new BoardCell(i, j);
 				HashSet<BoardCell> cellAdjList = new HashSet<BoardCell>();
+				if(i == 0){
+					cellAdjList.add(grid[i + 1][j]);
+				} else if(i == 3){
+					cellAdjList.add(grid[i - 1][j]);
+				} else{
+					cellAdjList.add(grid[i + 1][j]);
+					cellAdjList.add(grid[i - 1][j]);
+				}
+				if(j == 0){
+					cellAdjList.add(grid[i][j + 1]);
+				} else if(j == 3){
+					cellAdjList.add(grid[i][j - 1]);
+				} else{
+					cellAdjList.add(grid[i][j + 1]);
+					cellAdjList.add(grid[i][j - 1]);
+				}
+				adjacencies.put(currCell, cellAdjList);
 			}
 		}
 		
-		
-		
-		
-		/*
-		// The 4 corners
-		HashSet<BoardCell> nextSet00 = new HashSet<BoardCell>();
-		nextSet00.add(new BoardCell(0,1));
-		nextSet00.add(new BoardCell(1,0));
-		adjacencies.put(new BoardCell(0,0), nextSet00);
-
-		HashSet<BoardCell> nextSet03 = new HashSet<BoardCell>();
-		nextSet03.add(new BoardCell(0,2));
-		nextSet03.add(new BoardCell(1,3));
-		adjacencies.put(new BoardCell(0,3), nextSet03);
-		
-		HashSet<BoardCell> nextSet30 = new HashSet<BoardCell>();
-		nextSet30.add(new BoardCell(0,2));
-		nextSet30.add(new BoardCell(1,3));
-		adjacencies.put(new BoardCell(3,0), nextSet30);
-		
-		HashSet<BoardCell> nextSet33 = new HashSet<BoardCell>();
-		nextSet33.add(new BoardCell(2,3));
-		nextSet33.add(new BoardCell(3,2));
-		adjacencies.put(new BoardCell(3,3), nextSet33);
-		*/
-		return;
+		for(HashMap.Entry<BoardCell, HashSet<BoardCell>> entry : adjacencies.entrySet()){
+			System.out.println(entry.getKey() + "/" + entry.getValue());
+		}
 	}
+		
+		
+		
+		
+
 	
 	// Gets the list of adjacent cells for a given cell
 	public HashSet<BoardCell> getAdjList(BoardCell cell){
 		return adjacencies.get(cell);
 	}
 	
+	public void setVisitedToCurrentCell(BoardCell startCell) {
+		visited = new HashSet<BoardCell>();
+		visited.add(startCell);
+	}
+	
 	// Calculates the possible cells the player can move to (targets)
 	public void calcTargets(BoardCell startCell, int pathLength){
+		for (BoardCell nextCell : adjacencies.get(startCell)) {
+			if (visited.contains(nextCell)) {
+				continue;
+			}
+			else {
+				visited.add(nextCell);
+			}
+			if (pathLength == 1) {
+				targets.add(nextCell);
+			}
+			else {
+				calcTargets(nextCell,pathLength-1);
+			}
+			visited.remove(nextCell);
+		}
 		return;
 	}
 	
