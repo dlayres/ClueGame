@@ -5,6 +5,9 @@
  */
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class BadConfigFormatException extends Exception {
 	BadConfigFormatException() {
 		super("BadConfigFormatError");
@@ -12,5 +15,12 @@ public class BadConfigFormatException extends Exception {
 	
 	BadConfigFormatException(String message) {
 		super(message);
+		try {
+			PrintWriter log = new PrintWriter("errorLogFile.txt");
+			log.println(message);
+			log.close();
+		} catch (FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
 	}
 }

@@ -11,6 +11,12 @@ public class BoardCell {
 	private char initial;
 	private DoorDirection doorDirection;
 	
+	/**
+	 * If a cell is not a door cell
+	 * @param row
+	 * @param col
+	 * @param init
+	 */
 	BoardCell (int row, int col, char init) {
 		this.row = row;
 		column = col;
@@ -18,6 +24,13 @@ public class BoardCell {
 		doorDirection = DoorDirection.NONE;
 	}
 	
+	/**
+	 * If a cell is a door cell
+	 * @param row
+	 * @param col
+	 * @param init
+	 * @param direction
+	 */
 	BoardCell (int row, int col, char init, char direction) {
 		this.row = row;
 		column = col;
@@ -47,6 +60,7 @@ public class BoardCell {
 		return true;
 	}
 	
+	// returns whether or not this cell is a door
 	public boolean isDoorway() {
 		return (doorDirection != DoorDirection.NONE);
 	}
