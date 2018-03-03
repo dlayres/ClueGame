@@ -24,6 +24,40 @@ public class Board {
 		return theInstance;
 	}
 	
+	public int getNumRows() {
+		return numRows;
+	}
+	
+	public int getNumColumns() {
+		return numColumns;
+	}
+	
+	public BoardCell getCellAt(int row, int col) {
+		return board[row][col];
+	}
+	
+	/**
+	 * @return the legend
+	 */
+	public Map<Character, String> getLegend() {
+		return legend;
+	}
+	
+	/**
+	 * @return the adjMatrix
+	 */
+	public Map<BoardCell, Set<BoardCell>> getAdjMatrix() {
+		return adjMatrix;
+	}
+	
+	/**
+	 * @return the targets
+	 */
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
+	
+	
 	public void initialize(){
 		return;
 	}
@@ -42,5 +76,10 @@ public class Board {
 	
 	public void calcTargets(BoardCell cell, int pathLength){
 		return;
+	}
+	
+	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
+		this.boardConfigFile = boardConfigFile;
+		this.roomConfigFile = roomConfigFile;
 	}
 }

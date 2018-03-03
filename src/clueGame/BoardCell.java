@@ -9,6 +9,7 @@ public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
+	private DoorDirection doorDirection;
 	
 	BoardCell (int row, int col, char init) {
 		this.row = row;
@@ -26,6 +27,14 @@ public class BoardCell {
 	
 	public boolean isDoorway() {
 		return true;
+	}
+	
+	public int getInitial() {
+		return initial;
+	}
+	
+	public DoorDirection getDoorDirection() {
+		return doorDirection;
 	}
 	
 	@Override
