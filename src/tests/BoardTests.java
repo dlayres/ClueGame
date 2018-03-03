@@ -7,6 +7,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,6 +37,21 @@ public class BoardTests {
 	}
 
 	@Test
+	public void testRooms() {
+		// Get the map of initial => room 
+		Map<Character, String> legend = board.getLegend();
+		// Ensure we read the correct number of rooms
+		assertEquals(LEGEND_SIZE, legend.size());
+		// To ensure data is correctly loaded, test retrieving a few rooms 
+		// from the hash, including the first and last in the file and a few others
+		assertEquals("Laundry Room", legend.get('L'));
+		assertEquals("Library", legend.get('I'));
+		assertEquals("Basement", legend.get('A'));
+		assertEquals("Office", legend.get('O'));
+		assertEquals("Walkway", legend.get('W'));
+	}
+
+	@Test
 	public void testBoardDimensions() {
 		// Ensure we have the proper number of rows and columns
 		assertEquals(NUM_ROWS, board.getNumRows());
@@ -49,26 +66,26 @@ public class BoardTests {
 		BoardCell room = board.getCellAt(2, 9);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
-		
+
 		// Test if cell(3,2) is being made as a DOWN doorway
 		room = board.getCellAt(3, 2);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
-		
+
 		// Test if cell(16,11) is a LEFT doorway
 		room = board.getCellAt(16, 11);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
-		
+
 		// Test if cell(6,17) is an UP doorway
 		room = board.getCellAt(6, 17);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.UP, room.getDoorDirection());
-		
+
 		// Test if cell(17,14) is not a doorway
 		room = board.getCellAt(17, 14);
 		assertFalse(room.isDoorway());	
-		
+
 		// Test if cell(14,16) is not a doorway
 		BoardCell cell = board.getCellAt(14, 16);
 		assertFalse(cell.isDoorway());		
@@ -89,24 +106,24 @@ public class BoardTests {
 		}
 		Assert.assertEquals(18, numDoors);
 	}
-	
+
 
 	// Test if 7 different board cells have the correct initial
 	@Test
 	public void testRoomInitials() {
 		assertEquals('L', board.getCellAt(0, 0).getInitial());
-		
+
 		assertEquals('B', board.getCellAt(1, 7).getInitial());
-		
+
 		assertEquals('C', board.getCellAt(3, 11).getInitial());
 
 		assertEquals('P', board.getCellAt(0, 19).getInitial());
-		
+
 		assertEquals('D', board.getCellAt(12, 0).getInitial());
 
 		assertEquals('X', board.getCellAt(9, 9).getInitial());
 
 		assertEquals('O', board.getCellAt(16,17).getInitial());
 	}
-	
+
 }

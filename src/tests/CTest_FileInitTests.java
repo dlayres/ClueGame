@@ -37,6 +37,7 @@ public class CTest_FileInitTests {
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
+	
 	@Test
 	public void testRooms() {
 		// Get the map of initial => room 

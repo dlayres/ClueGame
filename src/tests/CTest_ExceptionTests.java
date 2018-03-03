@@ -35,8 +35,8 @@ public class CTest_ExceptionTests {
 	public void testBadRoom() throws BadConfigFormatException, FileNotFoundException {
 		Board board = Board.getInstance();
 		board.setConfigFiles("CTest_ClueLayoutBadRoom.csv", "CTest_ClueLegend.txt");
-		board.loadRoomConfig();
-		board.loadBoardConfig();
+    	board.loadRoomConfig();
+	    board.loadBoardConfig();
 	}
 	
 	// Test that an exception is thrown for a config file with a room type 

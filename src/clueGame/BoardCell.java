@@ -15,6 +15,28 @@ public class BoardCell {
 		this.row = row;
 		column = col;
 		initial = init;
+		doorDirection = DoorDirection.NONE;
+	}
+	
+	BoardCell (int row, int col, char init, char direction) {
+		this.row = row;
+		column = col;
+		initial = init;
+		if (direction == 'R') {
+			doorDirection = DoorDirection.RIGHT;
+		}
+		else if (direction == 'L') {
+			doorDirection = DoorDirection.LEFT;
+		}
+		else if (direction == 'U') {
+			doorDirection = DoorDirection.UP;
+		}
+		else if (direction == 'D') {
+			doorDirection = DoorDirection.DOWN;
+		}
+		else {
+			doorDirection = DoorDirection.NONE;
+		}
 	}
 	
 	public boolean isWalkway() {
@@ -26,7 +48,7 @@ public class BoardCell {
 	}
 	
 	public boolean isDoorway() {
-		return true;
+		return (doorDirection != DoorDirection.NONE);
 	}
 	
 	public int getInitial() {
