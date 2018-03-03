@@ -1,0 +1,19 @@
+Authors:
+David Ayres
+Johnathan Castillo
+
+We test that the board has 20 rows and 20 columns like our layout.
+
+Then, we test that doors with four different directions work. We selected cells part of groups of two doors in a row
+to make sure they work properly, as well as cells that have a door on the corner to make sure the direction
+we specified is the correct direction. We also selected cells next to doors that aren't doors to make sure they
+don't show up as a door, as well as walkways leading out of doors to make sure they aren't doors either.
+
+Next, we test that our total number of doorways (18) match what the code recognizes as a door.
+
+Finally, we test cells for their proper initials. We selected the cell at (0, 0) to make sure its initial was
+correct, and then one cell from a few different rooms to test their room initials. We tested a cell from the
+closet in the middle to check if it had an 'X' as its initial, and one from the bottom right room to see if its
+initial was correct.
+
+
