@@ -1,0 +1,47 @@
+commit 9cbec2fb2e4f9cf38ddfe83290db12d97464d605
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 14:24:50 2018 -0700
+
+    Created the test functions and finished the code
+
+commit 67b0aed975e747288ef06cc5abce980164213e67
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 13:19:49 2018 -0700
+
+    Hopefully fixed the junit file
+
+commit 25b6235af399954a2b48ea52096062ae921d3d0e
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 11:21:51 2018 -0700
+
+    Started Calc adjacencies
+
+commit 83a9ccc117384d8ba41596d20b9defa6c842f122
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 12:13:38 2018 -0700
+
+    Added stub member functions
+
+commit 5cb952976af2b5efc199a63775da19b27042f114
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 11:34:54 2018 -0700
+
+    Added class files
+
+commit 3225e4813b302358034aa3834bee998cadb5ba60
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 11:31:46 2018 -0700
+
+    added .classpath and .project to .gitignore
+
+commit 1831e4ba078c7a9eb1fce2cb930142ee56708cd3
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 11:28:55 2018 -0700
+
+    Initial commit
+
+commit 3fe9be4c477410129e2364ecd1fdd8fe7bb69009
+Author: dlayres <35780693+dlayres@users.noreply.github.com>
+Date:   Tue Feb 27 11:12:42 2018 -0700
+
+    Initial commit

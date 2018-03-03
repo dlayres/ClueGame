@@ -7,17 +7,30 @@ package clueGame;
 
 public class BoardCell {
 	private int row;
-	private int col;
+	private int column;
+	private char initial;
 	
-	BoardCell (int row, int col) {
+	BoardCell (int row, int col, char init) {
 		this.row = row;
-		this.col = col;
+		column = col;
+		initial = init;
 	}
 	
-
+	public boolean isWalkway() {
+		return true;
+	}
+	
+	public boolean isRoom() {
+		return true;
+	}
+	
+	public boolean isDoorway() {
+		return true;
+	}
+	
 	@Override
 	public String toString() {
-		return "row=" + row + ", col=" + col;
+		return "row=" + row + ", column=" + column;
 	}
 	
 	
