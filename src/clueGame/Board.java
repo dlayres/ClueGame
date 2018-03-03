@@ -1,3 +1,9 @@
+/**
+ * @author Johnathan Castillo
+ * @author David Ayres
+ * C13A-1 Clue Paths
+ */
+
 package clueGame;
 
 import java.util.Map;
@@ -24,6 +30,7 @@ public class Board {
 		return theInstance;
 	}
 	
+	//----------------Getters for many of the instance variables---------------------
 	public int getNumRows() {
 		return numRows;
 	}
@@ -35,29 +42,21 @@ public class Board {
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
-	
-	/**
-	 * @return the legend
-	 */
+
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
-	
-	/**
-	 * @return the adjMatrix
-	 */
+
 	public Map<BoardCell, Set<BoardCell>> getAdjMatrix() {
 		return adjMatrix;
 	}
 	
-	/**
-	 * @return the targets
-	 */
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	//------------------------------------------------------------------------------
 	
-	
+	//------------------Member functions, currently stubs---------------------------
 	public void initialize(){
 		return;
 	}
@@ -82,4 +81,5 @@ public class Board {
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
 	}
+	//-----------------------------------------------------------------------------
 }
