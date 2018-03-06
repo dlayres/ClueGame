@@ -29,9 +29,9 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	
-//	private Boolean firstIteration;
-//	private int tempRow;
-//	private int tempCol;
+	private boolean firstIteration;
+	private int tempRow;
+	private int tempCol;
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -71,11 +71,11 @@ public class Board {
 	}
 	
 	public Set<BoardCell> getTargets() {
-		//firstIteration = true;
+		firstIteration = true;
 		HashSet<BoardCell> oldTargets = new HashSet<BoardCell>();
 		oldTargets = targets;
 		targets = new HashSet<BoardCell>();
-	//	visited.remove(board[tempRow][tempCol]);
+		visited.remove(board[tempRow][tempCol]);
 		return oldTargets;
 	}
 	//------------------------------------------------------------------------------
@@ -307,10 +307,10 @@ public class Board {
 	}
 	
 	public void calcTargets(int row, int col, int pathLength) {
-	//	if(firstIteration){
-//			tempRow = row;
-//			tempCol = col;
-//		}
+		if(firstIteration){
+			tempRow = row;
+			tempCol = col;
+		}
 		BoardCell currentCell = board[row][col];
 		visited.add(currentCell);
 		for (BoardCell nextCell : adjMatrix.get(currentCell)) { // for each adjacent cell to the current cell
@@ -331,7 +331,7 @@ public class Board {
 				targets.add(nextCell);
 			}
 			else { // otherwise move to next cell and continue target process
-//				firstIteration = false;
+				firstIteration = false;
 				calcTargets(nextCell.getRow(),nextCell.getColumn(),pathLength-1);
 			}
 			visited.remove(nextCell); // once done processing cell remove it from the visited list
