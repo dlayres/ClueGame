@@ -116,6 +116,8 @@ public class CTest_BoardAdjTargetTests {
 		assertTrue(testList.contains(board.getCellAt(14, 11)));
 		assertEquals(4, testList.size());
 	}
+	
+	
 
 	// Test a variety of walkway scenarios
 	// These tests are LIGHT PURPLE on the planning spreadsheet

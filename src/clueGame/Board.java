@@ -53,8 +53,9 @@ public class Board {
 		return legend;
 	}
 
-	public Map<BoardCell, Set<BoardCell>> getAdjMatrix() {
-		return adjMatrix;
+	public Set<BoardCell> getAdjList(int row, int col) {
+		HashSet<BoardCell> set = new HashSet<BoardCell>();
+		return set;
 	}
 	
 	public Set<BoardCell> getTargets() {
@@ -231,11 +232,11 @@ public class Board {
 		}
 	}
 	
-	public void calcAdjacencies(){
+	public void calcAdjList(){
 		return;
 	}
 	
-	public void calcTargets(BoardCell cell, int pathLength){
+	public void calcTargets(int row, int col, int pathLength){
 		return;
 	}
 	

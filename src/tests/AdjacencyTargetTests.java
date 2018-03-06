@@ -1,3 +1,8 @@
+/**
+ * @author Johnathan Castillo
+ * @author David Ayres
+ * C14A-1 Clue Board III
+ */
 package tests;
 
 import static org.junit.Assert.assertEquals;
@@ -228,7 +233,7 @@ public class AdjacencyTargetTests {
 		assertTrue(targets.contains(board.getCellAt(6, 17))); // door	
 		
 		board.calcTargets(4, 17, 3);
-		Set<BoardCell> targets= board.getTargets();
+		targets= board.getTargets();
 		assertEquals(10, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 16)));
 		assertTrue(targets.contains(board.getCellAt(15, 15)));
@@ -249,21 +254,17 @@ public class AdjacencyTargetTests {
 	public void testRoomExit()
 	{
 		// Take one step, essentially just the adj list
-		board.calcTargets(4, 20, 1);
+		board.calcTargets(3, 2, 1);
 		Set<BoardCell> targets= board.getTargets();
 		// Ensure doesn't exit through the wall
 		assertEquals(1, targets.size());
-		assertTrue(targets.contains(board.getCellAt(4, 19)));
+		assertTrue(targets.contains(board.getCellAt(4, 2)));
 		// Take two steps
-		board.calcTargets(4, 20, 2);
+		board.calcTargets(13, 1, 1);
 		targets= board.getTargets();
-		assertEquals(3, targets.size());
-		assertTrue(targets.contains(board.getCellAt(3, 19)));
-		assertTrue(targets.contains(board.getCellAt(5, 19)));
-		assertTrue(targets.contains(board.getCellAt(4, 18)));
+		assertEquals(1, targets.size());
+		assertTrue(targets.contains(board.getCellAt(14, 1)));
 	}
 
 }
 
-
-}
