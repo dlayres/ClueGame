@@ -54,8 +54,7 @@ public class Board {
 	}
 
 	public Set<BoardCell> getAdjList(int row, int col) {
-		HashSet<BoardCell> set = new HashSet<BoardCell>();
-		return set;
+		return adjMatrix.get(board[row][col]);
 	}
 	
 	public Set<BoardCell> getTargets() {
@@ -154,6 +153,7 @@ public class Board {
 			System.out.println("Cannot find Board Configuration File");
 		}
 		//------------------------------------------------------------------------
+		calcAdjList();
 	}
 	
 	/**
@@ -233,7 +233,63 @@ public class Board {
 	}
 	
 	public void calcAdjList(){
-		return;
+		for(int i = 0; i < getNumRows(); i++){
+			for(int j = 0; j < getNumColumns(); j++){
+				BoardCell currCell = board[i][j];
+				HashSet<BoardCell> cellAdjList = new HashSet<BoardCell>(); // set of adjacencies for this cell
+				if(currCell.getInitial() != 'W' && !currCell.isDoorway()){
+					adjMatrix.put(currCell,  cellAdjList);
+				}
+				else if(currCell.isDoorway()){
+					switch(currCell.getDoorDirection()){
+					case LEFT:
+						System.out.println("Left");
+						cellAdjList.add(board[i][j - 1]);
+						break;
+					case RIGHT:
+						System.out.println("Right");
+						cellAdjList.add(board[i][j + 1]);
+						break;
+					case UP:
+						System.out.println("Up");
+						cellAdjList.add(board[i - 1][j]);
+						break;
+					case DOWN:
+						System.out.println("Down");
+						cellAdjList.add(board[i + 1][j]);
+						break;
+					default:
+						System.out.println("Nothing");
+						break;
+					}
+				}
+				else{
+					HashSet<BoardCell> candidates = new HashSet<BoardCell>();
+					if(i == 0){ // if on the top row
+						candidates.add(board[i + 1][j]);
+					} else if(i == getNumRows() - 1){ // if on the bottom row
+						candidates.add(board[i - 1][j]);
+					} else{
+						candidates.add(board[i + 1][j]);
+						candidates.add(board[i - 1][j]);
+					}
+					if(j == 0){ // if in the first column
+						candidates.add(board[i][j + 1]);
+					} else if(j == getNumColumns() - 1){ // if in the last column
+						candidates.add(board[i][j - 1]);
+					} else{
+						candidates.add(board[i][j + 1]);
+						candidates.add(board[i][j - 1]);
+					}
+					for(BoardCell bc: candidates){
+						if(bc.getInitial() == 'W' || (bc.isDoorway())){
+							cellAdjList.add(bc);
+						}
+					}
+				}
+				adjMatrix.put(currCell, cellAdjList); // add to the adjacencies list
+			}
+		}
 	}
 	
 	public void calcTargets(int row, int col, int pathLength){
