@@ -52,6 +52,20 @@ public class BoardCell {
 		}
 	}
 	
+	/**
+	 * @return the row
+	 */
+	public int getRow() {
+		return row;
+	}
+
+	/**
+	 * @return the column
+	 */
+	public int getColumn() {
+		return column;
+	}
+
 	public boolean isWalkway() {
 		return true;
 	}
@@ -65,7 +79,7 @@ public class BoardCell {
 		return (doorDirection != DoorDirection.NONE);
 	}
 	
-	public int getInitial() {
+	public char getInitial() {
 		return initial;
 	}
 	

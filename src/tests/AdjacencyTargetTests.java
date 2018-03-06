@@ -160,8 +160,10 @@ public class AdjacencyTargetTests {
 	@Test
 	public void testTargetsOneStep() {
 		// 
+		System.out.println(board.getVisited());
 		board.calcTargets(19, 6, 1);
 		Set<BoardCell> targets= board.getTargets();
+		System.out.println(targets);
 		assertEquals(2, targets.size());
 		assertTrue(targets.contains(board.getCellAt(18, 6)));
 		assertTrue(targets.contains(board.getCellAt(19, 7)));	

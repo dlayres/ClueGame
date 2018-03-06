@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+
 public class Board {
 	private int numRows;
 	private int numColumns;
@@ -23,9 +24,14 @@ public class Board {
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
-	private Set<BoardCell> targets;
+	private HashSet<BoardCell> targets;
+	private HashSet<BoardCell> visited; // set of visited points for cell
 	private String boardConfigFile;
 	private String roomConfigFile;
+	
+//	private Boolean firstIteration;
+//	private int tempRow;
+//	private int tempCol;
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -53,12 +59,24 @@ public class Board {
 		return legend;
 	}
 
+	/**
+	 * @return the visited
+	 */
+	public HashSet<BoardCell> getVisited() {
+		return visited;
+	}
+	
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return adjMatrix.get(board[row][col]);
 	}
 	
 	public Set<BoardCell> getTargets() {
-		return targets;
+		//firstIteration = true;
+		HashSet<BoardCell> oldTargets = new HashSet<BoardCell>();
+		oldTargets = targets;
+		targets = new HashSet<BoardCell>();
+	//	visited.remove(board[tempRow][tempCol]);
+		return oldTargets;
 	}
 	//------------------------------------------------------------------------------
 	
@@ -154,6 +172,7 @@ public class Board {
 		}
 		//------------------------------------------------------------------------
 		calcAdjList();
+		visited = new HashSet<BoardCell>();
 	}
 	
 	/**
@@ -243,23 +262,18 @@ public class Board {
 				else if(currCell.isDoorway()){
 					switch(currCell.getDoorDirection()){
 					case LEFT:
-						System.out.println("Left");
 						cellAdjList.add(board[i][j - 1]);
 						break;
 					case RIGHT:
-						System.out.println("Right");
 						cellAdjList.add(board[i][j + 1]);
 						break;
 					case UP:
-						System.out.println("Up");
 						cellAdjList.add(board[i - 1][j]);
 						break;
 					case DOWN:
-						System.out.println("Down");
 						cellAdjList.add(board[i + 1][j]);
 						break;
 					default:
-						System.out.println("Nothing");
 						break;
 					}
 				}
@@ -292,8 +306,36 @@ public class Board {
 		}
 	}
 	
-	public void calcTargets(int row, int col, int pathLength){
-		return;
+	public void calcTargets(int row, int col, int pathLength) {
+	//	if(firstIteration){
+//			tempRow = row;
+//			tempCol = col;
+//		}
+		BoardCell currentCell = board[row][col];
+		visited.add(currentCell);
+		for (BoardCell nextCell : adjMatrix.get(currentCell)) { // for each adjacent cell to the current cell
+			if (visited.contains(nextCell)) { // if we've been here already we just check the next possible cell
+				continue;
+			}
+			else if (nextCell.isDoorway()){
+				targets.add(nextCell);
+				continue;
+			}
+			else if (nextCell.getInitial() != 'W') {
+				continue;
+			}
+			else {
+				visited.add(nextCell); // add to list if we haven't been here before
+			}
+			if (pathLength == 1) { // if at the end of our moving turn, then the cell should be a possible target
+				targets.add(nextCell);
+			}
+			else { // otherwise move to next cell and continue target process
+//				firstIteration = false;
+				calcTargets(nextCell.getRow(),nextCell.getColumn(),pathLength-1);
+			}
+			visited.remove(nextCell); // once done processing cell remove it from the visited list
+		}
 	}
 	
 	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
