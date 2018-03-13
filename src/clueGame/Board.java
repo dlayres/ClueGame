@@ -29,6 +29,10 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	
+	/**
+	 * firstIteration, tempRow, and tempCol are used for managing the "visited" set for a cell
+	 * Used in calcTargets and getTargets
+	 */
 	private boolean firstIteration;
 	private int tempRow;
 	private int tempCol;
@@ -70,13 +74,19 @@ public class Board {
 		return adjMatrix.get(board[row][col]);
 	}
 	
+	/**
+	 * getTargets
+	 * Only called after the targets have been fully calculated for the initial cell
+	 * This function and calcTargets are dependent upon one another
+	 * @return The targets for this board cell
+	 */
 	public Set<BoardCell> getTargets() {
-		firstIteration = true;
-		HashSet<BoardCell> oldTargets = new HashSet<BoardCell>();
-		oldTargets = targets;
-		targets = new HashSet<BoardCell>();
-		visited.remove(board[tempRow][tempCol]);
-		return oldTargets;
+		firstIteration = true; // variable used for calcTargets function
+		HashSet<BoardCell> oldTargets = new HashSet<BoardCell>(); // allocate new memory space
+		oldTargets = targets; // put targets for this cell into the newly allocated memory
+		targets = new HashSet<BoardCell>(); // reset the Set of targets to be used for the next cell
+		visited.remove(board[tempRow][tempCol]); // Removes the initial cell as a possible target (essentially clears the visited set to be used for a new initial cell) 
+		return oldTargets; // oldTargets = targets (before deletion), and so contains all the possible targets from calcTargets
 	}
 	//------------------------------------------------------------------------------
 	
@@ -251,6 +261,10 @@ public class Board {
 		}
 	}
 	
+	
+	/**
+	 * Calc adjacency list for each cell
+	 */
 	public void calcAdjList(){
 		for(int i = 0; i < getNumRows(); i++){
 			for(int j = 0; j < getNumColumns(); j++){
@@ -260,7 +274,7 @@ public class Board {
 					adjMatrix.put(currCell,  cellAdjList);
 				}
 				else if(currCell.isDoorway()){ // is a doorway
-					switch(currCell.getDoorDirection()){
+					switch(currCell.getDoorDirection()){ // for the doorway, add the correct adjacent cell depending on door direction
 					case LEFT:
 						cellAdjList.add(board[i][j - 1]);
 						break;
@@ -296,12 +310,12 @@ public class Board {
 						candidates.add(board[i][j - 1]);
 					}
 					for(BoardCell bc: candidates){
-						if(bc.getInitial() == 'W'){
+						if(bc.getInitial() == 'W'){ // if this candidate cell is a walkway, simply add to the adjacency set for this cell
 							cellAdjList.add(bc);
 						}
-						else if(bc.isDoorway()){
+						else if(bc.isDoorway()){ // if this candidate cell is a doorway, need to check direction
 							boolean correctDirection = false;
-							switch(bc.getDoorDirection()){
+							switch(bc.getDoorDirection()){ // depending on door direction, check if the current cell is actually next to the door entrance
 							case LEFT:
 								if(bc.getColumn() == currCell.getColumn() + 1){
 									correctDirection = true;
@@ -325,20 +339,28 @@ public class Board {
 							default:
 								break;
 							}
-							if(correctDirection){
+							if(correctDirection){ // if the current cell is able to enter the candidate doorway
 								cellAdjList.add(bc);
 							}
 						}
 					}
 				}
-				adjMatrix.put(currCell, cellAdjList); // add to the adjacencies list
+				adjMatrix.put(currCell, cellAdjList); // add this cell's set of adjacencies to the adjacencies list matrix
 			}
 		}
 	}
 	
+	/**
+	 * calcTargets : calculates where a player can move from the current cell
+	 * This function is dependent on getTargets
+	 * @param row Row of the current cell
+	 * @param col Column of the current cell
+	 * @param pathLength How many spaces player can still move from current cell
+	 */
 	public void calcTargets(int row, int col, int pathLength) {
-		if(firstIteration){
-			tempRow = row;
+		if(firstIteration){ // determines if this iteration of calcTargets is the first iteration call (aka if this is where we start our turn from
+			// keep track of this cell to remove from visited later on in the getTargets function
+			tempRow = row; 
 			tempCol = col;
 		}
 		BoardCell currentCell = board[row][col];
@@ -347,11 +369,11 @@ public class Board {
 			if (visited.contains(nextCell)) { // if we've been here already we just check the next possible cell
 				continue;
 			}
-			else if (nextCell.isDoorway()){
+			else if (nextCell.isDoorway()){ // we can automatically enter adjacent doorways
 				targets.add(nextCell);
 				continue;
 			}
-			else if (nextCell.getInitial() != 'W') {
+			else if (nextCell.getInitial() != 'W') { // cell is not a walkway nor a doorway
 				continue;
 			}
 			else {
@@ -361,8 +383,8 @@ public class Board {
 				targets.add(nextCell);
 			}
 			else { // otherwise move to next cell and continue target process
-				firstIteration = false;
-				calcTargets(nextCell.getRow(),nextCell.getColumn(),pathLength-1);
+				firstIteration = false; // denotes that we are currently in a recursive function call of calcTargets
+				calcTargets(nextCell.getRow(),nextCell.getColumn(),pathLength-1); // calculate the targets from the next cell
 			}
 			visited.remove(nextCell); // once done processing cell remove it from the visited list
 		}
