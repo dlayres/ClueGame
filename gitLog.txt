@@ -1,0 +1,227 @@
+commit c21bbd5075b543b9803009aebea402acaa25b776
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Mar 13 12:47:44 2018 -0600
+
+    Removed redundant print statements
+
+commit f9b3ce98b7318ded9f44026d91b84349e006d413
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Tue Mar 13 12:43:51 2018 -0600
+
+    Added comments to Board class regarding adjacencies and targets
+
+commit b1f270f6bba9dc039ac83cedb51710bcfef0d897
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Mar 13 12:18:13 2018 -0600
+
+    Finished code for calculating adjacencies and targets
+
+commit aec0cc63e34a285f285ae6c023128e37578efa37
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Mar 6 15:07:54 2018 -0700
+
+    Finished a solution for calculating targets
+
+commit 526f43e9b14f5f4752b355dd1649240eb4a2960e
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Tue Mar 6 15:02:33 2018 -0700
+
+    Almost finished part4
+
+commit cd44c3653e09083d6d752358d2439d5954e071ac
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Mar 6 14:02:03 2018 -0700
+
+    Added code to calculate adjacencies
+
+commit 386b607df487041401789205d6e94d7b0afa8b12
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Tue Mar 6 13:31:17 2018 -0700
+
+    Added comments to test file
+
+commit 10d1b0b5c5c1abe409f31484cd59bdf3c6893910
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Tue Mar 6 12:51:07 2018 -0700
+
+    Almost finished the test files
+
+commit 46998d5ecf478ba9e3f97a636190325fea29a368
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Tue Mar 6 12:12:15 2018 -0700
+
+    Almost finished failed tests
+
+commit 2a21637a5d7c95988ebca7ed93418715cc665277
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Mar 6 11:24:25 2018 -0700
+
+    Added our own test class for adjacencies and targets
+
+commit de4251cfeb3e1230b04c32029caedf305ebe7b3d
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Tue Mar 6 11:11:51 2018 -0700
+
+    Added BoardAdjTarget tests file
+
+commit c58df4640b31e69af2c6d1ee28c04ff664175d8b
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Sat Mar 3 16:41:05 2018 -0700
+
+    Finished Part 2
+
+commit 4849fff38ff1e07789b005c27d003fecb2532d25
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Sat Mar 3 15:49:01 2018 -0700
+
+    Implemented code to pass the regular (not exception) tests.
+
+commit 455b560034bc902279d0416049c8106ff21c86fc
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Sat Mar 3 13:43:47 2018 -0700
+
+    Added given exceptions testing file
+
+commit 6c72a33409d543cf28564bd07b386feb754c745c
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Sat Mar 3 13:35:12 2018 -0700
+
+    Added text files and boardLayour excel file
+
+commit 4deb31ccd3ddfec3e497b7a5d9a517bb27308321
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Sat Mar 3 13:30:34 2018 -0700
+
+    Added comments to C13A-1 files
+
+commit 187f93cf9773ce4a8913f74f8d474a46c474f4a3
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Sat Mar 3 13:21:00 2018 -0700
+
+    Worked on BoardTests
+
+commit 0edc9fbdd0d91e26cc9fed82cba17536cc1950dc
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Sat Mar 3 13:05:37 2018 -0700
+
+    Added our data
+
+commit 8043bb8575c773f4d186d4b7ae9fda7a4ea42059
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Sat Mar 3 13:02:29 2018 -0700
+
+    Added BoardTest junit file, and made getters for different variables in many classes.
+
+commit aee183aa21ea0584a0362d067069d88d66662ed3
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Sat Mar 3 12:25:25 2018 -0700
+
+    Modified BoardCell, added DoorDirection enum type, and created exception BadConfigFormatException
+
+commit 14198783b62f4dd6c13b26dd4b9dc5dea8cece73
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Sat Mar 3 12:14:59 2018 -0700
+
+    Added skeleton Board class
+
+commit cca119abf50fa621b5cb4aea38f2e37e67ff71e1
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Sat Mar 3 12:00:20 2018 -0700
+
+    Made clueGame package
+
+commit cf7dabb55bed668e45b617b2f02248e735090564
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Sat Mar 3 11:57:13 2018 -0700
+
+    Actually added test file
+
+commit 386600c8339c65f6e9feff4851578c1eddb7f554
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Sat Mar 3 11:52:33 2018 -0700
+
+    Added test file and data files
+
+commit 90b8a73a556bb8543b2effb5a83998f6666d65f9
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 14:45:18 2018 -0700
+
+    added comments
+
+commit 5d526c47b1fa09e6d7ff7b0c1e23d1dfdaab02d5
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 14:32:09 2018 -0700
+
+    added headers to files
+
+commit 9cbec2fb2e4f9cf38ddfe83290db12d97464d605
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 14:24:50 2018 -0700
+
+    Created the test functions and finished the code
+
+commit 67b0aed975e747288ef06cc5abce980164213e67
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 13:19:49 2018 -0700
+
+    Hopefully fixed the junit file
+
+commit cc1079eed63921322176051692e2bd79ffb333ad
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Thu Mar 1 12:38:17 2018 -0700
+
+    Please work
+
+commit d27dc0f31c069a9bc7e06c3cc603103d27cf882a
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 11:41:56 2018 -0700
+
+    test3
+
+commit 59f33a470f014b104853d57c907b0f73cec7f065
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 11:38:45 2018 -0700
+
+    test2
+
+commit 8258595270c677c7066afc79f518c8150eaab35b
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 11:29:28 2018 -0700
+
+    trying test
+
+commit 25b6235af399954a2b48ea52096062ae921d3d0e
+Author: Johnathan Castillo <jkcastillo@mymail.mines.edu>
+Date:   Thu Mar 1 11:21:51 2018 -0700
+
+    Started Calc adjacencies
+
+commit 83a9ccc117384d8ba41596d20b9defa6c842f122
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 12:13:38 2018 -0700
+
+    Added stub member functions
+
+commit 5cb952976af2b5efc199a63775da19b27042f114
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 11:34:54 2018 -0700
+
+    Added class files
+
+commit 3225e4813b302358034aa3834bee998cadb5ba60
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 11:31:46 2018 -0700
+
+    added .classpath and .project to .gitignore
+
+commit 1831e4ba078c7a9eb1fce2cb930142ee56708cd3
+Author: David Ayres <dlayres@mymail.mines.edu>
+Date:   Tue Feb 27 11:28:55 2018 -0700
+
+    Initial commit
+
+commit 3fe9be4c477410129e2364ecd1fdd8fe7bb69009
+Author: dlayres <35780693+dlayres@users.noreply.github.com>
+Date:   Tue Feb 27 11:12:42 2018 -0700
+
+    Initial commit
