@@ -165,6 +165,7 @@ public class CTest_BoardAdjTargetTests {
 		// Test on walkway next to  door that is not in the needed
 		// direction to enter
 		testList = board.getAdjList(5, 3);
+		System.out.println(testList);
 		assertTrue(testList.contains(board.getCellAt(5, 2)));
 		assertTrue(testList.contains(board.getCellAt(5, 4)));
 		assertTrue(testList.contains(board.getCellAt(6, 3)));

@@ -256,10 +256,10 @@ public class Board {
 			for(int j = 0; j < getNumColumns(); j++){
 				BoardCell currCell = board[i][j];
 				HashSet<BoardCell> cellAdjList = new HashSet<BoardCell>(); // set of adjacencies for this cell
-				if(currCell.getInitial() != 'W' && !currCell.isDoorway()){
+				if(currCell.getInitial() != 'W' && !currCell.isDoorway()){ // denotes a room space
 					adjMatrix.put(currCell,  cellAdjList);
 				}
-				else if(currCell.isDoorway()){
+				else if(currCell.isDoorway()){ // is a doorway
 					switch(currCell.getDoorDirection()){
 					case LEFT:
 						cellAdjList.add(board[i][j - 1]);
@@ -277,7 +277,7 @@ public class Board {
 						break;
 					}
 				}
-				else{
+				else{ // is a walkway
 					HashSet<BoardCell> candidates = new HashSet<BoardCell>();
 					if(i == 0){ // if on the top row
 						candidates.add(board[i + 1][j]);
@@ -296,8 +296,38 @@ public class Board {
 						candidates.add(board[i][j - 1]);
 					}
 					for(BoardCell bc: candidates){
-						if(bc.getInitial() == 'W' || (bc.isDoorway())){
+						if(bc.getInitial() == 'W'){
 							cellAdjList.add(bc);
+						}
+						else if(bc.isDoorway()){
+							boolean correctDirection = false;
+							switch(bc.getDoorDirection()){
+							case LEFT:
+								if(bc.getColumn() == currCell.getColumn() + 1){
+									correctDirection = true;
+								}
+								break;
+							case RIGHT:
+								if(bc.getColumn() == currCell.getColumn() - 1){
+									correctDirection = true;
+								}
+								break;
+							case UP:
+								if(bc.getRow() == currCell.getRow() + 1){
+									correctDirection = true;
+								}
+								break;
+							case DOWN:
+								if(bc.getRow() == currCell.getRow() - 1){
+									correctDirection = true;
+								}
+								break;
+							default:
+								break;
+							}
+							if(correctDirection){
+								cellAdjList.add(bc);
+							}
 						}
 					}
 				}
