@@ -24,8 +24,8 @@ public class Board {
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
-	private HashSet<BoardCell> targets;
-	private HashSet<BoardCell> visited; // set of visited points for cell
+	private Set<BoardCell> targets;
+	private Set<BoardCell> visited; // set of visited points for cell
 	private String boardConfigFile;
 	private String roomConfigFile;
 	
@@ -66,7 +66,7 @@ public class Board {
 	/**
 	 * @return the visited
 	 */
-	public HashSet<BoardCell> getVisited() {
+	public Set<BoardCell> getVisited() {
 		return visited;
 	}
 	
@@ -82,7 +82,7 @@ public class Board {
 	 */
 	public Set<BoardCell> getTargets() {
 		firstIteration = true; // variable used for calcTargets function
-		HashSet<BoardCell> oldTargets = new HashSet<BoardCell>(); // allocate new memory space
+		Set<BoardCell> oldTargets = new HashSet<BoardCell>(); // allocate new memory space
 		oldTargets = targets; // put targets for this cell into the newly allocated memory
 		targets = new HashSet<BoardCell>(); // reset the Set of targets to be used for the next cell
 		visited.remove(board[tempRow][tempCol]); // Removes the initial cell as a possible target (essentially clears the visited set to be used for a new initial cell) 
