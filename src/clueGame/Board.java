@@ -20,7 +20,7 @@ public class Board {
 	private int numRows;
 	private int numColumns;
 	public static final int MAX_BOARD_SIZE = 50;
-	
+
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
@@ -28,7 +28,7 @@ public class Board {
 	private Set<BoardCell> visited; // set of visited points for cell
 	private String boardConfigFile;
 	private String roomConfigFile;
-	
+
 	/**
 	 * firstIteration, tempRow, and tempCol are used for managing the "visited" set for a cell
 	 * Used in calcTargets and getTargets
@@ -36,7 +36,7 @@ public class Board {
 	private boolean firstIteration;
 	private int tempRow;
 	private int tempCol;
-	
+
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
@@ -45,16 +45,16 @@ public class Board {
 	public static Board getInstance() {
 		return theInstance;
 	}
-	
+
 	//----------------Getters for many of the instance variables---------------------
 	public int getNumRows() {
 		return numRows;
 	}
-	
+
 	public int getNumColumns() {
 		return numColumns;
 	}
-	
+
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
@@ -69,11 +69,11 @@ public class Board {
 	public Set<BoardCell> getVisited() {
 		return visited;
 	}
-	
+
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return adjMatrix.get(board[row][col]);
 	}
-	
+
 	/**
 	 * getTargets
 	 * Only called after the targets have been fully calculated for the initial cell
@@ -89,10 +89,10 @@ public class Board {
 		return oldTargets; // oldTargets = targets (before deletion), and so contains all the possible targets from calcTargets
 	}
 	//------------------------------------------------------------------------------
-	
+
 	//------------------Member functions, currently stubs---------------------------
-	
-	
+
+
 	/**
 	 * Initialize was made first, so code has not been properly encapsulated yet.
 	 * But it works.
@@ -100,7 +100,7 @@ public class Board {
 	public void initialize() {
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		
+
 		//------------------- loadRoomConfig(): ---------------------
 		legend = new HashMap <Character, String>(); // initialize memory
 		String next = "";
@@ -113,17 +113,15 @@ public class Board {
 				legend.put(splitString[0].charAt(0), splitString[1]); // put initial and room name into legend
 			}
 			in.close();
-			try {
-				roomReader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Cannot find Room Configuration File");
+			roomReader.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 		//-----------------------------------------------------------
-		
+
 		//-------------------------loadBoardConfig(): ----------------------
 		try {
 			FileReader boardReader = new FileReader(boardConfigFile); // set reading file to the board configuration
@@ -137,16 +135,12 @@ public class Board {
 				next = in.nextLine();
 				this.numRows++;
 			}
-			try {
-				boardReader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Cannot find Board Configuration File");
+			boardReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+
 
 		board = new BoardCell[this.numRows][this.numColumns]; // initialize the board grid
 		int currentRow = 0;
@@ -171,20 +165,19 @@ public class Board {
 				}
 				currentRow++; // move to next row
 			}
-			try {
-				boardReader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Cannot find Board Configuration File");
+
+			boardReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+
 		//------------------------------------------------------------------------
 		calcAdjList();
 		visited = new HashSet<BoardCell>();
 	}
-	
+
 	/**
 	 * See initialize() for function detail
 	 * @throws FileNotFoundException
@@ -193,7 +186,7 @@ public class Board {
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		
+
 		legend = new HashMap <Character, String>();
 		String next = "";
 		FileReader roomReader = new FileReader(roomConfigFile);
@@ -208,7 +201,7 @@ public class Board {
 		}
 		in.close();
 	}
-	
+
 	/**
 	 * See initialize() for function information
 	 * @throws FileNotFoundException
@@ -217,7 +210,7 @@ public class Board {
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		
+
 		String next = "";
 		FileReader boardReader = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(boardReader);
@@ -230,7 +223,7 @@ public class Board {
 			next = in.nextLine();
 			this.numRows++;
 		}
-		
+
 		board = new BoardCell[this.numRows][this.numColumns];
 		int currentRow = 0;
 		FileReader boardReader_copy = new FileReader(boardConfigFile);
@@ -260,8 +253,8 @@ public class Board {
 			currentRow++;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Calc adjacency list for each cell
 	 */
@@ -349,7 +342,7 @@ public class Board {
 			}
 		}
 	}
-	
+
 	/**
 	 * calcTargets : calculates where a player can move from the current cell
 	 * This function is dependent on getTargets
@@ -389,7 +382,7 @@ public class Board {
 			visited.remove(nextCell); // once done processing cell remove it from the visited list
 		}
 	}
-	
+
 	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
