@@ -14,27 +14,27 @@ public class BoardCell {
 	/**
 	 * If a cell is not a door cell
 	 * @param row
-	 * @param col
-	 * @param init
+	 * @param column
+	 * @param initial
 	 */
-	BoardCell (int row, int col, char init) {
+	BoardCell (int row, int column, char initial) {
 		this.row = row;
-		column = col;
-		initial = init;
+		this.column = column;
+		this.initial = initial;
 		doorDirection = DoorDirection.NONE;
 	}
 	
 	/**
 	 * If a cell is a door cell
 	 * @param row
-	 * @param col
-	 * @param init
+	 * @param column
+	 * @param initial
 	 * @param direction
 	 */
-	BoardCell (int row, int col, char init, char direction) {
+	BoardCell (int row, int column, char initial, char direction) {
 		this.row = row;
-		column = col;
-		initial = init;
+		this.column = column;
+		this.initial = initial;
 		if (direction == 'R') {
 			doorDirection = DoorDirection.RIGHT;
 		}
