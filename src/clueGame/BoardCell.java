@@ -67,11 +67,11 @@ public class BoardCell {
 	}
 
 	public boolean isWalkway() {
-		return true;
+		return (initial == 'W');
 	}
 	
 	public boolean isRoom() {
-		return true;
+		return (initial != 'W' && doorDirection == DoorDirection.NONE && initial != 'X');
 	}
 	
 	// returns whether or not this cell is a door
