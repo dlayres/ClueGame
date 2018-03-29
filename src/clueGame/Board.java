@@ -282,7 +282,7 @@ public class Board {
 
 	public void selectAnswer() {
 		answer = new Solution();
-		/*Set<Card> weaponCards = new HashSet<Card>();
+		Set<Card> weaponCards = new HashSet<Card>();
 		Set<Card> roomCards = new HashSet<Card>();
 		Set<Card> playerCards = new HashSet<Card>();
 		for(Card next : cards) {
@@ -322,12 +322,14 @@ public class Board {
 				answer.room = next.getCardName();
 			}
 			i++;
-		}*/
+		}
 	}
 
 	public void dealCards(){
-		/*Set<Card> cardsCopy = new HashSet<Card>();
-		cardsCopy = cards;
+		Set<Card> cardsCopy = new HashSet<Card>();
+		for(Card c : cards){
+			cardsCopy.add(c);
+		}
 		System.out.println(cardsCopy.size());
 		Set<Card> cardsToRemove = new HashSet<Card>();
 		for(Card c : cardsCopy){
@@ -355,7 +357,7 @@ public class Board {
 				
 			}
 			playerList[k].setMyCards(cardList);
-		}*/
+		}
 		
 	}
 

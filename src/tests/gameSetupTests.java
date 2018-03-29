@@ -139,7 +139,10 @@ public class gameSetupTests {
 	
 	@Test
 	public void testNoRepeatedCards(){
-		Set<Card> cardsCopy = board.getCards();
+		Set<Card> cardsCopy = new HashSet<Card>();
+		for(Card c : board.getCards()){
+			cardsCopy.add(c);
+		}
 		for(int i = 0; i < 6; i++){
 			for(Card c : board.getPlayerList()[i].getMyCards()){
 				cardsCopy.remove(c);
