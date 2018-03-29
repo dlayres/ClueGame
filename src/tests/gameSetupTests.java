@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,6 +32,8 @@ public class gameSetupTests {
 		// Will load our player config file 
 		board.loadPlayerConfig();
 		board.loadCards();
+		board.selectAnswer();
+		board.dealCards();
 	}
 
 	@Test
@@ -119,6 +123,29 @@ public class gameSetupTests {
 			}
 		}
 		assertTrue(contains);
+	}
+	
+	@Test
+	public void testDealtCards(){
+		int totalCardsDealt = 0; // Test all cards are dealt
+		Player[] playerList = board.getPlayerList();
+		for(int i = 0; i < 6; i++){
+			int size = playerList[i].getMyCards().size();
+			assertEquals(3, size); // Tests all players have 3 cards
+			totalCardsDealt+=size;
+		}
+		assertEquals(18, totalCardsDealt);
+	}
+	
+	@Test
+	public void testNoRepeatedCards(){
+		Set<Card> cardsCopy = board.getCards();
+		for(int i = 0; i < 6; i++){
+			for(Card c : board.getPlayerList()[i].getMyCards()){
+				cardsCopy.remove(c);
+			}
+		}
+		assertEquals(3, cardsCopy.size());
 	}
 
 }

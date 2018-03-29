@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class Board {
 	private String weaponConfigFile;
 	private Player[] playerList;
 	private Set<Card> cards;
+	private Solution answer;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -103,11 +105,11 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
-	
+
 	public Player[] getPlayerList(){
 		return playerList;
 	}
-	
+
 	public Set<Card> getCards(){
 		return cards;
 	}
@@ -150,8 +152,8 @@ public class Board {
 		}
 		in.close();
 	}
-	
-	
+
+
 	/**
 	 * loadBoardConfig() is used to construct the game board
 	 * @throws FileNotFoundException
@@ -173,7 +175,7 @@ public class Board {
 			next = in.nextLine();
 			this.numRows++;
 		}
-			
+
 		board = new BoardCell[this.numRows][this.numColumns];
 		int currentRow = 0;
 		FileReader boardReader_copy = new FileReader(boardConfigFile);
@@ -202,12 +204,12 @@ public class Board {
 			}
 			currentRow++; // done with this iteration, move to next row
 		}
-		
+
 		calcAdjList();
 		visited = new HashSet<BoardCell>();
 	}
 
-	
+
 	public void loadPlayerConfig(){
 		playerList = new Player[NUM_PLAYERS];
 		for(int i = 0; i < 6; i++){
@@ -221,13 +223,13 @@ public class Board {
 			while(in.hasNextLine()) {
 				next = in.nextLine();
 				String [] splitString = (next.split(", ",0)); // Each line has 5 pieces of information separated by a comma + space (", ")
-				
+
 				String name = splitString[0];
 				String color = splitString[1];
 				int row = Integer.parseInt(splitString[2]);
 				int col = Integer.parseInt(splitString[3]);
 				String type = splitString[4];
-				
+
 				if(type.equals("Human")){
 					HumanPlayer humanPlayer = new HumanPlayer(row, col, name, color);
 					playerList[i] = humanPlayer;
@@ -237,7 +239,7 @@ public class Board {
 					playerList[i] = computerPlayer;
 				}
 				i++;
-				
+
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -245,8 +247,8 @@ public class Board {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public void loadCards(){
 		cards = new HashSet<Card>();
 		FileReader weaponReader;
@@ -267,7 +269,7 @@ public class Board {
 			Card nextCard = new Card(playerList[i].getPlayerName(),CardType.PLAYER);
 			cards.add(nextCard);
 		}
-		
+
 		for (char key : legend.keySet()) {
 			if (key == 'X' || key == 'W') { // X: Closet, W: Walkway, so these are not cards.
 				continue;
@@ -275,9 +277,88 @@ public class Board {
 			Card nextCard = new Card(legend.get(key),CardType.ROOM);
 			cards.add(nextCard);
 		}
+
+	}
+
+	public void selectAnswer() {
+		answer = new Solution();
+		/*Set<Card> weaponCards = new HashSet<Card>();
+		Set<Card> roomCards = new HashSet<Card>();
+		Set<Card> playerCards = new HashSet<Card>();
+		for(Card next : cards) {
+			switch(next.getType()) {
+			case WEAPON:
+				weaponCards.add(next);
+				break;
+			case PLAYER:
+				playerCards.add(next);
+				break;
+			case ROOM:
+				roomCards.add(next);
+				break;
+			}
+		}
+		int rand1 = (int)Math.floor((Math.random() * weaponCards.size()));
+		int rand2 = (int)Math.floor((Math.random() * playerCards.size()));
+		int rand3 = (int)Math.floor((Math.random() * roomCards.size()));
+
+		int i = 0;
+		for(Card next : weaponCards) {
+			if (i == rand1) {
+				answer.weapon = next.getCardName();
+			}
+			i++;
+		}
+		i = 0;
+		for(Card next : playerCards) {
+			if (i == rand2) {
+				answer.player = next.getCardName();
+			}
+			i++;
+		}
+		i = 0;
+		for(Card next : roomCards) {
+			if (i == rand3) {
+				answer.room = next.getCardName();
+			}
+			i++;
+		}*/
+	}
+
+	public void dealCards(){
+		/*Set<Card> cardsCopy = new HashSet<Card>();
+		cardsCopy = cards;
+		System.out.println(cardsCopy.size());
+		Set<Card> cardsToRemove = new HashSet<Card>();
+		for(Card c : cardsCopy){
+			if(c.getCardName() == answer.weapon || c.getCardName() == answer.player || c.getCardName() == answer.room){
+				cardsToRemove.add(c);
+			}
+		}
+		cardsCopy.removeAll(cardsToRemove);
+
+		for(int k = 0; k < 6; k++){
+			Set<Card> cardList = new HashSet<Card>();
+			for(int j = 0; j < 3; j++){
+				int rand = (int)Math.floor((Math.random() * cardsCopy.size()));
+				int i = 0;
+				Card chosenCard = new Card();
+				for(Card next : cardsCopy){
+					if(i == rand){
+						cardList.add(next);
+						chosenCard = next;
+						break;
+					}
+					i++;
+				}
+				cardsCopy.remove(chosenCard);
+				
+			}
+			playerList[k].setMyCards(cardList);
+		}*/
 		
 	}
-	
+
 
 	/**
 	 * calcAdjList() is used to calculate the adjacent cells for each cell
@@ -378,7 +459,7 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		findAllTargets(row, col, pathLength); // Looks for targets corresponding to specified cell and pathLength
 	}
-	
+
 	public void findAllTargets(int row, int col, int pathLength){ // Finds all possible targets for given cell and pathLength
 		BoardCell currentCell = board[row][col];
 		visited.add(currentCell);
@@ -410,7 +491,7 @@ public class Board {
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
 	}
-	
+
 	public void setGameSetupFiles(String playerConfigFile, String weaponConfigFile) {
 		this.playerConfigFile = playerConfigFile;
 		this.weaponConfigFile = weaponConfigFile;

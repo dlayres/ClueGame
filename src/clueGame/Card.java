@@ -5,6 +5,10 @@ public class Card {
 	private String cardName;
 	private CardType type;
 	
+	public Card() {
+		super();
+	}
+	
 	public Card(String cardName, CardType type) {
 		super();
 		this.cardName = cardName;
