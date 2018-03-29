@@ -35,5 +35,24 @@ public class gameSetupTests {
 		assertEquals(6, human.getColumn());
 		assertTrue(human instanceof HumanPlayer);
 	}
-
+	
+	@Test
+	public void testThirdPlayer() {
+		Player cpu = board.getPlayerList()[2];
+		assertEquals("Dr. Purple", cpu.getPlayerName());
+		assertEquals(Color.magenta, cpu.getColor());
+		assertEquals(0, cpu.getRow());
+		assertEquals(10, cpu.getColumn());
+		assertTrue(cpu instanceof ComputerPlayer);
+	}
+	
+	@Test
+	public void testSixthPlayer() {
+		Player cpu = board.getPlayerList()[2];
+		assertEquals("Cpt. Red", cpu.getPlayerName());
+		assertEquals(Color.red, cpu.getColor());
+		assertEquals(0, cpu.getRow());
+		assertEquals(15, cpu.getColumn());
+		assertTrue(cpu instanceof ComputerPlayer);
+	}
 }
