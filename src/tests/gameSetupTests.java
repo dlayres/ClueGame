@@ -22,6 +22,9 @@ public class gameSetupTests {
 	public static void setUp() {
 		// Board is singleton, get the only instance there is
 		board = Board.getInstance();
+		board.setConfigFiles("boardLayout.csv", "ourLegend.txt");		
+		// Initialize will load BOTH of our configuration files 
+		board.initialize();
 		// set the file names to use our player config file
 		board.setGameSetupFiles("playerConfig.txt", "weaponConfig.txt");		
 		// Will load our player config file 
@@ -63,31 +66,31 @@ public class gameSetupTests {
 	@Test
 	public void testCardTotals(){
 		assertEquals(21, board.getCards().size());
-		
+
 		int totalPlayerCards = 0;
 		int totalWeaponCards = 0;
 		int totalRoomCards = 0;
-		
+
 		for(Card c: board.getCards()){
 			switch(c.getType()){
-				case ROOM:
-					totalRoomCards++;
-					break;
-				case WEAPON:
-					totalWeaponCards++;
-					break;
-				case PLAYER:
-					totalPlayerCards++;
-					break;
-				default:
-					break;
+			case ROOM:
+				totalRoomCards++;
+				break;
+			case WEAPON:
+				totalWeaponCards++;
+				break;
+			case PLAYER:
+				totalPlayerCards++;
+				break;
+			default:
+				break;
 			}
 		}
 		assertEquals(9, totalRoomCards);
 		assertEquals(6, totalWeaponCards);
 		assertEquals(6, totalPlayerCards);
 	}
-	
+
 	@Test
 	public void testCardsInSet(){
 		boolean contains = false;
@@ -98,7 +101,7 @@ public class gameSetupTests {
 			}
 		}
 		assertTrue(contains);
-		
+
 		contains = false;
 		testCard = new Card("Plastic Fork", CardType.WEAPON);
 		for(Card c: board.getCards()){
@@ -107,7 +110,7 @@ public class gameSetupTests {
 			}
 		}
 		assertTrue(contains);
-		
+
 		contains = false;
 		testCard = new Card("Library", CardType.ROOM);
 		for(Card c: board.getCards()){
@@ -117,5 +120,5 @@ public class gameSetupTests {
 		}
 		assertTrue(contains);
 	}
-	
+
 }

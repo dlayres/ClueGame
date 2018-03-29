@@ -20,7 +20,7 @@ public class Card {
 	}
 
 	public boolean equals(Card c){
-		return true;	
+		return (cardName.equals(c.getCardName()) && type.equals(c.getType())); 	
 	}
 	
 }

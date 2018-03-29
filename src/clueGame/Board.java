@@ -124,8 +124,6 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
-			loadPlayerConfig();
-			loadCards();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -215,10 +213,9 @@ public class Board {
 		for(int i = 0; i < 6; i++){
 			playerList[i] = new HumanPlayer();
 		}
-		String next = "";
-		FileReader playerReader;
 		try {
-			playerReader = new FileReader(playerConfigFile);
+			String next = "";
+			FileReader playerReader = new FileReader(playerConfigFile);
 			Scanner in = new Scanner(playerReader);
 			int i = 0;
 			while(in.hasNextLine()) {
@@ -252,6 +249,33 @@ public class Board {
 	
 	public void loadCards(){
 		cards = new HashSet<Card>();
+		FileReader weaponReader;
+		try {
+			weaponReader = new FileReader(weaponConfigFile);
+			Scanner in = new Scanner(weaponReader);
+			String next = "";
+			while(in.hasNextLine()) {
+				next = in.nextLine();
+				Card nextCard = new Card(next,CardType.WEAPON);
+				cards.add(nextCard);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < NUM_PLAYERS; ++i) {
+			Card nextCard = new Card(playerList[i].getPlayerName(),CardType.PLAYER);
+			cards.add(nextCard);
+		}
+		
+		for (char key : legend.keySet()) {
+			if (key == 'X' || key == 'W') { // X: Closet, W: Walkway, so these are not cards.
+				continue;
+			}
+			Card nextCard = new Card(legend.get(key),CardType.ROOM);
+			cards.add(nextCard);
+		}
+		
 	}
 	
 
