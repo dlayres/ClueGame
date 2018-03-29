@@ -30,7 +30,9 @@ public class Board {
 	private String boardConfigFile; // Board Configuration File Name
 	private String roomConfigFile; // Room Configuration File Name
 	private String playerConfigFile;
+	private String weaponConfigFile;
 	private Player[] playerList;
+	private Set<Card> cards;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -105,6 +107,10 @@ public class Board {
 	public Player[] getPlayerList(){
 		return playerList;
 	}
+	
+	public Set<Card> getCards(){
+		return cards;
+	}
 
 	//------------------------------------------------------------------------------
 
@@ -119,6 +125,7 @@ public class Board {
 			loadRoomConfig();
 			loadBoardConfig();
 			loadPlayerConfig();
+			loadCards();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -240,6 +247,11 @@ public class Board {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public void loadCards(){
+		cards = new HashSet<Card>();
 	}
 	
 
@@ -375,8 +387,9 @@ public class Board {
 		this.roomConfigFile = roomConfigFile;
 	}
 	
-	public void setGameSetupFiles(String playerConfigFile) {
+	public void setGameSetupFiles(String playerConfigFile, String weaponConfigFile) {
 		this.playerConfigFile = playerConfigFile;
+		this.weaponConfigFile = weaponConfigFile;
 	}
 	//-----------------------------------------------------------------------------
 }
