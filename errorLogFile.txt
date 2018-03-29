@@ -1,1 +1,1 @@
-Bad Room Legend File Configuration: Description is not Card nor Other
+Bad Room Legend File Configuration: Description is neither Card or Other

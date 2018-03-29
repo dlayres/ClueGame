@@ -29,14 +29,6 @@ public class Board {
 	private String boardConfigFile; // Board Configuration File Name
 	private String roomConfigFile; // Room Configuration File Name
 
-	/**
-	 * firstIteration, tempRow, and tempCol are used for managing the "visited" set for a cell
-	 * Used in calcTargets and getTargets
-	 */
-	private boolean firstIteration;
-	private int tempRow;
-	private int tempCol;
-
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
@@ -106,12 +98,7 @@ public class Board {
 	 * @return The targets for this board cell
 	 */
 	public Set<BoardCell> getTargets() {
-		firstIteration = true; // variable used for calcTargets function
-		Set<BoardCell> oldTargets = new HashSet<BoardCell>(); // allocate new memory space
-		oldTargets = targets; // put targets for this cell into the newly allocated memory
-		targets = new HashSet<BoardCell>(); // reset the Set of targets to be used for the next cell
-		visited.remove(board[tempRow][tempCol]); // Removes the initial cell as a possible target (essentially clears the visited set to be used for a new initial cell) 
-		return oldTargets; // oldTargets = targets (before deletion), and so contains all the possible targets from calcTargets
+		return targets;
 	}
 	//------------------------------------------------------------------------------
 
@@ -307,11 +294,12 @@ public class Board {
 	 * @param pathLength How many spaces player can still move from current cell
 	 */
 	public void calcTargets(int row, int col, int pathLength) {
-		if(firstIteration){ // determines if this iteration of calcTargets is the first iteration call (aka if this is where we start our turn from
-			// keep track of this cell to remove from visited later on in the getTargets function
-			tempRow = row; 
-			tempCol = col;
-		}
+		visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
+		findAllTargets(row, col, pathLength);
+	}
+	
+	public void findAllTargets(int row, int col, int pathLength){
 		BoardCell currentCell = board[row][col];
 		visited.add(currentCell);
 		for (BoardCell nextCell : adjMatrix.get(currentCell)) { // for each adjacent cell to the current cell
@@ -332,8 +320,7 @@ public class Board {
 				targets.add(nextCell);
 			}
 			else { // otherwise move to next cell and continue target process
-				firstIteration = false; // denotes that we are currently in a recursive function call of calcTargets
-				calcTargets(nextCell.getRow(),nextCell.getColumn(),pathLength-1); // calculate the targets from the next cell
+				findAllTargets(nextCell.getRow(),nextCell.getColumn(),pathLength-1); // calculate the targets from the next cell
 			}
 			visited.remove(nextCell); // once done processing cell remove it from the visited list
 		}
