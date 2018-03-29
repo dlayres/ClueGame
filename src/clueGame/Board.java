@@ -20,6 +20,7 @@ public class Board {
 	private int numRows;
 	private int numColumns;
 	public static final int MAX_BOARD_SIZE = 50;
+	public static final int NUM_PLAYERS = 6;
 
 	private BoardCell[][] board; // The grid of the board
 	private Map<Character, String> legend; // Used for determining room identity
@@ -29,7 +30,7 @@ public class Board {
 	private String boardConfigFile; // Board Configuration File Name
 	private String roomConfigFile; // Room Configuration File Name
 	private String playerConfigFile;
-	private Set<Player> playerList;
+	private Player[] playerList;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -100,6 +101,10 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+	
+	public Player[] getPlayerList(){
+		return playerList;
+	}
 
 	//------------------------------------------------------------------------------
 
@@ -113,6 +118,7 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			loadPlayerConfig();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,6 +203,12 @@ public class Board {
 	}
 
 	
+	public void loadPlayerConfig() {
+		playerList = new Player[NUM_PLAYERS];
+		for(int i = 0; i < 6; i++){
+			playerList[i] = new HumanPlayer();
+		}
+	}
 	
 
 	/**
@@ -326,9 +338,12 @@ public class Board {
 		}
 	}
 
-	public void setConfigFiles(String boardConfigFile, String roomConfigFile, String playerConfigFile) {
+	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
+	}
+	
+	public void setGameSetupFiles(String playerConfigFile) {
 		this.playerConfigFile = playerConfigFile;
 	}
 	//-----------------------------------------------------------------------------

@@ -10,6 +10,13 @@ public abstract class Player {
 	private int row;
 	private int column;
 	private Color color;
+	
+	public Player() {
+		this.row = 0;
+		this.column = 0;
+		this.playerName = "default";
+		this.color = convertColor("white");
+	}
 
 	public Player(int row, int column, String playerName, String color) {
 		this.row = row;
@@ -28,6 +35,22 @@ public abstract class Player {
 		} catch (Exception e) {
 			color = null; // Not defined
 		}
+		return color;
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public Color getColor() {
 		return color;
 	}
 }
