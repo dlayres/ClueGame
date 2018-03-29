@@ -28,6 +28,8 @@ public class Board {
 	private Set<BoardCell> visited; // Set of visited cells (used for calculating targets)
 	private String boardConfigFile; // Board Configuration File Name
 	private String roomConfigFile; // Room Configuration File Name
+	private String playerConfigFile;
+	private Set<Player> playerList;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -324,9 +326,10 @@ public class Board {
 		}
 	}
 
-	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
+	public void setConfigFiles(String boardConfigFile, String roomConfigFile, String playerConfigFile) {
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
+		this.playerConfigFile = playerConfigFile;
 	}
 	//-----------------------------------------------------------------------------
 }
