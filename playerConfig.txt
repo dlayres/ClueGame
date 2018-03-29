@@ -1,0 +1,6 @@
+Mr. Orange, orange, 19, 6, Human
+Mrs. Blue, blue, 3, 0, Computer
+Dr. Purple, purple, 0, 10 Computer
+Lt. Black, black, 5, 19, Computer
+Prof. Pink, pink, 19, 16, Computer
+Cpt. Red, red, 0, 15, Computer
