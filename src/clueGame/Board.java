@@ -90,96 +90,23 @@ public class Board {
 	}
 	//------------------------------------------------------------------------------
 
-	//------------------Member functions, currently stubs---------------------------
+	//------------------------------Member functions--------------------------------
 
 
 	/**
-	 * Initialize was made first, so code has not been properly encapsulated yet.
-	 * But it works.
+	 * 
 	 */
 	public void initialize() {
-		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
-		targets = new HashSet<BoardCell>();
-
-		//------------------- loadRoomConfig(): ---------------------
-		legend = new HashMap <Character, String>(); // initialize memory
-		String next = "";
 		try {
-			FileReader roomReader = new FileReader(roomConfigFile); // make reading file the legend file
-			Scanner in = new Scanner(roomReader);
-			while(in.hasNextLine()) {
-				next = in.nextLine();
-				String [] splitString = (next.split(", ",0)); // split string after comma
-				legend.put(splitString[0].charAt(0), splitString[1]); // put initial and room name into legend
-			}
-			in.close();
-			roomReader.close();
-
-		} catch (IOException e) {
+			loadRoomConfig();
+			loadBoardConfig();
+		} catch (FileNotFoundException | BadConfigFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		//-----------------------------------------------------------
-
-		//-------------------------loadBoardConfig(): ----------------------
-		try {
-			FileReader boardReader = new FileReader(boardConfigFile); // set reading file to the board configuration
-			Scanner in = new Scanner(boardReader);
-			next = in.nextLine();
-			String [] splitString = next.split(",", -2); // split string at each comma
-			this.numColumns = splitString.length; // each row should have same number of columns
-			this.numRows = 0;
-			this.numRows++; // increment number of rows
-			while (in.hasNextLine()) { // with each new line iteration, increase number of rows by one
-				next = in.nextLine();
-				this.numRows++;
-			}
-			boardReader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		board = new BoardCell[this.numRows][this.numColumns]; // initialize the board grid
-		int currentRow = 0;
-		try {
-			FileReader boardReader = new FileReader(boardConfigFile);
-			Scanner in = new Scanner(boardReader);
-			while (in.hasNextLine()) {
-				next = in.nextLine();
-				String [] splitString = next.split(",", -2); // split string at each comma
-				for (int i = 0; i < splitString.length; ++i) { // for each entry in the row
-					if (splitString[i].length() == 2) { // if the entry is formatted as "-N"
-						if (splitString[i].charAt(1) == 'N') { // only put the first character
-							board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0)); 
-						}
-						else { // this space is a door with a direction
-							board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0), splitString[i].charAt(1));
-						}
-					}
-					else { // this is just a regular space
-						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0));
-					}
-				}
-				currentRow++; // move to next row
-			}
-
-			boardReader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		//------------------------------------------------------------------------
-		calcAdjList();
-		visited = new HashSet<BoardCell>();
 	}
 
 	/**
-	 * See initialize() for function detail
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
@@ -201,9 +128,9 @@ public class Board {
 		}
 		in.close();
 	}
-
+	
+	
 	/**
-	 * See initialize() for function information
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
@@ -252,8 +179,13 @@ public class Board {
 			}
 			currentRow++;
 		}
+		
+		calcAdjList();
+		visited = new HashSet<BoardCell>();
 	}
 
+	
+	
 
 	/**
 	 * Calc adjacency list for each cell
