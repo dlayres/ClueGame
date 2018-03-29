@@ -93,13 +93,12 @@ public class Board {
 
 	/**
 	 * getTargets
-	 * Only called after the targets have been fully calculated for the initial cell
-	 * This function and calcTargets are dependent upon one another
-	 * @return The targets for this board cell
+	 * @return The targets for a board cell after calculating them with calcTargets()
 	 */
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+
 	//------------------------------------------------------------------------------
 
 	//------------------------------Member functions--------------------------------
@@ -288,18 +287,17 @@ public class Board {
 
 	/**
 	 * calcTargets : calculates where a player can move from the current cell
-	 * This function is dependent on getTargets
 	 * @param row Row of the current cell
 	 * @param col Column of the current cell
 	 * @param pathLength How many spaces player can still move from current cell
 	 */
-	public void calcTargets(int row, int col, int pathLength) {
-		visited = new HashSet<BoardCell>();
+	public void calcTargets(int row, int col, int pathLength) { // Calculates targets for given cell
+		visited = new HashSet<BoardCell>(); // Initialize visited and targets as empty sets to get ready for finding new targets
 		targets = new HashSet<BoardCell>();
-		findAllTargets(row, col, pathLength);
+		findAllTargets(row, col, pathLength); // Looks for targets corresponding to specified cell and pathLength
 	}
 	
-	public void findAllTargets(int row, int col, int pathLength){
+	public void findAllTargets(int row, int col, int pathLength){ // Finds all possible targets for given cell and pathLength
 		BoardCell currentCell = board[row][col];
 		visited.add(currentCell);
 		for (BoardCell nextCell : adjMatrix.get(currentCell)) { // for each adjacent cell to the current cell
@@ -307,19 +305,19 @@ public class Board {
 				continue;
 			}
 			else if (nextCell.isDoorway()){ // we can automatically enter adjacent doorways
-				targets.add(nextCell);
+				targets.add(nextCell); // so add cell as a possible target
 				continue;
 			}
-			else if (nextCell.getInitial() != 'W') { // cell is not a walkway nor a doorway
+			else if (nextCell.getInitial() != 'W') { // cell is not a walkway nor a doorway, so cannot be a target
 				continue;
 			}
 			else {
-				visited.add(nextCell); // add to list if we haven't been here before
+				visited.add(nextCell); // add to visited list if we haven't been here before
 			}
 			if (pathLength == 1) { // if at the end of our moving turn, then the cell should be a possible target
 				targets.add(nextCell);
 			}
-			else { // otherwise move to next cell and continue target process
+			else { // otherwise move to next cell and continue finding more targets
 				findAllTargets(nextCell.getRow(),nextCell.getColumn(),pathLength-1); // calculate the targets from the next cell
 			}
 			visited.remove(nextCell); // once done processing cell remove it from the visited list
