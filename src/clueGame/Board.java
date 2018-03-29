@@ -21,13 +21,13 @@ public class Board {
 	private int numColumns;
 	public static final int MAX_BOARD_SIZE = 50;
 
-	private BoardCell[][] board;
-	private Map<Character, String> legend;
-	private Map<BoardCell, Set<BoardCell>> adjMatrix;
-	private Set<BoardCell> targets;
-	private Set<BoardCell> visited; // set of visited points for cell
-	private String boardConfigFile;
-	private String roomConfigFile;
+	private BoardCell[][] board; // The grid of the board
+	private Map<Character, String> legend; // Used for determining room identity
+	private Map<BoardCell, Set<BoardCell>> adjMatrix; // Map of cell adjacencies
+	private Set<BoardCell> targets; // Possible targets to move to for a given cell
+	private Set<BoardCell> visited; // Set of visited cells (used for calculating targets)
+	private String boardConfigFile; // Board Configuration File Name
+	private String roomConfigFile; // Room Configuration File Name
 
 	/**
 	 * firstIteration, tempRow, and tempCol are used for managing the "visited" set for a cell
@@ -47,29 +47,54 @@ public class Board {
 	}
 
 	//----------------Getters for many of the instance variables---------------------
+	/**
+	 * Returns the number of rows for the board
+	 * @return numRows
+	 */
 	public int getNumRows() {
 		return numRows;
 	}
 
+	/**
+	 * Returns the number of columns for the board
+	 * @return numColumns
+	 */
 	public int getNumColumns() {
 		return numColumns;
 	}
 
+	/**
+	 * Used to return a specific board cell
+	 * @param row
+	 * @param col
+	 * @return board[row][col]
+	 */
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
 
+	/**
+	 * Used to get the character -> string legend
+	 * @return legend
+	 */
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
 
 	/**
-	 * @return the visited
+	 * Returns the visited cell set
+	 * @return visited
 	 */
 	public Set<BoardCell> getVisited() {
 		return visited;
 	}
 
+	/**
+	 * Returns the adjacency list for a given cell
+	 * @param row
+	 * @param col
+	 * @return adjMatrix.get(board[row][col])
+	 */
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return adjMatrix.get(board[row][col]);
 	}
@@ -94,7 +119,7 @@ public class Board {
 
 
 	/**
-	 * 
+	 * initialize() is used to call both the loadRoomConfig() and loadBoardConfig() functions
 	 */
 	public void initialize() {
 		try {
@@ -107,23 +132,21 @@ public class Board {
 	}
 
 	/**
+	 * loadRoomConfig() is used to construct the room/board legend
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
-		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
-		targets = new HashSet<BoardCell>();
-
-		legend = new HashMap <Character, String>();
+		legend = new HashMap<Character, String>();
 		String next = "";
 		FileReader roomReader = new FileReader(roomConfigFile);
 		Scanner in = new Scanner(roomReader);
 		while(in.hasNextLine()) {
 			next = in.nextLine();
-			String [] splitString = (next.split(", ",0));
-			legend.put(splitString[0].charAt(0), splitString[1]);
-			if (splitString[2].equals("Card") == false && splitString[2].equals("Other") == false) { // if there is an invalid legend description
-				throw new BadConfigFormatException("Bad Room Legend File Configuration: Description is not Card nor Other");
+			String [] splitString = (next.split(", ",0)); // Each line has 3 pieces of information separated by a comma + space (", ")
+			legend.put(splitString[0].charAt(0), splitString[1]); // splitString[0] is a string version of the latest room character, splitString[1] is the room name
+			if (splitString[2].equals("Card") == false && splitString[2].equals("Other") == false) { // Each Room Description should be a "Card" or "Other"
+				throw new BadConfigFormatException("Bad Room Legend File Configuration: Description is neither Card or Other");
 			}
 		}
 		in.close();
@@ -131,6 +154,7 @@ public class Board {
 	
 	
 	/**
+	 * loadBoardConfig() is used to construct the game board
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
 	 */
@@ -142,42 +166,42 @@ public class Board {
 		FileReader boardReader = new FileReader(boardConfigFile);
 		Scanner in = new Scanner(boardReader);
 		next = in.nextLine();
-		String [] splitString = next.split(",", -2);
-		this.numColumns = splitString.length;
+		String [] splitString = next.split(",", -2); // Each new board character is separated by a comma for each line
+		this.numColumns = splitString.length; // Number of columns for the board is equal to the total number of rooms in a row
 		this.numRows = 0;
-		this.numRows++;
-		while (in.hasNextLine()) {
+		this.numRows++; // Already read the first line (above)
+		while (in.hasNextLine()) { // The number of rows for the board is equal to the number of lines in the file
 			next = in.nextLine();
 			this.numRows++;
 		}
-
+			
 		board = new BoardCell[this.numRows][this.numColumns];
 		int currentRow = 0;
 		FileReader boardReader_copy = new FileReader(boardConfigFile);
 		Scanner in2 = new Scanner(boardReader_copy);
 		while (in2.hasNextLine()) {
 			next = in2.nextLine();
-			splitString = next.split(",", -2);
+			splitString = next.split(",", -2); // Each new board character is separated by a comma for each line
 			if (splitString.length != numColumns) { // if there is a row with an incorrect number of columns
 				throw new BadConfigFormatException("Board Layout Configuration Error: Row with invalid Columns");
 			}
-			for (int i = 0; i < splitString.length; ++i) {
+			for (int i = 0; i < splitString.length; ++i) { // i is the current column
 				if (legend.get(splitString[i].charAt(0)) == null) {
 					throw new BadConfigFormatException("Board Layout Configuration Error: Invalid Cell Initial (Letter) Entry");
 				}
 				if (splitString[i].length() == 2) {
-					if (splitString[i].charAt(1) == 'N') {
-						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0));
+					if (splitString[i].charAt(1) == 'N') { // 'N' is not needed right now (used for where the room name will display)
+						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0)); // make a new cell using: current row, current column, board character
 					}
-					else {
+					else { // This is doorway, make a new cell using: current row, current column, board character, door direction
 						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0), splitString[i].charAt(1));
 					}
 				}
-				else {
+				else { // This is not a doorway, make a new cell using: current row, current column, board character
 					board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0));
 				}
 			}
-			currentRow++;
+			currentRow++; // done with this iteration, move to next row
 		}
 		
 		calcAdjList();
@@ -188,7 +212,7 @@ public class Board {
 	
 
 	/**
-	 * Calc adjacency list for each cell
+	 * calcAdjList() is used to calculate the adjacent cells for each cell
 	 */
 	public void calcAdjList(){
 		for(int i = 0; i < getNumRows(); i++){
@@ -198,19 +222,19 @@ public class Board {
 				if(currCell.getInitial() != 'W' && !currCell.isDoorway()){ // denotes a room space
 					adjMatrix.put(currCell,  cellAdjList);
 				}
-				else if(currCell.isDoorway()){ // is a doorway
+				else if(currCell.isDoorway()){ // is cell a doorway
 					switch(currCell.getDoorDirection()){ // for the doorway, add the correct adjacent cell depending on door direction
 					case LEFT:
-						cellAdjList.add(board[i][j - 1]);
+						cellAdjList.add(board[i][j - 1]); // add cell to left of door
 						break;
 					case RIGHT:
-						cellAdjList.add(board[i][j + 1]);
+						cellAdjList.add(board[i][j + 1]); // add cell to right of door
 						break;
 					case UP:
-						cellAdjList.add(board[i - 1][j]);
+						cellAdjList.add(board[i - 1][j]); // add cell above the door
 						break;
 					case DOWN:
-						cellAdjList.add(board[i + 1][j]);
+						cellAdjList.add(board[i + 1][j]); // add cell below the door
 						break;
 					default:
 						break;
@@ -219,45 +243,45 @@ public class Board {
 				else{ // is a walkway
 					HashSet<BoardCell> candidates = new HashSet<BoardCell>();
 					if(i == 0){ // if on the top row
-						candidates.add(board[i + 1][j]);
+						candidates.add(board[i + 1][j]); // add cell below
 					} else if(i == getNumRows() - 1){ // if on the bottom row
-						candidates.add(board[i - 1][j]);
-					} else{
-						candidates.add(board[i + 1][j]);
+						candidates.add(board[i - 1][j]); // add cell above
+					} else{ // add cell below and above
+						candidates.add(board[i + 1][j]); 
 						candidates.add(board[i - 1][j]);
 					}
 					if(j == 0){ // if in the first column
-						candidates.add(board[i][j + 1]);
+						candidates.add(board[i][j + 1]); // add cell to right
 					} else if(j == getNumColumns() - 1){ // if in the last column
-						candidates.add(board[i][j - 1]);
-					} else{
+						candidates.add(board[i][j - 1]); // add cell to left
+					} else{ // add cell to right and left
 						candidates.add(board[i][j + 1]);
 						candidates.add(board[i][j - 1]);
 					}
-					for(BoardCell bc: candidates){
+					for(BoardCell bc: candidates){ // for each candidate adjacent cell for this board
 						if(bc.getInitial() == 'W'){ // if this candidate cell is a walkway, simply add to the adjacency set for this cell
 							cellAdjList.add(bc);
 						}
 						else if(bc.isDoorway()){ // if this candidate cell is a doorway, need to check direction
-							boolean correctDirection = false;
+							boolean correctDirection = false; // Need to check the correct direction first
 							switch(bc.getDoorDirection()){ // depending on door direction, check if the current cell is actually next to the door entrance
-							case LEFT:
-								if(bc.getColumn() == currCell.getColumn() + 1){
+							case LEFT: // if the door is a left door
+								if(bc.getColumn() == currCell.getColumn() + 1){ // if the current cell is to the left of the door
 									correctDirection = true;
 								}
 								break;
 							case RIGHT:
-								if(bc.getColumn() == currCell.getColumn() - 1){
+								if(bc.getColumn() == currCell.getColumn() - 1){ // if the current cell is to the right of the door
 									correctDirection = true;
 								}
 								break;
 							case UP:
-								if(bc.getRow() == currCell.getRow() + 1){
+								if(bc.getRow() == currCell.getRow() + 1){ // if the current cell above the door
 									correctDirection = true;
 								}
 								break;
 							case DOWN:
-								if(bc.getRow() == currCell.getRow() - 1){
+								if(bc.getRow() == currCell.getRow() - 1){ // if the current cell is below the door
 									correctDirection = true;
 								}
 								break;
