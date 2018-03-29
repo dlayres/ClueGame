@@ -208,6 +208,38 @@ public class Board {
 		for(int i = 0; i < 6; i++){
 			playerList[i] = new HumanPlayer();
 		}
+		String next = "";
+		FileReader playerReader;
+		try {
+			playerReader = new FileReader(playerConfigFile);
+			Scanner in = new Scanner(playerReader);
+			int i = 0;
+			while(in.hasNextLine()) {
+				next = in.nextLine();
+				String [] splitString = (next.split(", ",0)); // Each line has 5 pieces of information separated by a comma + space (", ")
+				
+				String name = splitString[0];
+				String color = splitString[1];
+				int row = Integer.parseInt(splitString[2]);
+				int col = Integer.parseInt(splitString[3]);
+				String type = splitString[4];
+				
+				if(type.equals("Human")){
+					HumanPlayer humanPlayer = new HumanPlayer(row, col, name, color);
+					playerList[i] = humanPlayer;
+				}
+				else{
+					ComputerPlayer computerPlayer = new ComputerPlayer(row, col, name, color);
+					playerList[i] = computerPlayer;
+				}
+				i++;
+				
+			}
+			in.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

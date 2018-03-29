@@ -48,7 +48,7 @@ public class gameSetupTests {
 	
 	@Test
 	public void testSixthPlayer() {
-		Player cpu = board.getPlayerList()[2];
+		Player cpu = board.getPlayerList()[5];
 		assertEquals("Cpt. Red", cpu.getPlayerName());
 		assertEquals(Color.red, cpu.getColor());
 		assertEquals(0, cpu.getRow());
