@@ -30,11 +30,11 @@ public class Board {
 	private Set<BoardCell> visited; // Set of visited cells (used for calculating targets)
 	private String boardConfigFile; // Board Configuration File Name
 	private String roomConfigFile; // Room Configuration File Name
-	private String playerConfigFile;
-	private String weaponConfigFile;
-	private Player[] playerList;
-	private Set<Card> cards;
-	private Solution answer;
+	private String playerConfigFile; // Player Configuration File Name
+	private String weaponConfigFile; // Weapon Configuration File Name
+	private Player[] playerList; // Array of players in the game
+	private Set<Card> cards; // Set of every card in the game
+	private Solution answer; // The three cards randomly chosen as the game's solution
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -99,17 +99,25 @@ public class Board {
 	}
 
 	/**
-	 * getTargets
-	 * @return The targets for a board cell after calculating them with calcTargets()
+	 * The targets for a board cell after calculating them with calcTargets()
+	 * @return getTargets
 	 */
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
-
+	
+	/**
+	 * Gets the array of all the players
+	 * @return playerList
+	 */
 	public Player[] getPlayerList(){
 		return playerList;
 	}
-
+	
+	/**
+	 * Gets the set of all cards in the game
+	 * @return cards
+	 */
 	public Set<Card> getCards(){
 		return cards;
 	}
@@ -209,9 +217,11 @@ public class Board {
 		visited = new HashSet<BoardCell>();
 	}
 
-
+	/**
+	 * Used to construct the array of players with their corresponding info (name, starting location, color)
+	 */
 	public void loadPlayerConfig(){
-		playerList = new Player[NUM_PLAYERS];
+		playerList = new Player[NUM_PLAYERS]; // Creates an array of 6 players for the game
 		for(int i = 0; i < 6; i++){
 			playerList[i] = new HumanPlayer();
 		}
@@ -222,19 +232,19 @@ public class Board {
 			int i = 0;
 			while(in.hasNextLine()) {
 				next = in.nextLine();
-				String [] splitString = (next.split(", ",0)); // Each line has 5 pieces of information separated by a comma + space (", ")
+				String [] splitString = (next.split(", ",0)); // Each line has 5 pieces of information for the player separated by a comma + space (", ")
 
-				String name = splitString[0];
-				String color = splitString[1];
-				int row = Integer.parseInt(splitString[2]);
-				int col = Integer.parseInt(splitString[3]);
-				String type = splitString[4];
+				String name = splitString[0]; // First string is player's name
+				String color = splitString[1]; // Second string is player's color
+				int row = Integer.parseInt(splitString[2]); // Third string is player's starting row
+				int col = Integer.parseInt(splitString[3]); // Fourth string is player's starting column
+				String type = splitString[4]; // Fifth string is player's type (Human/Computer)
 
-				if(type.equals("Human")){
+				if(type.equals("Human")){ // If the type is a human, creates new HumanPlayer
 					HumanPlayer humanPlayer = new HumanPlayer(row, col, name, color);
 					playerList[i] = humanPlayer;
 				}
-				else{
+				else{ // Type is computer, creates new ComputerPlayer
 					ComputerPlayer computerPlayer = new ComputerPlayer(row, col, name, color);
 					playerList[i] = computerPlayer;
 				}
@@ -248,30 +258,33 @@ public class Board {
 		}
 	}
 
-
+	/**
+	 * Used to construct the set of all cards in the game
+	 */
 	public void loadCards(){
 		cards = new HashSet<Card>();
-		FileReader weaponReader;
+		FileReader weaponReader; // First creates the weapon cards by reading the weapon configuration file
 		try {
 			weaponReader = new FileReader(weaponConfigFile);
 			Scanner in = new Scanner(weaponReader);
 			String next = "";
 			while(in.hasNextLine()) {
 				next = in.nextLine();
-				Card nextCard = new Card(next,CardType.WEAPON);
+				Card nextCard = new Card(next,CardType.WEAPON); // Creates card based on weapon string in config file
 				cards.add(nextCard);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// Next, creates the player cards based on the player array already created
 		for (int i = 0; i < NUM_PLAYERS; ++i) {
-			Card nextCard = new Card(playerList[i].getPlayerName(),CardType.PLAYER);
+			Card nextCard = new Card(playerList[i].getPlayerName(),CardType.PLAYER); // Names the card as the player's name
 			cards.add(nextCard);
 		}
-
+		// Last, creates the room cards based on the legend file
 		for (char key : legend.keySet()) {
-			if (key == 'X' || key == 'W') { // X: Closet, W: Walkway, so these are not cards.
+			if (key == 'X' || key == 'W') { // X: Closet, W: Walkway, so these are not rooms, and shouldn't be cards
 				continue;
 			}
 			Card nextCard = new Card(legend.get(key),CardType.ROOM);
@@ -280,72 +293,79 @@ public class Board {
 
 	}
 
+	/**
+	 * Randomly chooses one of each card type as the answer to the current game at the start
+	 */
 	public void selectAnswer() {
-		answer = new Solution();
-		Set<Card> weaponCards = new HashSet<Card>();
+		answer = new Solution(); // Solution object to store answer
+		// First separates cards into three sets based on card type
+		Set<Card> weaponCards = new HashSet<Card>(); 
 		Set<Card> roomCards = new HashSet<Card>();
 		Set<Card> playerCards = new HashSet<Card>();
 		for(Card next : cards) {
 			switch(next.getType()) {
-			case WEAPON:
+			case WEAPON: // Card type is weapon, add to weapon cards
 				weaponCards.add(next);
 				break;
-			case PLAYER:
+			case PLAYER: // Card type is player, add to player cards
 				playerCards.add(next);
 				break;
-			case ROOM:
+			case ROOM: // Card type is room, add to room cards
 				roomCards.add(next);
 				break;
 			}
 		}
+		// Pick a random number for each type of card
 		int rand1 = (int)Math.floor((Math.random() * weaponCards.size()));
 		int rand2 = (int)Math.floor((Math.random() * playerCards.size()));
 		int rand3 = (int)Math.floor((Math.random() * roomCards.size()));
 
 		int i = 0;
-		for(Card next : weaponCards) {
+		for(Card next : weaponCards) { // Iterates through weapon card set until i equals the randomly chosen number
 			if (i == rand1) {
-				answer.weapon = next.getCardName();
+				answer.weapon = next.getCardName(); // This is the card chosen as the weapon answer
 			}
 			i++;
 		}
 		i = 0;
-		for(Card next : playerCards) {
+		for(Card next : playerCards) { // Iterates through player card set until i equals the randomly chosen number
 			if (i == rand2) {
-				answer.player = next.getCardName();
+				answer.player = next.getCardName(); // This is the card chosen as the player answer
 			}
 			i++;
 		}
 		i = 0;
-		for(Card next : roomCards) {
+		for(Card next : roomCards) { // Iterates through room card set until i equals the randomly chosen number
 			if (i == rand3) {
-				answer.room = next.getCardName();
+				answer.room = next.getCardName(); // This is the card chosen as the room answer
 			}
 			i++;
 		}
 	}
-
+	
+	/**
+	 * Deals an even number of leftover cards (not part of answer) randomly to each player
+	 */
 	public void dealCards(){
-		Set<Card> cardsCopy = new HashSet<Card>();
+		Set<Card> cardsCopy = new HashSet<Card>(); // Creates temporary copy of card set used to deal cards
 		for(Card c : cards){
 			cardsCopy.add(c);
 		}
-		System.out.println(cardsCopy.size());
-		Set<Card> cardsToRemove = new HashSet<Card>();
-		for(Card c : cardsCopy){
+		Set<Card> cardsToRemove = new HashSet<Card>(); // Set of cards to remove after being dealt
+		for(Card c : cardsCopy){ // Gets rid of answer cards so they aren't dealt
 			if(c.getCardName() == answer.weapon || c.getCardName() == answer.player || c.getCardName() == answer.room){
 				cardsToRemove.add(c);
 			}
 		}
 		cardsCopy.removeAll(cardsToRemove);
 
-		for(int k = 0; k < 6; k++){
-			Set<Card> cardList = new HashSet<Card>();
-			for(int j = 0; j < 3; j++){
-				int rand = (int)Math.floor((Math.random() * cardsCopy.size()));
+		for(int k = 0; k < 6; k++){ // For every player
+			Set<Card> cardList = new HashSet<Card>(); // Create list of cards to deal to the player
+			for(int j = 0; j < 3; j++){ // Repeat three times (for weapon, player, and room card)
+				int rand = (int)Math.floor((Math.random() * cardsCopy.size())); // Random number to pick the card
 				int i = 0;
 				Card chosenCard = new Card();
-				for(Card next : cardsCopy){
+				for(Card next : cardsCopy){ // Iterates through card set until i equals the random number
 					if(i == rand){
 						cardList.add(next);
 						chosenCard = next;
@@ -353,10 +373,10 @@ public class Board {
 					}
 					i++;
 				}
-				cardsCopy.remove(chosenCard);
+				cardsCopy.remove(chosenCard); // Remove chosen card so it isn't dealt again
 				
 			}
-			playerList[k].setMyCards(cardList);
+			playerList[k].setMyCards(cardList); // Set the player's card list to the chosen cards
 		}
 		
 	}
@@ -488,12 +508,22 @@ public class Board {
 			visited.remove(nextCell); // once done processing cell remove it from the visited list
 		}
 	}
-
+	
+	/**
+	 * Sets the configuration files that will create the board with rooms
+	 * @param boardConfigFile
+	 * @param roomConfigFile
+	 */
 	public void setConfigFiles(String boardConfigFile, String roomConfigFile) {
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
 	}
-
+	
+	/**
+	 * Sets the configuration files that will setup the players and weapons
+	 * @param playerConfigFile
+	 * @param weaponConfigFile
+	 */
 	public void setGameSetupFiles(String playerConfigFile, String weaponConfigFile) {
 		this.playerConfigFile = playerConfigFile;
 		this.weaponConfigFile = weaponConfigFile;

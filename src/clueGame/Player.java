@@ -1,19 +1,19 @@
 package clueGame;
 
 
-import java.awt.Color; // BE SURE TO USE THIS IMPORT
-// not the one Eclipse suggests
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Player {
-	private String playerName;
-	private int row;
+	private String playerName; // Name of player
+	private int row; // Location of player (row/column)
 	private int column;
-	private Color color;
-	private Set<Card> myCards;
+	private Color color; // Color object designated to player
+	private Set<Card> myCards; // Player's current possessed cards
 	
+	// Default constructor for player (Mainly for testing)
 	public Player() {
 		this.row = 0;
 		this.column = 0;
@@ -22,15 +22,22 @@ public abstract class Player {
 		this.myCards = new HashSet<Card>();
 	}
 
+	/**
+	 * Constructor for player that gives the player its location (row/column), name, and color
+	 * @param row
+	 * @param column
+	 * @param playerName
+	 * @param color
+	 */
 	public Player(int row, int column, String playerName, String color) {
 		this.row = row;
 		this.column = column;
 		this.playerName = playerName;
-		this.color = convertColor(color);
+		this.color = convertColor(color); // Takes a color as a string and converts to Color object
 		this.myCards = new HashSet<Card>();
 	}
 	
-	// Be sure to trim the color, we don't want spaces around the name
+	// Code taken from PDF (originally from StackExchange) to convert color string to a Color object
 	public Color convertColor(String strColor) {
 		Color color;
 		try {
@@ -42,27 +49,51 @@ public abstract class Player {
 		}
 		return color;
 	}
-
+	
+	/**
+	 * Gets the name of the player as a String
+	 * @return playerName
+	 */
 	public String getPlayerName() {
 		return playerName;
 	}
-
+	
+	/**
+	 * Gets the current row of the player's location
+	 * @return row
+	 */
 	public int getRow() {
 		return row;
 	}
 
+	/**
+	 * Gets the current column of the player's location
+	 * @return column
+	 */
 	public int getColumn() {
 		return column;
 	}
-
+	
+	/**
+	 * Gets the player's color as a Color object
+	 * @return color
+	 */
 	public Color getColor() {
 		return color;
 	}
 	
+	/**
+	 * Gets the cards in possession of the player
+	 * @return myCards
+	 */
 	public Set<Card> getMyCards(){
 		return myCards;
 	}
 	
+	/**
+	 * Sets the cards in possession of the player to the set passed in
+	 * @param cardList
+	 */
 	public void setMyCards(Set<Card> cardList){
 		myCards = cardList;
 	}
