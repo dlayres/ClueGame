@@ -33,10 +33,11 @@ public class ComputerPlayer extends Player {
 	}
 
 	public BoardCell selectTarget(Set<BoardCell> targets) {
-		/*
+		
 		if (recentlyLeftARoom == false) {
 			for (BoardCell nextTarget : targets) {
 				if (nextTarget.isDoorway()) {
+					setRecentlyLeftARoom(true,nextTarget.getInitial());
 					return nextTarget;
 				}
 			}
@@ -50,16 +51,28 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		else {
+			for (BoardCell nextTarget : targets) {
+				if (nextTarget.isDoorway() && (nextTarget.getInitial() != roomLeft)) {
+					setRecentlyLeftARoom(true,nextTarget.getInitial());
+					return nextTarget;
+				}
+			}
 			int rand = (int)Math.floor((Math.random() * targets.size()));
 			int iter = 0;
 			for (BoardCell nextTarget : targets) {
 				if (iter == rand) {
+					if (nextTarget.isDoorway()) {
+						setRecentlyLeftARoom(true,nextTarget.getInitial());
+					}
+					else {
+						setRecentlyLeftARoom(false,'Z');
+					}
 					return nextTarget;
 				}
 				iter++;
 			}
 		}
-		*/
+		
 		return new BoardCell(0,0);
 	}
 	

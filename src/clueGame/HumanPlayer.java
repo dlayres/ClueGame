@@ -8,6 +8,10 @@ public class HumanPlayer extends Player{
 		super();
 	}
 	
+	public HumanPlayer(int row, int column) {
+		super(row,column);
+	}
+	
 	/**
 	 * HumanPlayer constructor
 	 * @param row - Initial row location for this player
@@ -19,4 +23,11 @@ public class HumanPlayer extends Player{
 		super(row, column, playerName, color);
 	}
 	
+	public Solution makeAccusation(String player, String weapon, String room) {
+		Solution proposedSolution = new Solution();
+		proposedSolution.player = player;
+		proposedSolution.weapon = weapon;
+		proposedSolution.room = room;
+		return proposedSolution;
+	}
 }

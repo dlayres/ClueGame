@@ -10,6 +10,8 @@ import org.junit.Test;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
+import clueGame.Solution;
 
 public class gameActionTests {
 
@@ -84,5 +86,35 @@ public class gameActionTests {
 	}
 	
 	
-
+	@Test
+	public void testCorrectAccusation() {
+		HumanPlayer testHuman = new HumanPlayer();
+		Solution proposedSolution = testHuman.makeAccusation("Test Player", "Test Weapon", "Test Room");
+		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
+		assertTrue(board.testAccusation(proposedSolution));
+	}
+	
+	@Test
+	public void testWrongPlayerAccusation() {
+		HumanPlayer testHuman = new HumanPlayer();
+		Solution proposedSolution = testHuman.makeAccusation("Wrong Player", "Test Weapon", "Test Room");
+		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
+		assertEquals(false, board.testAccusation(proposedSolution));
+	}
+	
+	@Test
+	public void testWrongWeaponAccusation() {
+		HumanPlayer testHuman = new HumanPlayer();
+		Solution proposedSolution = testHuman.makeAccusation("Test Player", "Wrong Weapon", "Test Room");
+		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
+		assertEquals(false, board.testAccusation(proposedSolution));
+	}
+	
+	@Test
+	public void testWrongRoomAccusation() {
+		HumanPlayer testHuman = new HumanPlayer();
+		Solution proposedSolution = testHuman.makeAccusation("Test Player", "Test Weapon", "Wrong Room");
+		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
+		assertEquals(false, board.testAccusation(proposedSolution));
+	}
 }

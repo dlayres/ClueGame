@@ -529,4 +529,15 @@ public class Board {
 		this.weaponConfigFile = weaponConfigFile;
 	}
 	//-----------------------------------------------------------------------------
+	
+	public void setChosenAnswer(String player, String weapon, String room) {
+		answer = new Solution();
+		answer.player = player;
+		answer.weapon = weapon;
+		answer.room = room;
+	}
+	
+	public boolean testAccusation(Solution proposedSolution) {
+		return false;
+	}
 }
