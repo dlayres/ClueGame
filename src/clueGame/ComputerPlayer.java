@@ -8,6 +8,7 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
 	
 	private boolean recentlyLeftARoom;
+	private char roomLeft = 'Z';
 	
 	/**
 	 * ComputerPlayer constructor
@@ -75,10 +76,12 @@ public class ComputerPlayer extends Player {
 	}
 
 	/**
-	 * @param recentlyLeftARoom : True if the cpu has just left a room, False if otherwise
+	 * @param recentlyLeftARoom : True if the CPU has just left a room, False if otherwise
+	 * @param roomLeftInitial : Initial of the room the CPU just left
 	 */
-	public void setRecentlyLeftARoom(boolean recentlyLeftARoom) {
+	public void setRecentlyLeftARoom(boolean recentlyLeftARoom, char roomLeftInitial) {
 		this.recentlyLeftARoom = recentlyLeftARoom;
+		this.roomLeft = roomLeftInitial;
 	}
 
 	

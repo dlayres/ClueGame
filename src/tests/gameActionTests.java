@@ -45,5 +45,44 @@ public class gameActionTests {
 		assertEquals(16, testCPU.getRow());
 		assertEquals(11, testCPU.getColumn());
 	}
+	
+	/**
+	 * selectCPURecentlyLeftRoomAndEnterAnother() : CPU recently left a room, and another room is within reach, so it enters that room
+	 */
+	@Test
+	public void selectCPURecentlyLeftRoomAndEnterAnother() {
+		ComputerPlayer testCPU = new ComputerPlayer(18,15); // new cpu player at location row 18, column 15
+		testCPU.setRecentlyLeftARoom(true, 'K');
+		board.calcTargets(testCPU.getRow(),testCPU.getColumn(),2); // assume cpu rolls a 2
+		BoardCell moveTo = testCPU.selectTarget(board.getTargets());
+		testCPU.updateLocation(moveTo);
+		assertEquals(18, testCPU.getRow());
+		assertEquals(17, testCPU.getColumn());
+	}
+	
+	/**
+	 * selectCPURecentlyLeftRoomAndNoOtherRoomNear() : CPU recently left a room, and there is no other room nearby, so it chooses next target randomly
+	 */
+	@Test
+	public void selectCPURecentlyLeftRoomAndNoOtherRoomNear() {
+		ComputerPlayer testCPU = new ComputerPlayer(3,9); // new cpu player at location row 18, column 15
+		testCPU.setRecentlyLeftARoom(true, 'B');
+		board.calcTargets(testCPU.getRow(),testCPU.getColumn(),4); // assume cpu rolls a 4
+		BoardCell moveTo = testCPU.selectTarget(board.getTargets());
+		assertTrue(board.getTargets().contains(moveTo));
+	}
+	
+	/**
+	 * selectCPURandomWalkway() : There is no room for the CPU to go in, so it selects random walkway
+	 */
+	@Test
+	public void selectCPURandomWalkway() {
+		ComputerPlayer testCPU = new ComputerPlayer(14, 6); // new cpu player at location row 14, column 6
+		board.calcTargets(testCPU.getRow(),testCPU.getColumn(),2); // assume cpu rolls a 2
+		BoardCell moveTo = testCPU.selectTarget(board.getTargets());
+		assertTrue(board.getTargets().contains(moveTo));
+	}
+	
+	
 
 }
