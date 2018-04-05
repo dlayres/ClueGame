@@ -538,6 +538,6 @@ public class Board {
 	}
 	
 	public boolean testAccusation(Solution proposedSolution) {
-		return false;
+		return ((proposedSolution.player == answer.player) && (proposedSolution.weapon == answer.weapon) && (proposedSolution.room == answer.room));
 	}
 }
