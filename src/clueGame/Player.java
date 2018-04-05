@@ -8,16 +8,29 @@ import java.util.Set;
 
 public abstract class Player {
 	private String playerName; // Name of player
-	private int row; // Location of player (row/column)
-	private int column;
+	protected int row; // Location of player (row/column)
+	protected int column;
 	private Color color; // Color object designated to player
-	private Set<Card> myCards; // Player's current possessed cards
+	protected Set<Card> myCards; // Player's current possessed cards
 	
 	// Default constructor for player (Mainly for testing)
 	public Player() {
 		this.row = 0;
 		this.column = 0;
 		this.playerName = "default";
+		this.color = convertColor("white");
+		this.myCards = new HashSet<Card>();
+	}
+	
+	/**
+	 * Player test constructor : used to make a test player
+	 * @param row
+	 * @param column
+	 */
+	public Player(int row, int column) {
+		this.row = row;
+		this.column = column;
+		this.playerName = "Test Guy";
 		this.color = convertColor("white");
 		this.myCards = new HashSet<Card>();
 	}

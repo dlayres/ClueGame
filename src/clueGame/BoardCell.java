@@ -11,17 +11,27 @@ public class BoardCell {
 	private char initial;
 	private DoorDirection doorDirection;
 	
+	
+	/**
+	 * BoardCell test constructor
+	 */
+	public BoardCell(int row, int column) {
+		this.row = row;
+		this.column = column;
+		this.initial = 'Z';
+		this.doorDirection = DoorDirection.NONE;
+	}
 	/**
 	 * If a cell is not a door cell
 	 * @param row
 	 * @param column
 	 * @param initial
 	 */
-	BoardCell (int row, int column, char initial) {
+	public BoardCell (int row, int column, char initial) {
 		this.row = row;
 		this.column = column;
 		this.initial = initial;
-		doorDirection = DoorDirection.NONE;
+		this.doorDirection = DoorDirection.NONE;
 	}
 	
 	/**
@@ -31,24 +41,24 @@ public class BoardCell {
 	 * @param initial
 	 * @param direction
 	 */
-	BoardCell (int row, int column, char initial, char direction) {
+	public BoardCell (int row, int column, char initial, char direction) {
 		this.row = row;
 		this.column = column;
 		this.initial = initial;
 		if (direction == 'R') {
-			doorDirection = DoorDirection.RIGHT;
+			this.doorDirection = DoorDirection.RIGHT;
 		}
 		else if (direction == 'L') {
-			doorDirection = DoorDirection.LEFT;
+			this.doorDirection = DoorDirection.LEFT;
 		}
 		else if (direction == 'U') {
-			doorDirection = DoorDirection.UP;
+			this.doorDirection = DoorDirection.UP;
 		}
 		else if (direction == 'D') {
-			doorDirection = DoorDirection.DOWN;
+			this.doorDirection = DoorDirection.DOWN;
 		}
 		else {
-			doorDirection = DoorDirection.NONE;
+			this.doorDirection = DoorDirection.NONE;
 		}
 	}
 	
