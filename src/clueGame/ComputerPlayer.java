@@ -119,7 +119,7 @@ public class ComputerPlayer extends Player {
 		Card cardToDisprove = null;
 		HashSet<Card> matchingCards = new HashSet<Card>();
 		for(Card nextCard : myCards){
-			if(nextCard.getCardName() == suggestion.player || nextCard.getCardName() == suggestion.weapon || nextCard.getCardName() == suggestion.room){
+			if(nextCard.getCardName().equals(suggestion.player) || nextCard.getCardName().equals(suggestion.weapon) || nextCard.getCardName().equals(suggestion.room)){
 				matchingCards.add(nextCard);
 			}
 		}

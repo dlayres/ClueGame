@@ -552,4 +552,8 @@ public class Board {
 	public boolean testAccusation(Solution proposedSolution) {
 		return ((proposedSolution.player == answer.player) && (proposedSolution.weapon == answer.weapon) && (proposedSolution.room == answer.room));
 	}
+	
+	public Card handleSuggestion(int indexOfSuggestingPlayer, Solution suggestion, Player[] playerList){
+		return new Card();
+	}
 }

@@ -21,7 +21,64 @@ import clueGame.Solution;
 public class gameActionTests {
 
 	private static Board board;
-
+	private static Player[] testPlayerList;
+	
+	public static void setupTestPlayers(){
+		ComputerPlayer testCPU1 = new ComputerPlayer(1, 1);
+		ComputerPlayer testCPU2 = new ComputerPlayer(2, 2);
+		ComputerPlayer testCPU3 = new ComputerPlayer(3, 3);
+		ComputerPlayer testCPU4 = new ComputerPlayer(4, 4);
+		ComputerPlayer testCPU5 = new ComputerPlayer(5, 5);
+		HumanPlayer testHuman = new HumanPlayer(6, 6);
+		
+		HashSet<Card> testCards1 = new HashSet<Card>();
+		HashSet<Card> testCards2 = new HashSet<Card>();
+		HashSet<Card> testCards3 = new HashSet<Card>();
+		HashSet<Card> testCards4 = new HashSet<Card>();
+		HashSet<Card> testCards5 = new HashSet<Card>();
+		HashSet<Card> testCards6 = new HashSet<Card>();
+		
+		
+		testCards1.add(new Card("Mrs. Blue", CardType.PLAYER));
+		testCards1.add(new Card("Pickaxe", CardType.WEAPON));
+		testCards1.add(new Card("Kitchen", CardType.ROOM));
+		
+		testCards2.add(new Card("Dr. Purple", CardType.PLAYER));
+		testCards2.add(new Card("Lt. Black", CardType.PLAYER));
+		testCards2.add(new Card("Cellar", CardType.ROOM));
+		
+		testCards3.add(new Card("Chair Leg", CardType.WEAPON));
+		testCards3.add(new Card("Billiard Room", CardType.ROOM));
+		testCards3.add(new Card("Basement", CardType.ROOM));
+		
+		testCards4.add(new Card("Prof. Pink", CardType.PLAYER));
+		testCards4.add(new Card("Plastic Fork", CardType.WEAPON));
+		testCards4.add(new Card("Laundry Room", CardType.ROOM));
+		
+		testCards5.add(new Card("Mr. Orange", CardType.PLAYER));
+		testCards5.add(new Card("Golf Club", CardType.WEAPON));
+		testCards5.add(new Card("Pantry", CardType.ROOM));
+		
+		testCards6.add(new Card("Rock", CardType.WEAPON));
+		testCards6.add(new Card("Dining Room", CardType.ROOM));
+		testCards6.add(new Card("Office", CardType.ROOM));
+		
+		testCPU1.setMyCards(testCards1);
+		testCPU2.setMyCards(testCards2);
+		testCPU3.setMyCards(testCards3);
+		testCPU4.setMyCards(testCards4);
+		testCPU5.setMyCards(testCards5);
+		testHuman.setMyCards(testCards6);
+		
+		testPlayerList = new Player[6];
+		testPlayerList[0] = testHuman;
+		testPlayerList[1] = testCPU1;
+		testPlayerList[2] = testCPU2;
+		testPlayerList[3] = testCPU3;
+		testPlayerList[4] = testCPU4;
+		testPlayerList[5] = testCPU5;
+	}
+	
 	@BeforeClass
 	public static void setUp() {
 		// Board is singleton, get the only instance there is
@@ -37,6 +94,8 @@ public class gameActionTests {
 		board.loadCards();
 		board.selectAnswer();
 		board.dealCards();
+		
+		setupTestPlayers();
 	}
 
 	/**
@@ -251,7 +310,6 @@ public class gameActionTests {
 				matchingWeapon++;
 			}
 		}
-		System.out.println(matchingName + " " + matchingWeapon);
 		assertTrue(matchingName >= 1 && matchingWeapon >= 1);
 	}
 	
@@ -269,5 +327,47 @@ public class gameActionTests {
 		testCPU.setMyCards(testCards);
 		Card resultingCard = testCPU.disproveSuggestion(testSolution);
 		assertEquals(null, resultingCard);
+	}
+	
+	@Test
+	public void noOneCanDisprove() {
+		Solution testSuggestion = new Solution("Cpt. Red", "Ballpoint Pen", "Library");
+		Card resultingCard = board.handleSuggestion(3, testSuggestion, testPlayerList);
+		assertEquals(null, resultingCard);
+	}
+	
+	@Test
+	public void onlyAccusingPlayerCanDisprove() {
+		Solution testSuggestion = new Solution("Prof. Pink", "Plastic Fork", "Library");
+		Card resultingCard = board.handleSuggestion(4, testSuggestion, testPlayerList);
+		assertEquals(null, resultingCard);
+	}
+	
+	@Test
+	public void onlyHumanCanDisprove() {
+		Solution testSuggestion = new Solution("Cpt. Red", "Rock", "Library");
+		Card resultingCard = board.handleSuggestion(3, testSuggestion, testPlayerList);
+		assertEquals("Rock", resultingCard.getCardName());
+	}
+	
+	@Test
+	public void humanSuggestsOnlyHumanCanDisprove() {
+		Solution testSuggestion = new Solution("Cpt. Red", "Ballpoint Pen", "Dining Room");
+		Card resultingCard = board.handleSuggestion(0, testSuggestion, testPlayerList);
+		assertEquals(null, resultingCard);
+	}
+	
+	@Test
+	public void twoPlayersCanDisprove() {
+		Solution testSuggestion = new Solution("Dr. Purple", "Plastic Fork", "Library");
+		Card resultingCard = board.handleSuggestion(1, testSuggestion, testPlayerList);
+		assertEquals("Dr. Purple", resultingCard.getCardName());
+	}
+	
+	@Test
+	public void humanAndOtherPlayerCanDisprove() {
+		Solution testSuggestion = new Solution("Prof. Pink", "Rock", "Library");
+		Card resultingCard = board.handleSuggestion(1, testSuggestion, testPlayerList);
+		assertEquals("Prof. Pink", resultingCard.getCardName());
 	}
 }
