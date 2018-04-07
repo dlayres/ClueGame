@@ -564,7 +564,35 @@ public class Board {
 		return ((proposedSolution.player == answer.player) && (proposedSolution.weapon == answer.weapon) && (proposedSolution.room == answer.room));
 	}
 	
+	/**
+	 * handleSuggestion() : takes the suggesting players index in the array, a (their) suggestion, and the array of players
+	 * Loops through the players to see if anyone can disprove the suggestion
+	 * @param indexOfSuggestingPlayer
+	 * @param suggestion
+	 * @param playerList
+	 * @return
+	 */
 	public Card handleSuggestion(int indexOfSuggestingPlayer, Solution suggestion, Player[] playerList){
-		return new Card();
+		Card disprovingCard = null;
+		for (int i = indexOfSuggestingPlayer+1; i != indexOfSuggestingPlayer; i = (i+1) % playerList.length) { // start at player after the suggesting player, iterate through other players until back at suggesting player
+			if (playerList[i] instanceof ComputerPlayer) { // if the next player is a cpu
+				ComputerPlayer nextCPU = (ComputerPlayer) playerList[i];
+				Card cardCheck = nextCPU.disproveSuggestion(suggestion); // check if this cpu can disprove the suggestion
+				if (cardCheck != null) { // if can disprove, then return the disproving card
+					disprovingCard = cardCheck;
+					break;
+				}
+			}
+			else { // if next player is a human
+				HumanPlayer human = (HumanPlayer) playerList[i];
+				Card cardCheck = human.disproveSuggestion(suggestion); // check if human can disprove the suggestion and get their response
+				if (cardCheck != null) { // if can disprove, then return the disproving card
+					disprovingCard = cardCheck;
+					break;
+				}
+			}
+		}
+		
+		return disprovingCard;
 	}
 }

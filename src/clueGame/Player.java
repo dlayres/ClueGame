@@ -63,6 +63,8 @@ public abstract class Player {
 		return color;
 	}
 	
+	public abstract Card disproveSuggestion(Solution Suggestion);
+	
 	/**
 	 * Gets the name of the player as a String
 	 * @return playerName
