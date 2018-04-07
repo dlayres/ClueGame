@@ -115,6 +115,10 @@ public class ComputerPlayer extends Player {
 		return suggestion;
 	}
 	
+	public Card disproveSuggestion(Solution suggestion) {
+		return new Card();
+	}
+	
 	/**
 	 * @return if cpu has recentlyLeftARoom
 	 */

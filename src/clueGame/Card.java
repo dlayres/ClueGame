@@ -11,6 +11,7 @@ public class Card {
 	// Default constructor (mainly for testing)
 	public Card() {
 		super();
+		this.cardName = "test";
 	}
 	
 	/**

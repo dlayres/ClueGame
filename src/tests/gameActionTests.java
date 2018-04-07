@@ -21,7 +21,7 @@ import clueGame.Solution;
 public class gameActionTests {
 
 	private static Board board;
-	
+
 	@BeforeClass
 	public static void setUp() {
 		// Board is singleton, get the only instance there is
@@ -52,7 +52,7 @@ public class gameActionTests {
 		assertEquals(16, testCPU.getRow());
 		assertEquals(11, testCPU.getColumn());
 	}
-	
+
 	/**
 	 * selectCPURecentlyLeftRoomAndEnterAnother() : CPU recently left a room, and another room is within reach, so it enters that room
 	 */
@@ -66,7 +66,7 @@ public class gameActionTests {
 		assertEquals(18, testCPU.getRow());
 		assertEquals(17, testCPU.getColumn());
 	}
-	
+
 	/**
 	 * selectCPURecentlyLeftRoomAndNoOtherRoomNear() : CPU recently left a room, and there is no other room nearby, so it chooses next target randomly
 	 */
@@ -78,7 +78,7 @@ public class gameActionTests {
 		BoardCell moveTo = testCPU.selectTarget(board.getTargets());
 		assertTrue(board.getTargets().contains(moveTo));
 	}
-	
+
 	/**
 	 * selectCPURandomWalkway() : There is no room for the CPU to go in, so it selects random walkway
 	 */
@@ -89,8 +89,8 @@ public class gameActionTests {
 		BoardCell moveTo = testCPU.selectTarget(board.getTargets());
 		assertTrue(board.getTargets().contains(moveTo));
 	}
-	
-	
+
+
 	@Test
 	public void testCorrectAccusation() {
 		HumanPlayer testHuman = new HumanPlayer();
@@ -98,7 +98,7 @@ public class gameActionTests {
 		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
 		assertTrue(board.testAccusation(proposedSolution));
 	}
-	
+
 	@Test
 	public void testWrongPlayerAccusation() {
 		HumanPlayer testHuman = new HumanPlayer();
@@ -106,7 +106,7 @@ public class gameActionTests {
 		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
 		assertEquals(false, board.testAccusation(proposedSolution));
 	}
-	
+
 	@Test
 	public void testWrongWeaponAccusation() {
 		HumanPlayer testHuman = new HumanPlayer();
@@ -114,7 +114,7 @@ public class gameActionTests {
 		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
 		assertEquals(false, board.testAccusation(proposedSolution));
 	}
-	
+
 	@Test
 	public void testWrongRoomAccusation() {
 		HumanPlayer testHuman = new HumanPlayer();
@@ -122,14 +122,14 @@ public class gameActionTests {
 		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
 		assertEquals(false, board.testAccusation(proposedSolution));
 	}
-	
+
 	@Test
 	public void testSuggestionRoom() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17); // a library door/room location
 		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
 		assertEquals("Library",testSuggestion.room);
 	}
-	
+
 	@Test
 	public void testSingleWeaponChoice() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
@@ -140,7 +140,7 @@ public class gameActionTests {
 		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
 		assertEquals("Ballpoint Pen",testSuggestion.weapon);
 	}
-	
+
 	@Test
 	public void testSinglePlayerChoice() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
@@ -151,7 +151,7 @@ public class gameActionTests {
 		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
 		assertEquals("Cpt. Red",testSuggestion.player);
 	}
-	
+
 	@Test
 	public void testRandomWeaponChoice() {
 		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
@@ -166,7 +166,7 @@ public class gameActionTests {
 		}
 		assertTrue(hasWeaponCard);
 	}
-	
+
 	@Test
 	public void testRandomPlayerChoice() {
 		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
@@ -181,5 +181,61 @@ public class gameActionTests {
 		}
 		assertTrue(hasPlayerCard);
 	}
+
+	@Test
+	public void testSingleCardMatch() {
+		ComputerPlayer testCPU = new ComputerPlayer(11,17);
+		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
+		HashSet<Card> testCards = new HashSet<Card>();
+		Card playerCard = new Card("Cpt.Red",CardType.PLAYER);
+		Card weaponCard = new Card("Rock",CardType.WEAPON);
+		Card roomCard = new Card("Dining Room",CardType.ROOM);
+		testCards.add(playerCard);
+		testCards.add(weaponCard);
+		testCards.add(roomCard);
+		testCPU.setMyCards(testCards);
+		Card resultingCard = testCPU.disproveSuggestion(testSolution);
+		assertEquals("Cpt. Red", resultingCard.getCardName());
+	}
+
+	@Test
+	public void testMultipleCardMatch() {
+		ComputerPlayer testCPU = new ComputerPlayer(11,17);
+		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
+		HashSet<Card> testCards = new HashSet<Card>();
+		Card playerCard = new Card("Cpt.Red",CardType.PLAYER);
+		Card weaponCard = new Card("Ballpoint Pen",CardType.WEAPON);
+		Card roomCard = new Card("Dining Room",CardType.ROOM);
+		testCards.add(playerCard);
+		testCards.add(weaponCard);
+		testCards.add(roomCard);
+		int matchingName = 0;
+		int matchingWeapon = 0;
+		testCPU.setMyCards(testCards);
+		for(int i = 0; i < 20; i++){
+			Card resultingCard = testCPU.disproveSuggestion(testSolution);
+			if (resultingCard.getCardName().equals("Cpt.Red")){
+				matchingName++;
+			} else if(resultingCard.getCardName().equals("Ballpoint Pen")){
+				matchingWeapon++;
+			}
+		}
+		assertTrue(matchingName >= 1 && matchingWeapon >= 1);
+	}
 	
+	@Test
+	public void testNoCardMatch() {
+		ComputerPlayer testCPU = new ComputerPlayer(11,17);
+		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
+		HashSet<Card> testCards = new HashSet<Card>();
+		Card playerCard = new Card("Mr. Orange",CardType.PLAYER);
+		Card weaponCard = new Card("Rock",CardType.WEAPON);
+		Card roomCard = new Card("Dining Room",CardType.ROOM);
+		testCards.add(playerCard);
+		testCards.add(weaponCard);
+		testCards.add(roomCard);
+		testCPU.setMyCards(testCards);
+		Card resultingCard = testCPU.disproveSuggestion(testSolution);
+		assertEquals(null, resultingCard);
+	}
 }
