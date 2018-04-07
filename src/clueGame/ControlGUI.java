@@ -74,12 +74,12 @@ public class ControlGUI extends JPanel {
 	 */
 	private JPanel createButtonPanel() { // Creates two buttons to end turn (go to next player) and make accusation
 		// no layout specified, so this is flow
-		JButton agree = new JButton("Next player");
-		JButton disagree = new JButton("Make an accusation");
+		JButton nextPlayer = new JButton("Next player");
+		JButton makeAccusation = new JButton("Make an accusation");
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 2));
-		panel.add(agree);
-		panel.add(disagree);
+		panel.add(nextPlayer);
+		panel.add(makeAccusation);
 		return panel;
 	}
 	
