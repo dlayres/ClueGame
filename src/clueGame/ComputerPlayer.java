@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,6 +36,8 @@ public class ComputerPlayer extends Player {
 	 */
 	public ComputerPlayer(int row, int column) {
 		super(row,column);
+		unseenWeaponCards = new HashSet<Card>();
+		unseenPlayerCards = new HashSet<Card>();
 		recentlyLeftARoom = false;
 	}
 
@@ -88,8 +91,27 @@ public class ComputerPlayer extends Player {
 	}
 	
 	
-	public Solution makeSuggestion() {
+	public Solution makeSuggestion(BoardCell locationCell, Map<Character, String> legend) {
 		Solution suggestion = new Solution();
+		int randWeapon = (int)Math.floor((Math.random() * unseenWeaponCards.size()));
+		int randPlayer = (int)Math.floor((Math.random() * unseenPlayerCards.size()));
+
+		int i = 0;
+		for(Card next : unseenWeaponCards) { // Iterates through weapon card set until i equals the randomly chosen number
+			if (i == randWeapon) {
+				suggestion.weapon = next.getCardName();
+			}
+			i++;
+		}
+		i = 0;
+		for(Card next : unseenPlayerCards) { // Iterates through weapon card set until i equals the randomly chosen number
+			if (i == randPlayer) {
+				suggestion.player = next.getCardName();
+			}
+			i++;
+		}
+		suggestion.room = legend.get(locationCell.getInitial());
+		
 		return suggestion;
 	}
 	

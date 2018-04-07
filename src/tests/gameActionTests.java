@@ -126,7 +126,7 @@ public class gameActionTests {
 	@Test
 	public void testSuggestionRoom() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17); // a library door/room location
-		Solution testSuggestion = testCPU.makeSuggestion();
+		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
 		assertEquals("Library",testSuggestion.room);
 	}
 	
@@ -137,7 +137,7 @@ public class gameActionTests {
 		Card testWeapon = new Card("Ballpoint Pen",CardType.WEAPON);
 		testWeaponSet.add(testWeapon);
 		testCPU.setUnseenWeaponCards(testWeaponSet);
-		Solution testSuggestion = testCPU.makeSuggestion();
+		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
 		assertEquals("Ballpoint Pen",testSuggestion.weapon);
 	}
 	
@@ -148,21 +148,38 @@ public class gameActionTests {
 		Card testPlayer = new Card("Cpt. Red",CardType.PLAYER);
 		testPlayerSet.add(testPlayer);
 		testCPU.setUnseenPlayerCards(testPlayerSet);
-		Solution testSuggestion = testCPU.makeSuggestion();
-		assertEquals("Ballpoint Pen",testSuggestion.player);
+		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
+		assertEquals("Cpt. Red",testSuggestion.player);
 	}
 	
 	@Test
 	public void testRandomWeaponChoice() {
 		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
-		Solution testSuggestion = testCPU.makeSuggestion();
-		assertTrue(testCPU.getUnseenWeaponCards().contains(testSuggestion.weapon));
+		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
+		Card testWeaponCard = new Card(testSuggestion.weapon, CardType.WEAPON);
+		boolean hasWeaponCard = false;
+		for(Card nextCard : testCPU.getUnseenWeaponCards()){
+			if(nextCard.equals(testWeaponCard)){
+				hasWeaponCard = true;
+				break;
+			}
+		}
+		assertTrue(hasWeaponCard);
 	}
 	
 	@Test
 	public void testRandomPlayerChoice() {
 		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
-		Solution testSuggestion = testCPU.makeSuggestion();
-		assertTrue(testCPU.getUnseenPlayerCards().contains(testSuggestion.player));
+		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
+		Card testPlayerCard = new Card(testSuggestion.player, CardType.PLAYER);
+		boolean hasPlayerCard = false;
+		for(Card nextCard : testCPU.getUnseenPlayerCards()){
+			if(nextCard.equals(testPlayerCard)){
+				hasPlayerCard = true;
+				break;
+			}
+		}
+		assertTrue(hasPlayerCard);
 	}
+	
 }
