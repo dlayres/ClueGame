@@ -542,6 +542,12 @@ public class Board {
 	}
 	//-----------------------------------------------------------------------------
 	
+	/**
+	 * Sets the solution for the game
+	 * @param player
+	 * @param weapon
+	 * @param room
+	 */
 	public void setChosenAnswer(String player, String weapon, String room) {
 		answer = new Solution();
 		answer.player = player;
@@ -549,6 +555,11 @@ public class Board {
 		answer.room = room;
 	}
 	
+	/**
+	 * testAccusation() : Given an accusation, tests if the accusation is correct or wrong
+	 * @param proposedSolution
+	 * @return
+	 */
 	public boolean testAccusation(Solution proposedSolution) {
 		return ((proposedSolution.player == answer.player) && (proposedSolution.weapon == answer.weapon) && (proposedSolution.room == answer.room));
 	}

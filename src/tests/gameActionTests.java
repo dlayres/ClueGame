@@ -213,52 +213,69 @@ public class gameActionTests {
 		assertTrue(hasPlayerCard);
 	}
 
+	/**
+	 * testSingleCardMatch() : Tests if the CPU will disprove a suggestion when they have a single card match (in this case, player card)
+	 */
 	@Test
 	public void testSingleCardMatch() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
-		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
+		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library"); // testing solution/suggestion
+		
+		// make cards for the testCPU
 		HashSet<Card> testCards = new HashSet<Card>();
-		Card playerCard = new Card("Cpt. Red",CardType.PLAYER);
-		Card weaponCard = new Card("Rock",CardType.WEAPON);
-		Card roomCard = new Card("Dining Room",CardType.ROOM);
+		Card playerCard = new Card("Cpt. Red",CardType.PLAYER); // matches suggestion player card
+		Card weaponCard = new Card("Rock",CardType.WEAPON); // doesn't match suggestion weapon
+		Card roomCard = new Card("Dining Room",CardType.ROOM); // doesn't match suggestion room
 		testCards.add(playerCard);
 		testCards.add(weaponCard);
 		testCards.add(roomCard);
 		testCPU.setMyCards(testCards);
-		Card resultingCard = testCPU.disproveSuggestion(testSolution);
-		assertEquals("Cpt. Red", resultingCard.getCardName());
+		
+		Card resultingCard = testCPU.disproveSuggestion(testSolution); // returns a card to disprove the suggestion
+		assertEquals("Cpt. Red", resultingCard.getCardName()); // the returned disproval card should be the "Cpt. Red" player card
 	}
 
+	/**
+	 * testMultipleCardMatch() : Tests if the CPU will disprove a suggestion when they have multiple card matches (in this case, player and weapon cards)
+	 */
 	@Test
 	public void testMultipleCardMatch() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
-		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
+		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library"); // testing solution/suggestion
+		
+		// make cards for the testCPU
 		HashSet<Card> testCards = new HashSet<Card>();
-		Card playerCard = new Card("Cpt. Red",CardType.PLAYER);
-		Card weaponCard = new Card("Ballpoint Pen",CardType.WEAPON);
-		Card roomCard = new Card("Dining Room",CardType.ROOM);
+		Card playerCard = new Card("Cpt. Red",CardType.PLAYER); // matches suggestion player card
+		Card weaponCard = new Card("Ballpoint Pen",CardType.WEAPON); // matches suggestion weapon card
+		Card roomCard = new Card("Dining Room",CardType.ROOM); // doesn't match suggestion room
 		testCards.add(playerCard);
 		testCards.add(weaponCard);
 		testCards.add(roomCard);
 		int matchingName = 0;
 		int matchingWeapon = 0;
 		testCPU.setMyCards(testCards);
-		for(int i = 0; i < 20; i++){
-			Card resultingCard = testCPU.disproveSuggestion(testSolution);
-			if (resultingCard.getCardName().equals("Cpt. Red")){
-				matchingName++;
-			} else if(resultingCard.getCardName().equals("Ballpoint Pen")){
-				matchingWeapon++;
+		
+		// test to see if the CPU correctly disproves the suggestion given that they have correct cards
+		for(int i = 0; i < 20; i++){ // use 20 loops because card returned should be random
+			Card resultingCard = testCPU.disproveSuggestion(testSolution); // disproving card
+			if (resultingCard.getCardName().equals("Cpt. Red")){ // if the disproving card chosen was the player card
+				matchingName++; // increment player card random choice count
+			} else if(resultingCard.getCardName().equals("Ballpoint Pen")){ // if the disproving card chosen was the weapon card
+				matchingWeapon++; // increment weapon card weapon choice count
 			}
 		}
-		System.out.println(matchingName + " " + matchingWeapon);
-		assertTrue(matchingName >= 1 && matchingWeapon >= 1);
+		assertTrue(matchingName >= 1 && matchingWeapon >= 1); // see if the CPU randomly choose disproving cards from the 2 choices
 	}
 	
+	/**
+	 * testNoCardMatch() : Tests if the CPU will not disprove a suggestion (returns null) when they do not have any matching cards
+	 */
 	@Test
 	public void testNoCardMatch() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
-		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
+		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library"); // testing solution/suggestion
+		
+		// make cards for the testCPU (none will match suggestion)
 		HashSet<Card> testCards = new HashSet<Card>();
 		Card playerCard = new Card("Mr. Orange",CardType.PLAYER);
 		Card weaponCard = new Card("Rock",CardType.WEAPON);
@@ -267,6 +284,8 @@ public class gameActionTests {
 		testCards.add(weaponCard);
 		testCards.add(roomCard);
 		testCPU.setMyCards(testCards);
+		
+		// resulting card should be null since the CPU didn't have any matching cards
 		Card resultingCard = testCPU.disproveSuggestion(testSolution);
 		assertEquals(null, resultingCard);
 	}

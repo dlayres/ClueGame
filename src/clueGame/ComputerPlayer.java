@@ -41,31 +41,38 @@ public class ComputerPlayer extends Player {
 		recentlyLeftARoom = false;
 	}
 
+	/**
+	 * selectTarget(Set<BoardCell>) : Used to select a target for the CPU to move to given a set of targets  
+	 * @param targets
+	 * @return Target BoardCell to move to
+	 */
 	public BoardCell selectTarget(Set<BoardCell> targets) {
-		
+		// if we are currently able to enter any room
 		if (recentlyLeftARoom == false) {
-			for (BoardCell nextTarget : targets) {
-				if (nextTarget.isDoorway()) {
-					setRecentlyLeftARoom(true,nextTarget.getInitial());
-					return nextTarget;
+			for (BoardCell nextTarget : targets) { // go through each possible target
+				if (nextTarget.isDoorway()) { // if this target is a doorway then pick this target
+					setRecentlyLeftARoom(true,nextTarget.getInitial()); // set recentlyLeftARoom to true since we have just entered a room (used for next move), along with the room's initial
+					return nextTarget; // go to the proposed room
 				}
 			}
-			int rand = (int)Math.floor((Math.random() * targets.size()));
+			// if we didn't find a door way, go to a random target on the board
+			int rand = (int)Math.floor((Math.random() * targets.size())); // index of random spot in the target set
 			int iter = 0;
-			for (BoardCell nextTarget : targets) {
-				if (iter == rand) {
+			for (BoardCell nextTarget : targets) { // go through the targets
+				if (iter == rand) { // if the iteration for this target is the correct random index, choose this target
 					return nextTarget;
 				}
 				iter++;
 			}
 		}
-		else {
-			for (BoardCell nextTarget : targets) {
-				if (nextTarget.isDoorway() && (nextTarget.getInitial() != roomLeft)) {
-					setRecentlyLeftARoom(true,nextTarget.getInitial());
-					return nextTarget;
+		else { // if we have recently left a room
+			for (BoardCell nextTarget : targets) { // go through each possible target
+				if (nextTarget.isDoorway() && (nextTarget.getInitial() != roomLeft)) { // if the proposed target is a doorway/room and we did not just leave this room
+					setRecentlyLeftARoom(true,nextTarget.getInitial()); // set recentlyLeftARoom to true, along with the entered room's initial
+					return nextTarget; // go to the proposed room
 				}
 			}
+			// if we didn't find any different doorways/rooms to enter from our last move, find a random target to move to (may include the previous room)
 			int rand = (int)Math.floor((Math.random() * targets.size()));
 			int iter = 0;
 			for (BoardCell nextTarget : targets) {
@@ -74,7 +81,7 @@ public class ComputerPlayer extends Player {
 						setRecentlyLeftARoom(true,nextTarget.getInitial());
 					}
 					else {
-						setRecentlyLeftARoom(false,'Z');
+						setRecentlyLeftARoom(false,'Z'); // this denotes a walkway: set recently left a room to false and put dummy char initial which doesn't represent any rooms
 					}
 					return nextTarget;
 				}
@@ -85,54 +92,70 @@ public class ComputerPlayer extends Player {
 		return new BoardCell(0,0);
 	}
 	
+	/**
+	 * updateLocation() : changes the CPU's row and column location
+	 * @param moveTo
+	 */
 	public void updateLocation(BoardCell moveTo) {
 		this.row = moveTo.getRow();
 		this.column = moveTo.getColumn();
 	}
 	
 	
+	/**
+	 * makeSuggestion() : Given the current location BoardCell for the CPU, makes a suggestion based off of unknown weapon and player cards 
+	 * @param locationCell
+	 * @param legend
+	 * @return
+	 */
 	public Solution makeSuggestion(BoardCell locationCell, Map<Character, String> legend) {
 		Solution suggestion = new Solution();
 		int randWeapon = (int)Math.floor((Math.random() * unseenWeaponCards.size()));
 		int randPlayer = (int)Math.floor((Math.random() * unseenPlayerCards.size()));
 
 		int i = 0;
-		for(Card next : unseenWeaponCards) { // Iterates through weapon card set until i equals the randomly chosen number
+		for(Card next : unseenWeaponCards) { // Iterates through weapon card set until i equals the randomly chosen number (can equal 0, representing only 1 card in set)
 			if (i == randWeapon) {
-				suggestion.weapon = next.getCardName();
+				suggestion.weapon = next.getCardName(); // make the cpu's weapon suggestion based on the randomly chosen weapon card
 			}
 			i++;
 		}
 		i = 0;
-		for(Card next : unseenPlayerCards) { // Iterates through weapon card set until i equals the randomly chosen number
+		for(Card next : unseenPlayerCards) { // Iterates through weapon card set until i equals the randomly chosen number (can equal 0, representing only 1 card in set)
 			if (i == randPlayer) {
-				suggestion.player = next.getCardName();
+				suggestion.player = next.getCardName(); // make the cpu's player suggestion based on the randomly chosen player card
 			}
 			i++;
 		}
-		suggestion.room = legend.get(locationCell.getInitial());
+		suggestion.room = legend.get(locationCell.getInitial()); // make the cpu's room suggestion based on which cell/room the cpu is currently located at (supplies char initial as input to map)
 		
 		return suggestion;
 	}
 	
+	/**
+	 * disproveSuggestion() : Given a suggestion from another player, cpu attempts to disprove the suggestion using one of its cards
+	 * @param suggestion
+	 * @return
+	 */
 	public Card disproveSuggestion(Solution suggestion) {
-		Card cardToDisprove = null;
+		Card cardToDisprove = null; // set disproving card to null initially
 		HashSet<Card> matchingCards = new HashSet<Card>();
-		for(Card nextCard : myCards){
-			if(nextCard.getCardName() == suggestion.player || nextCard.getCardName() == suggestion.weapon || nextCard.getCardName() == suggestion.room){
-				matchingCards.add(nextCard);
+		for(Card nextCard : myCards){ // for each of the cpu's cards
+			if(nextCard.getCardName() == suggestion.player || nextCard.getCardName() == suggestion.weapon || nextCard.getCardName() == suggestion.room) { // if we find a matching card
+				matchingCards.add(nextCard); // add to list of matching cards
 			}
 		}
 		
+		// pick a random card to choose from the matching cards
 		int randMatchingCard = (int)Math.floor((Math.random() * matchingCards.size()));
 		int i = 0;
 		for(Card next : matchingCards) { // Iterates through weapon card set until i equals the randomly chosen number
 			if (i == randMatchingCard) {
-				cardToDisprove = next;
+				cardToDisprove = next; // set disproving card
 			}
 			i++;
 		}
-		return cardToDisprove;
+		return cardToDisprove; // returns the disproving card (may still be null if no matches found)
 	}
 	
 	/**
