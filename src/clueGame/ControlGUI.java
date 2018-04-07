@@ -18,23 +18,21 @@ public class ControlGUI extends JPanel {
 	{
 		// Create a layout with 2 rows
 		setLayout(new GridLayout(2,2));
-		JPanel panel = createNamePanel();
+		JPanel panel = createButtonPanel();
 		add(panel);
-		panel = createButtonPanel();
-		add(panel);
-		//panel = createDieRollPanel();
+		panel = createInformationPanels();
 		add(panel);
 	}
 
-	 private JPanel createNamePanel() {
+	 private JPanel createInformationPanels() {
 		 	JPanel panel = new JPanel();
-		 	// Use a grid layout, 1 row, 2 elements (label, text)
+		 	// Use a grid layout, 2 row, 2 elements (label, text)
 			panel.setLayout(new GridLayout(2,2));
 			
 			JPanel namePanel = new JPanel();
 		 	JLabel nameLabel = new JLabel("Whose turn?");
 		 	namePanel.add(nameLabel);
-			name = new JTextField(20);
+			name = new JTextField(17);
 			name.setEditable(false);
 			namePanel.add(name);
 			
@@ -55,13 +53,13 @@ public class ControlGUI extends JPanel {
 			JPanel resultPanel = new JPanel();
 			JLabel resultNameLabel = new JLabel("Disproving Card");
 			resultPanel.add(resultNameLabel);
-			name = new JTextField(16);
+			name = new JTextField(19);
 			name.setEditable(false);
 			resultPanel.add(name);
 			
 			panel.add(namePanel);
-			panel.add(rollPanel);
 			panel.add(guessPanel);
+			panel.add(rollPanel);
 			panel.add(resultPanel);
 			return panel;
 	}
@@ -75,22 +73,6 @@ public class ControlGUI extends JPanel {
 		panel.add(agree);
 		panel.add(disagree);
 		return panel;
-	}
-	
-	private JPanel createDieRollPanel() {
-		JPanel rollPanel = new JPanel();
-	//	JPanel diePanel = new JPanel();
-		JLabel rollNameLabel = new JLabel("Die Roll");
-	//	JLabel dieNameLabel = new JLabel("Die");
-		//rollPanel.setLayout(new GridLayout(1,0));
-		name = new JTextField(20);
-		name.setEditable(false);
-		rollPanel.add(rollNameLabel);
-		rollPanel.add(name);
-	//	diePanel.add(dieNameLabel);
-		//diePanel.add(rollPanel);
-	//	diePanel.setBorder(new TitledBorder(new EtchedBorder()));
-		return rollPanel;
 	}
 	
 	public static void main(String[] args) {
