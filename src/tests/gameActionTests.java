@@ -21,17 +21,20 @@ import clueGame.Solution;
 public class gameActionTests {
 
 	private static Board board;
-	private static Player[] testPlayerList;
+	private static Player[] testPlayerList; // Artificial list of players for testing
 	
+	/**
+	 * setupTestPlayers() : creates the list of players used for testing
+	 */
 	public static void setupTestPlayers(){
-		ComputerPlayer testCPU1 = new ComputerPlayer(1, 1);
+		ComputerPlayer testCPU1 = new ComputerPlayer(1, 1); // Creates 5 computer and 1 human player
 		ComputerPlayer testCPU2 = new ComputerPlayer(2, 2);
 		ComputerPlayer testCPU3 = new ComputerPlayer(3, 3);
 		ComputerPlayer testCPU4 = new ComputerPlayer(4, 4);
 		ComputerPlayer testCPU5 = new ComputerPlayer(5, 5);
 		HumanPlayer testHuman = new HumanPlayer(6, 6);
 		
-		HashSet<Card> testCards1 = new HashSet<Card>();
+		HashSet<Card> testCards1 = new HashSet<Card>(); // Creates a set of "dealt" cards for each player
 		HashSet<Card> testCards2 = new HashSet<Card>();
 		HashSet<Card> testCards3 = new HashSet<Card>();
 		HashSet<Card> testCards4 = new HashSet<Card>();
@@ -39,38 +42,38 @@ public class gameActionTests {
 		HashSet<Card> testCards6 = new HashSet<Card>();
 		
 		
-		testCards1.add(new Card("Mrs. Blue", CardType.PLAYER));
+		testCards1.add(new Card("Mrs. Blue", CardType.PLAYER)); // The cards for CPU 1
 		testCards1.add(new Card("Pickaxe", CardType.WEAPON));
 		testCards1.add(new Card("Kitchen", CardType.ROOM));
 		
-		testCards2.add(new Card("Dr. Purple", CardType.PLAYER));
+		testCards2.add(new Card("Dr. Purple", CardType.PLAYER)); // The cards for CPU 2
 		testCards2.add(new Card("Lt. Black", CardType.PLAYER));
 		testCards2.add(new Card("Cellar", CardType.ROOM));
 		
-		testCards3.add(new Card("Chair Leg", CardType.WEAPON));
+		testCards3.add(new Card("Chair Leg", CardType.WEAPON)); // The cards for CPU 3
 		testCards3.add(new Card("Billiard Room", CardType.ROOM));
 		testCards3.add(new Card("Basement", CardType.ROOM));
 		
-		testCards4.add(new Card("Prof. Pink", CardType.PLAYER));
+		testCards4.add(new Card("Prof. Pink", CardType.PLAYER)); // The cards for CPU 4
 		testCards4.add(new Card("Plastic Fork", CardType.WEAPON));
 		testCards4.add(new Card("Laundry Room", CardType.ROOM));
 		
-		testCards5.add(new Card("Mr. Orange", CardType.PLAYER));
+		testCards5.add(new Card("Mr. Orange", CardType.PLAYER)); // The cards for CPU 5
 		testCards5.add(new Card("Golf Club", CardType.WEAPON));
 		testCards5.add(new Card("Pantry", CardType.ROOM));
 		
-		testCards6.add(new Card("Rock", CardType.WEAPON));
+		testCards6.add(new Card("Rock", CardType.WEAPON)); // The cards for the human player
 		testCards6.add(new Card("Dining Room", CardType.ROOM));
 		testCards6.add(new Card("Office", CardType.ROOM));
 		
-		testCPU1.setMyCards(testCards1);
+		testCPU1.setMyCards(testCards1); // Sets the corresponding set of cards to the corresponding player
 		testCPU2.setMyCards(testCards2);
 		testCPU3.setMyCards(testCards3);
 		testCPU4.setMyCards(testCards4);
 		testCPU5.setMyCards(testCards5);
 		testHuman.setMyCards(testCards6);
 		
-		testPlayerList = new Player[6];
+		testPlayerList = new Player[6]; // Sets the player list to each player
 		testPlayerList[0] = testHuman;
 		testPlayerList[1] = testCPU1;
 		testPlayerList[2] = testCPU2;
@@ -349,45 +352,63 @@ public class gameActionTests {
 		assertEquals(null, resultingCard);
 	}
 	
+	/**
+	 * noOneCanDisprove() : Tests CPU 3 making a suggestion no one can disprove (returns null)
+	 */
 	@Test
 	public void noOneCanDisprove() {
-		Solution testSuggestion = new Solution("Cpt. Red", "Ballpoint Pen", "Library");
+		Solution testSuggestion = new Solution("Cpt. Red", "Ballpoint Pen", "Library"); // CPU 3's suggestion
 		Card resultingCard = board.handleSuggestion(3, testSuggestion, testPlayerList);
-		assertEquals(null, resultingCard);
+		assertEquals(null, resultingCard); // Should return null (no cards match)
 	}
 	
+	/**
+	 * onlyAccusingPlayerCanDisprove() : Tests CPU 4 making a suggestion only he can disprove (returns null)
+	 */
 	@Test
 	public void onlyAccusingPlayerCanDisprove() {
-		Solution testSuggestion = new Solution("Prof. Pink", "Plastic Fork", "Library");
+		Solution testSuggestion = new Solution("Prof. Pink", "Plastic Fork", "Library"); // CPU 4's suggestion
 		Card resultingCard = board.handleSuggestion(4, testSuggestion, testPlayerList);
-		assertEquals(null, resultingCard);
+		assertEquals(null, resultingCard); // Should return null (no cards match)
 	}
 	
+	/**
+	 * onlyHumanCanDisprove() : Tests CPU 3 making a suggestion only human can disprove (returns matching card human has)
+	 */
 	@Test
 	public void onlyHumanCanDisprove() {
-		Solution testSuggestion = new Solution("Cpt. Red", "Rock", "Library");
+		Solution testSuggestion = new Solution("Cpt. Red", "Rock", "Library"); // CPU 3's suggestion
 		Card resultingCard = board.handleSuggestion(3, testSuggestion, testPlayerList);
-		assertEquals("Rock", resultingCard.getCardName());
+		assertEquals("Rock", resultingCard.getCardName()); // Matching card should be Rock
 	}
 	
+	/**
+	 * humanSuggestsOnlyHumanCanDisprove() : Tests human player making a suggestion only he can disprove (returns null)
+	 */
 	@Test
 	public void humanSuggestsOnlyHumanCanDisprove() {
-		Solution testSuggestion = new Solution("Cpt. Red", "Ballpoint Pen", "Dining Room");
+		Solution testSuggestion = new Solution("Cpt. Red", "Ballpoint Pen", "Dining Room"); // Human player's suggestion
 		Card resultingCard = board.handleSuggestion(0, testSuggestion, testPlayerList);
-		assertEquals(null, resultingCard);
+		assertEquals(null, resultingCard); // Should return null (no cards match)
 	}
 	
+	/**
+	 * twoPlayersCanDisprove() : Tests CPU 1 making a suggestion that two other CPUs can disprove (returns matching card CPU first in list has)
+	 */
 	@Test
 	public void twoPlayersCanDisprove() {
-		Solution testSuggestion = new Solution("Dr. Purple", "Plastic Fork", "Library");
+		Solution testSuggestion = new Solution("Dr. Purple", "Plastic Fork", "Library"); // CPU 1's suggestion
 		Card resultingCard = board.handleSuggestion(1, testSuggestion, testPlayerList);
-		assertEquals("Dr. Purple", resultingCard.getCardName());
+		assertEquals("Dr. Purple", resultingCard.getCardName()); // Matching card should be Dr. Purple
 	}
 	
+	/**
+	 * humanAndOtherPlayerCanDisprove() : Tests CPU 1 making a suggestion that another CPU and human can disprove (returns matching card CPU has because CPU is first in list)
+	 */
 	@Test
 	public void humanAndOtherPlayerCanDisprove() {
-		Solution testSuggestion = new Solution("Prof. Pink", "Rock", "Library");
+		Solution testSuggestion = new Solution("Prof. Pink", "Rock", "Library"); // CPU 1's suggestion
 		Card resultingCard = board.handleSuggestion(1, testSuggestion, testPlayerList);
-		assertEquals("Prof. Pink", resultingCard.getCardName());
+		assertEquals("Prof. Pink", resultingCard.getCardName()); // Matching card should be Prof. Pink
 	}
 }
