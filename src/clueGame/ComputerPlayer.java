@@ -116,7 +116,23 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {
-		return new Card();
+		Card cardToDisprove = null;
+		HashSet<Card> matchingCards = new HashSet<Card>();
+		for(Card nextCard : myCards){
+			if(nextCard.getCardName() == suggestion.player || nextCard.getCardName() == suggestion.weapon || nextCard.getCardName() == suggestion.room){
+				matchingCards.add(nextCard);
+			}
+		}
+		
+		int randMatchingCard = (int)Math.floor((Math.random() * matchingCards.size()));
+		int i = 0;
+		for(Card next : matchingCards) { // Iterates through weapon card set until i equals the randomly chosen number
+			if (i == randMatchingCard) {
+				cardToDisprove = next;
+			}
+			i++;
+		}
+		return cardToDisprove;
 	}
 	
 	/**

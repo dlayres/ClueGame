@@ -187,7 +187,7 @@ public class gameActionTests {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
 		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
 		HashSet<Card> testCards = new HashSet<Card>();
-		Card playerCard = new Card("Cpt.Red",CardType.PLAYER);
+		Card playerCard = new Card("Cpt. Red",CardType.PLAYER);
 		Card weaponCard = new Card("Rock",CardType.WEAPON);
 		Card roomCard = new Card("Dining Room",CardType.ROOM);
 		testCards.add(playerCard);
@@ -203,7 +203,7 @@ public class gameActionTests {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
 		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
 		HashSet<Card> testCards = new HashSet<Card>();
-		Card playerCard = new Card("Cpt.Red",CardType.PLAYER);
+		Card playerCard = new Card("Cpt. Red",CardType.PLAYER);
 		Card weaponCard = new Card("Ballpoint Pen",CardType.WEAPON);
 		Card roomCard = new Card("Dining Room",CardType.ROOM);
 		testCards.add(playerCard);
@@ -214,12 +214,13 @@ public class gameActionTests {
 		testCPU.setMyCards(testCards);
 		for(int i = 0; i < 20; i++){
 			Card resultingCard = testCPU.disproveSuggestion(testSolution);
-			if (resultingCard.getCardName().equals("Cpt.Red")){
+			if (resultingCard.getCardName().equals("Cpt. Red")){
 				matchingName++;
 			} else if(resultingCard.getCardName().equals("Ballpoint Pen")){
 				matchingWeapon++;
 			}
 		}
+		System.out.println(matchingName + " " + matchingWeapon);
 		assertTrue(matchingName >= 1 && matchingWeapon >= 1);
 	}
 	
