@@ -3,14 +3,19 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
+import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
+import clueGame.Player;
 import clueGame.Solution;
 
 public class gameActionTests {
@@ -116,5 +121,48 @@ public class gameActionTests {
 		Solution proposedSolution = testHuman.makeAccusation("Test Player", "Test Weapon", "Wrong Room");
 		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
 		assertEquals(false, board.testAccusation(proposedSolution));
+	}
+	
+	@Test
+	public void testSuggestionRoom() {
+		ComputerPlayer testCPU = new ComputerPlayer(11,17); // a library door/room location
+		Solution testSuggestion = testCPU.makeSuggestion();
+		assertEquals("Library",testSuggestion.room);
+	}
+	
+	@Test
+	public void testSingleWeaponChoice() {
+		ComputerPlayer testCPU = new ComputerPlayer(11,17);
+		HashSet<Card> testWeaponSet = new HashSet<Card>();
+		Card testWeapon = new Card("Ballpoint Pen",CardType.WEAPON);
+		testWeaponSet.add(testWeapon);
+		testCPU.setUnseenWeaponCards(testWeaponSet);
+		Solution testSuggestion = testCPU.makeSuggestion();
+		assertEquals("Ballpoint Pen",testSuggestion.weapon);
+	}
+	
+	@Test
+	public void testSinglePlayerChoice() {
+		ComputerPlayer testCPU = new ComputerPlayer(11,17);
+		HashSet<Card> testPlayerSet = new HashSet<Card>();
+		Card testPlayer = new Card("Cpt. Red",CardType.PLAYER);
+		testPlayerSet.add(testPlayer);
+		testCPU.setUnseenPlayerCards(testPlayerSet);
+		Solution testSuggestion = testCPU.makeSuggestion();
+		assertEquals("Ballpoint Pen",testSuggestion.player);
+	}
+	
+	@Test
+	public void testRandomWeaponChoice() {
+		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
+		Solution testSuggestion = testCPU.makeSuggestion();
+		assertTrue(testCPU.getUnseenWeaponCards().contains(testSuggestion.weapon));
+	}
+	
+	@Test
+	public void testRandomPlayerChoice() {
+		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
+		Solution testSuggestion = testCPU.makeSuggestion();
+		assertTrue(testCPU.getUnseenPlayerCards().contains(testSuggestion.player));
 	}
 }

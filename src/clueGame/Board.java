@@ -28,13 +28,19 @@ public class Board {
 	private Map<BoardCell, Set<BoardCell>> adjMatrix; // Map of cell adjacencies
 	private Set<BoardCell> targets; // Possible targets to move to for a given cell
 	private Set<BoardCell> visited; // Set of visited cells (used for calculating targets)
+	
 	private String boardConfigFile; // Board Configuration File Name
 	private String roomConfigFile; // Room Configuration File Name
 	private String playerConfigFile; // Player Configuration File Name
 	private String weaponConfigFile; // Weapon Configuration File Name
+	
 	private Player[] playerList; // Array of players in the game
 	private Set<Card> cards; // Set of every card in the game
 	private Solution answer; // The three cards randomly chosen as the game's solution
+	
+	private Set<Card> weaponCards; 
+	private Set<Card> roomCards;
+	private Set<Card> playerCards;
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -299,9 +305,9 @@ public class Board {
 	public void selectAnswer() {
 		answer = new Solution(); // Solution object to store answer
 		// First separates cards into three sets based on card type
-		Set<Card> weaponCards = new HashSet<Card>(); 
-		Set<Card> roomCards = new HashSet<Card>();
-		Set<Card> playerCards = new HashSet<Card>();
+		weaponCards = new HashSet<Card>(); 
+		roomCards = new HashSet<Card>();
+		playerCards = new HashSet<Card>();
 		for(Card next : cards) {
 			switch(next.getType()) {
 			case WEAPON: // Card type is weapon, add to weapon cards
@@ -360,6 +366,12 @@ public class Board {
 		cardsCopy.removeAll(cardsToRemove);
 
 		for(int k = 0; k < 6; k++){ // For every player
+			if (playerList[k] instanceof ComputerPlayer) {
+				ComputerPlayer thisPlayer = (ComputerPlayer) playerList[k];
+				thisPlayer.setUnseenWeaponCards(weaponCards);
+				thisPlayer.setUnseenPlayerCards(playerCards);
+				playerList[k] = thisPlayer;
+			}
 			Set<Card> cardList = new HashSet<Card>(); // Create list of cards to deal to the player
 			for(int j = 0; j < 3; j++){ // Repeat three times (for weapon, player, and room card)
 				int rand = (int)Math.floor((Math.random() * cardsCopy.size())); // Random number to pick the card

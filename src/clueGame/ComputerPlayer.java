@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,6 +11,9 @@ public class ComputerPlayer extends Player {
 	private boolean recentlyLeftARoom;
 	private char roomLeft = 'Z';
 	
+	private Set<Card> unseenWeaponCards;
+	private Set<Card> unseenPlayerCards;
+	
 	/**
 	 * ComputerPlayer constructor
 	 * @param row - Initial Row location of cpu on map
@@ -19,6 +23,8 @@ public class ComputerPlayer extends Player {
 	 */
 	public ComputerPlayer(int row, int column, String playerName, String color) {
 		super(row, column, playerName, color);
+		unseenWeaponCards = new HashSet<Card>();
+		unseenPlayerCards = new HashSet<Card>();
 		recentlyLeftARoom = false;
 	}
 	
@@ -81,6 +87,12 @@ public class ComputerPlayer extends Player {
 		this.column = moveTo.getColumn();
 	}
 	
+	
+	public Solution makeSuggestion() {
+		Solution suggestion = new Solution();
+		return suggestion;
+	}
+	
 	/**
 	 * @return if cpu has recentlyLeftARoom
 	 */
@@ -95,6 +107,34 @@ public class ComputerPlayer extends Player {
 	public void setRecentlyLeftARoom(boolean recentlyLeftARoom, char roomLeftInitial) {
 		this.recentlyLeftARoom = recentlyLeftARoom;
 		this.roomLeft = roomLeftInitial;
+	}
+
+	/**
+	 * @return the unseenWeaponCards
+	 */
+	public Set<Card> getUnseenWeaponCards() {
+		return unseenWeaponCards;
+	}
+
+	/**
+	 * @param unseenWeaponCards the unseenWeaponCards to set
+	 */
+	public void setUnseenWeaponCards(Set<Card> unseenWeaponCards) {
+		this.unseenWeaponCards = unseenWeaponCards;
+	}
+
+	/**
+	 * @return the unseenPlayerCards
+	 */
+	public Set<Card> getUnseenPlayerCards() {
+		return unseenPlayerCards;
+	}
+
+	/**
+	 * @param unseenPlayerCards the unseenPlayerCards to set
+	 */
+	public void setUnseenPlayerCards(Set<Card> unseenPlayerCards) {
+		this.unseenPlayerCards = unseenPlayerCards;
 	}
 
 	
