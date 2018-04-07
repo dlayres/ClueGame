@@ -245,12 +245,13 @@ public class gameActionTests {
 		testCPU.setMyCards(testCards);
 		for(int i = 0; i < 20; i++){
 			Card resultingCard = testCPU.disproveSuggestion(testSolution);
-			if (resultingCard.getCardName().equals("Cpt.Red")){
+			if (resultingCard.getCardName().equals("Cpt. Red")){
 				matchingName++;
 			} else if(resultingCard.getCardName().equals("Ballpoint Pen")){
 				matchingWeapon++;
 			}
 		}
+		System.out.println(matchingName + " " + matchingWeapon);
 		assertTrue(matchingName >= 1 && matchingWeapon >= 1);
 	}
 	
