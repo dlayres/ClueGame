@@ -90,15 +90,21 @@ public class gameActionTests {
 		assertTrue(board.getTargets().contains(moveTo));
 	}
 
-
+	
+	/**
+	 * testCorrectAccusation() : Checks that a correct accusation returns as correct
+	 */
 	@Test
 	public void testCorrectAccusation() {
-		HumanPlayer testHuman = new HumanPlayer();
-		Solution proposedSolution = testHuman.makeAccusation("Test Player", "Test Weapon", "Test Room");
-		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room");
+		HumanPlayer testHuman = new HumanPlayer(); // new human to test with (not cpu)
+		Solution proposedSolution = testHuman.makeAccusation("Test Player", "Test Weapon", "Test Room"); // set proposedSolution/accusation to correct solution
+		board.setChosenAnswer("Test Player", "Test Weapon", "Test Room"); // set correct solution in board
 		assertTrue(board.testAccusation(proposedSolution));
 	}
 
+	/**
+	 * testWrongPlayerAccusation() : Tests an accusation with an incorrect player assertion
+	 */
 	@Test
 	public void testWrongPlayerAccusation() {
 		HumanPlayer testHuman = new HumanPlayer();
@@ -107,6 +113,9 @@ public class gameActionTests {
 		assertEquals(false, board.testAccusation(proposedSolution));
 	}
 
+	/**
+	 * testWrongWeaponAccusation() : Tests an accusation with an incorrect weapon assertion
+	 */
 	@Test
 	public void testWrongWeaponAccusation() {
 		HumanPlayer testHuman = new HumanPlayer();
@@ -115,6 +124,9 @@ public class gameActionTests {
 		assertEquals(false, board.testAccusation(proposedSolution));
 	}
 
+	/**
+	 * testWrongRoomAccusation() : Tests an accusation with an incorrect room assertion
+	 */
 	@Test
 	public void testWrongRoomAccusation() {
 		HumanPlayer testHuman = new HumanPlayer();
@@ -123,43 +135,58 @@ public class gameActionTests {
 		assertEquals(false, board.testAccusation(proposedSolution));
 	}
 
+	/**
+	 * testSuggestionRoom() : See's if the cpu will make a suggestion with valid room (which is where the cpu is currently located)
+	 */
 	@Test
 	public void testSuggestionRoom() {
-		ComputerPlayer testCPU = new ComputerPlayer(11,17); // a library door/room location
-		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
-		assertEquals("Library",testSuggestion.room);
+		ComputerPlayer testCPU = new ComputerPlayer(11,17); // a library door/room location for cpu to make suggestion
+		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend()); // make a suggestion given current location (room) and known information
+		assertEquals("Library",testSuggestion.room); // in this test, the cpu is currently in the library
 	}
 
+	/**
+	 * testSingleWeaponChoice() : See that the CPU will suggest the only remaining weapon
+	 */
 	@Test
 	public void testSingleWeaponChoice() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
-		HashSet<Card> testWeaponSet = new HashSet<Card>();
-		Card testWeapon = new Card("Ballpoint Pen",CardType.WEAPON);
-		testWeaponSet.add(testWeapon);
-		testCPU.setUnseenWeaponCards(testWeaponSet);
+		HashSet<Card> testWeaponSet = new HashSet<Card>(); // make a new unknown weapon set
+		Card testWeapon = new Card("Ballpoint Pen",CardType.WEAPON);  // make a single weapon (Ballpoint Pen)
+		testWeaponSet.add(testWeapon); // add the weapon to the set (so set size is now 1)
+		testCPU.setUnseenWeaponCards(testWeaponSet); // change the cpu's unknown weapon information to this new weapon set (still size 1)
 		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
-		assertEquals("Ballpoint Pen",testSuggestion.weapon);
+		assertEquals("Ballpoint Pen",testSuggestion.weapon); // only unknown weapon in set should be "Ballpoint Pen"
 	}
 
+	/**
+	 * testSinglePlayerChoice() : See that the CPU will suggest the only remaining player
+	 */
 	@Test
 	public void testSinglePlayerChoice() {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
+		
+		// Makes a new unknown player information set to only have a single player "Cpt. Red"  
 		HashSet<Card> testPlayerSet = new HashSet<Card>();
 		Card testPlayer = new Card("Cpt. Red",CardType.PLAYER);
 		testPlayerSet.add(testPlayer);
 		testCPU.setUnseenPlayerCards(testPlayerSet);
+		
 		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
-		assertEquals("Cpt. Red",testSuggestion.player);
+		assertEquals("Cpt. Red",testSuggestion.player); // only unknown player in set should be "Cpt. Red"
 	}
 
+	/**
+	 * testRandomWeaponChoice() : See that the CPU will pick a random weapon to suggest when there is more than 1 option
+	 */
 	@Test
 	public void testRandomWeaponChoice() {
-		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
-		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend());
-		Card testWeaponCard = new Card(testSuggestion.weapon, CardType.WEAPON);
-		boolean hasWeaponCard = false;
-		for(Card nextCard : testCPU.getUnseenWeaponCards()){
-			if(nextCard.equals(testWeaponCard)){
+		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1]; // board.getPlayerList()[1] returns the first ComputerPlayer object which was initialized earlier
+		Solution testSuggestion = testCPU.makeSuggestion(board.getCellAt(testCPU.getRow(), testCPU.getColumn()), board.getLegend()); // have the testCPU player make a suggestion
+		Card testWeaponCard = new Card(testSuggestion.weapon, CardType.WEAPON); // make a new weapon card based off of the testCPU's suggestion
+		boolean hasWeaponCard = false; // assume we have not picked a correct weapon
+		for(Card nextCard : testCPU.getUnseenWeaponCards()){ // go through each of the possible options for unknown weapons and see if we find our suggestion 
+			if(nextCard.equals(testWeaponCard)){ // if we have suggested a valid weapon card
 				hasWeaponCard = true;
 				break;
 			}
@@ -167,6 +194,10 @@ public class gameActionTests {
 		assertTrue(hasWeaponCard);
 	}
 
+	/**
+	 * testRandomPlayerChoice() : See that the CPU will pick a random player to suggest when there is more than 1 option
+	 * Works almost exactly the same as testRandomWeaponChoice(), but with player card instead of weapon card
+	 */
 	@Test
 	public void testRandomPlayerChoice() {
 		ComputerPlayer testCPU = (ComputerPlayer) board.getPlayerList()[1];
@@ -187,7 +218,7 @@ public class gameActionTests {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
 		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
 		HashSet<Card> testCards = new HashSet<Card>();
-		Card playerCard = new Card("Cpt.Red",CardType.PLAYER);
+		Card playerCard = new Card("Cpt. Red",CardType.PLAYER);
 		Card weaponCard = new Card("Rock",CardType.WEAPON);
 		Card roomCard = new Card("Dining Room",CardType.ROOM);
 		testCards.add(playerCard);
@@ -203,7 +234,7 @@ public class gameActionTests {
 		ComputerPlayer testCPU = new ComputerPlayer(11,17);
 		Solution testSolution = new Solution("Cpt. Red","Ballpoint Pen","Library");
 		HashSet<Card> testCards = new HashSet<Card>();
-		Card playerCard = new Card("Cpt.Red",CardType.PLAYER);
+		Card playerCard = new Card("Cpt. Red",CardType.PLAYER);
 		Card weaponCard = new Card("Ballpoint Pen",CardType.WEAPON);
 		Card roomCard = new Card("Dining Room",CardType.ROOM);
 		testCards.add(playerCard);
