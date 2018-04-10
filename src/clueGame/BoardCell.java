@@ -5,19 +5,22 @@
  */
 package clueGame;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
 	private DoorDirection doorDirection;
-	
+
 	private static final int CELL_WIDTH = 30;
 	private static final int CELL_HEIGHT = 30;
 	private static final int OFFSET = 90;
-	
+
 	/**
 	 * BoardCell test constructor
 	 */
@@ -39,7 +42,7 @@ public class BoardCell {
 		this.initial = initial;
 		this.doorDirection = DoorDirection.NONE;
 	}
-	
+
 	/**
 	 * If a cell is a door cell
 	 * @param row
@@ -67,10 +70,11 @@ public class BoardCell {
 			this.doorDirection = DoorDirection.NONE;
 		}
 	}
-	
+
 	public void draw(Graphics g) {
+		Graphics2D g2D = (Graphics2D) g;
 		if (this.isRoom()) {
-			g.setColor(Color.lightGray);
+			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 			return;
 		}
@@ -83,14 +87,34 @@ public class BoardCell {
 			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 		}
 		else if (isDoorway()) {
-			g.setColor(Color.CYAN);
+			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+			g.setColor(Color.CYAN);
+			g2D.setStroke(new BasicStroke(5));
+			switch(doorDirection){
+			case UP:
+				g.drawLine(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH);
+				break;
+			case DOWN:
+				g.drawLine(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH + CELL_HEIGHT, column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH + CELL_HEIGHT);
+				break;
+			case LEFT:
+				g.drawLine(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH + CELL_HEIGHT);
+				break;
+			case RIGHT:
+				g.drawLine(column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH + CELL_HEIGHT);
+				break;
+			default:
+				break;
+			}
+			return;
 		}
+		g2D.setStroke(new BasicStroke(1));
 		g.setColor(Color.BLACK);
 		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 	}
-	
-	
+
+
 	/**
 	 * @return the row
 	 */
@@ -108,24 +132,24 @@ public class BoardCell {
 	public boolean isWalkway() {
 		return (initial == 'W');
 	}
-	
+
 	public boolean isRoom() {
 		return (initial != 'W' && doorDirection == DoorDirection.NONE && initial != 'X');
 	}
-	
+
 	// returns whether or not this cell is a door
 	public boolean isDoorway() {
 		return (doorDirection != DoorDirection.NONE);
 	}
-	
+
 	public char getInitial() {
 		return initial;
 	}
-	
+
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "row=" + row + ", column=" + column;
@@ -134,5 +158,5 @@ public class BoardCell {
 	public boolean isCloset() {
 		return (initial == 'X');
 	}
-	
+
 }

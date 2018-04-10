@@ -45,6 +45,8 @@ public class Board extends JPanel {
 	private Set<Card> weaponCards; 
 	private Set<Card> roomCards;
 	private Set<Card> playerCards;
+	
+	private Set<BoardCell> doorways = new HashSet<BoardCell>();
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -214,6 +216,7 @@ public class Board extends JPanel {
 					}
 					else { // This is doorway, make a new cell using: current row, current column, board character, door direction
 						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0), splitString[i].charAt(1));
+						doorways.add(board[currentRow][i]);
 					}
 				}
 				else { // This is not a doorway, make a new cell using: current row, current column, board character
@@ -602,12 +605,16 @@ public class Board extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		
 		super.paintComponent(g);
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
 				// call draw
 				board[i][j].draw(g);
 			}
+		}
+		for(BoardCell doorwayCell : doorways){
+			doorwayCell.draw(g);
 		}
 	}
 }
