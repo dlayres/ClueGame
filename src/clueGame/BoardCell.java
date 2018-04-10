@@ -5,6 +5,7 @@
  */
 package clueGame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class BoardCell {
@@ -68,7 +69,25 @@ public class BoardCell {
 	}
 	
 	public void draw(Graphics g) {
-		g.drawRect(row*CELL_HEIGHT+OFFSET, column*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+		if (this.isRoom()) {
+			g.setColor(Color.lightGray);
+			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+			return;
+		}
+		if (isWalkway()) {
+			g.setColor(Color.YELLOW);
+			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+		}
+		else if (isCloset()) {
+			g.setColor(Color.RED);
+			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+		}
+		else if (isDoorway()) {
+			g.setColor(Color.CYAN);
+			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+		}
+		g.setColor(Color.BLACK);
+		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 	}
 	
 	
@@ -112,5 +131,8 @@ public class BoardCell {
 		return "row=" + row + ", column=" + column;
 	}
 
+	public boolean isCloset() {
+		return (initial == 'X');
+	}
 	
 }
