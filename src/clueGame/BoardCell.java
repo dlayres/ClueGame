@@ -5,12 +5,17 @@
  */
 package clueGame;
 
+import java.awt.Graphics;
+
 public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
 	private DoorDirection doorDirection;
 	
+	private static final int CELL_WIDTH = 30;
+	private static final int CELL_HEIGHT = 30;
+	private static final int OFFSET = 90;
 	
 	/**
 	 * BoardCell test constructor
@@ -62,6 +67,11 @@ public class BoardCell {
 		}
 	}
 	
+	public void draw(Graphics g) {
+		g.drawRect(row*CELL_HEIGHT+OFFSET, column*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+	}
+	
+	
 	/**
 	 * @return the row
 	 */
@@ -101,6 +111,6 @@ public class BoardCell {
 	public String toString() {
 		return "row=" + row + ", column=" + column;
 	}
-	
+
 	
 }

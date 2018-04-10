@@ -83,6 +83,7 @@ public class ControlGUI extends JPanel {
 		return panel;
 	}
 	
+	/*
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();
@@ -95,6 +96,6 @@ public class ControlGUI extends JPanel {
 		// Now let's view it
 		frame.setVisible(true);
 	}
-
+	*/
 
 }

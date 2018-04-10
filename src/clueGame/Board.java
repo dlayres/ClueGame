@@ -6,6 +6,7 @@
 
 package clueGame;
 
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,12 +17,15 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
 
-public class Board {
+
+public class Board extends JPanel {
 	private int numRows;
 	private int numColumns;
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
+	
 
 	private BoardCell[][] board; // The grid of the board
 	private Map<Character, String> legend; // Used for determining room identity
@@ -594,5 +598,16 @@ public class Board {
 		}
 		
 		return disprovingCard;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		for (int i = 0; i < numRows; ++i) {
+			for (int j = 0; j < numColumns; ++j) {
+				// call draw
+				board[i][j].draw(g);
+			}
+		}
 	}
 }
