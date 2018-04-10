@@ -17,9 +17,9 @@ public class BoardCell {
 	private char initial;
 	private DoorDirection doorDirection;
 
-	private static final int CELL_WIDTH = 30;
-	private static final int CELL_HEIGHT = 30;
-	private static final int OFFSET = 90;
+	public static final int CELL_WIDTH = 30;
+	public static final int CELL_HEIGHT = 30;
+	public static final int OFFSET = 90;
 
 	/**
 	 * BoardCell test constructor
@@ -90,19 +90,20 @@ public class BoardCell {
 			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 			g.setColor(Color.CYAN);
+			int lineOffset = 2;
 			g2D.setStroke(new BasicStroke(5));
 			switch(doorDirection){
 			case UP:
-				g.drawLine(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH);
+				g.drawLine(column*CELL_HEIGHT+OFFSET + lineOffset, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET + CELL_WIDTH - lineOffset, row*CELL_WIDTH);
 				break;
 			case DOWN:
-				g.drawLine(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH + CELL_HEIGHT, column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH + CELL_HEIGHT);
+				g.drawLine(column*CELL_HEIGHT+OFFSET + lineOffset, row*CELL_WIDTH + CELL_HEIGHT, column*CELL_HEIGHT+OFFSET + CELL_WIDTH - lineOffset, row*CELL_WIDTH + CELL_HEIGHT);
 				break;
 			case LEFT:
-				g.drawLine(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH + CELL_HEIGHT);
+				g.drawLine(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH + lineOffset, column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH + CELL_HEIGHT - lineOffset);
 				break;
 			case RIGHT:
-				g.drawLine(column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH + CELL_HEIGHT);
+				g.drawLine(column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH + lineOffset, column*CELL_HEIGHT+OFFSET + CELL_WIDTH, row*CELL_WIDTH + CELL_HEIGHT - lineOffset);
 				break;
 			default:
 				break;

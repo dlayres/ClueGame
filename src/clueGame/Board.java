@@ -6,7 +6,10 @@
 
 package clueGame;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -616,5 +619,12 @@ public class Board extends JPanel {
 		for(BoardCell doorwayCell : doorways){
 			doorwayCell.draw(g);
 		}
+		g.setColor(Color.BLACK);
+		Graphics2D g2D = (Graphics2D) g;
+		g2D.setStroke(new BasicStroke(1));
+		g.drawLine(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0); // Top border
+		g.drawLine(BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Bottom border
+		g.drawLine(BoardCell.OFFSET, 0, BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Left border
+		g.drawLine(numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Right border
 	}
 }
