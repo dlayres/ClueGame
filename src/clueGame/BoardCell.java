@@ -74,8 +74,8 @@ public class BoardCell {
 	public void draw(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 		if (this.isRoom()) {
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+//			g.setColor(Color.LIGHT_GRAY);
+//			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 			return;
 		}
 		if (isWalkway()) {

@@ -610,6 +610,8 @@ public class Board extends JPanel {
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH, numRows * BoardCell.CELL_HEIGHT);
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
 				// call draw
@@ -626,5 +628,17 @@ public class Board extends JPanel {
 		g.drawLine(BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Bottom border
 		g.drawLine(BoardCell.OFFSET, 0, BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Left border
 		g.drawLine(numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Right border
+		
+		g.setColor(Color.BLUE);
+		g.drawString(legend.get(board[2][1].getInitial()), 1 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[2][7].getInitial()), 7 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[2][12].getInitial()), 12 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[2][17].getInitial()), 17 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[9][1].getInitial()), 1 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 9 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[9][17].getInitial()), 17 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 9 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[18][2].getInitial()), 2 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 18 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[18][11].getInitial()), 11 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 18 * BoardCell.CELL_WIDTH);
+		g.drawString(legend.get(board[16][18].getInitial()), 18 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 16 * BoardCell.CELL_WIDTH);
+
 	}
 }
