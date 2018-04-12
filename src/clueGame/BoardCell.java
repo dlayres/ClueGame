@@ -10,16 +10,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
 	private DoorDirection doorDirection;
+	private boolean nameMe;
 
 	public static final int CELL_WIDTH = 30;
 	public static final int CELL_HEIGHT = 30;
-	public static final int OFFSET = 90;
+	public static final int OFFSET = 3 * CELL_WIDTH;
 
 	/**
 	 * BoardCell test constructor
@@ -29,6 +32,7 @@ public class BoardCell {
 		this.column = column;
 		this.initial = 'Z';
 		this.doorDirection = DoorDirection.NONE;
+		this.nameMe = false;
 	}
 	/**
 	 * If a cell is not a door cell
@@ -41,6 +45,7 @@ public class BoardCell {
 		this.column = column;
 		this.initial = initial;
 		this.doorDirection = DoorDirection.NONE;
+		this.nameMe = false;
 	}
 
 	/**
@@ -69,9 +74,10 @@ public class BoardCell {
 		else {
 			this.doorDirection = DoorDirection.NONE;
 		}
+		this.nameMe = false;
 	}
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g, HashMap<Character, String> legend) {
 		Graphics2D g2D = (Graphics2D) g;
 		if (this.isRoom()) {
 //			g.setColor(Color.LIGHT_GRAY);
@@ -87,8 +93,8 @@ public class BoardCell {
 			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 		}
 		else if (isDoorway()) {
-			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+		//	g.setColor(Color.LIGHT_GRAY);
+		//	g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 			g.setColor(Color.CYAN);
 			int lineOffset = 2;
 			g2D.setStroke(new BasicStroke(5));
@@ -113,6 +119,11 @@ public class BoardCell {
 		g2D.setStroke(new BasicStroke(1));
 		g.setColor(Color.BLACK);
 		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+		if (this.nameMe == true) {
+			g.setColor(Color.BLUE);
+			System.out.println(row + " " + column);
+			g.drawString(legend.get(this.getInitial()), column * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, row * BoardCell.CELL_WIDTH);
+		}
 	}
 
 
@@ -158,6 +169,10 @@ public class BoardCell {
 
 	public boolean isCloset() {
 		return (initial == 'X');
+	}
+	
+	public void setNameMe() {
+		this.nameMe = true;
 	}
 
 }

@@ -31,7 +31,7 @@ public class Board extends JPanel {
 	
 
 	private BoardCell[][] board; // The grid of the board
-	private Map<Character, String> legend; // Used for determining room identity
+	private HashMap<Character, String> legend; // Used for determining room identity
 	private Map<BoardCell, Set<BoardCell>> adjMatrix; // Map of cell adjacencies
 	private Set<BoardCell> targets; // Possible targets to move to for a given cell
 	private Set<BoardCell> visited; // Set of visited cells (used for calculating targets)
@@ -214,8 +214,9 @@ public class Board extends JPanel {
 					throw new BadConfigFormatException("Board Layout Configuration Error: Invalid Cell Initial (Letter) Entry");
 				}
 				if (splitString[i].length() == 2) {
-					if (splitString[i].charAt(1) == 'N') { // 'N' is not needed right now (used for where the room name will display)
+					if (splitString[i].charAt(1) == 'N') { // 'N' is not needed right now (used for where the room name will display) /--------REDO COMMENT---------
 						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0)); // make a new cell using: current row, current column, board character
+						board[currentRow][i].setNameMe();
 					}
 					else { // This is doorway, make a new cell using: current row, current column, board character, door direction
 						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0), splitString[i].charAt(1));
@@ -615,11 +616,11 @@ public class Board extends JPanel {
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
 				// call draw
-				board[i][j].draw(g);
+				board[i][j].draw(g,legend);
 			}
 		}
 		for(BoardCell doorwayCell : doorways){
-			doorwayCell.draw(g);
+			doorwayCell.draw(g,legend);
 		}
 		g.setColor(Color.BLACK);
 		Graphics2D g2D = (Graphics2D) g;
@@ -629,6 +630,7 @@ public class Board extends JPanel {
 		g.drawLine(BoardCell.OFFSET, 0, BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Left border
 		g.drawLine(numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Right border
 		
+		/*
 		g.setColor(Color.BLUE);
 		g.drawString(legend.get(board[2][1].getInitial()), 1 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
 		g.drawString(legend.get(board[2][7].getInitial()), 7 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
@@ -639,6 +641,7 @@ public class Board extends JPanel {
 		g.drawString(legend.get(board[18][2].getInitial()), 2 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 18 * BoardCell.CELL_WIDTH);
 		g.drawString(legend.get(board[18][11].getInitial()), 11 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 18 * BoardCell.CELL_WIDTH);
 		g.drawString(legend.get(board[16][18].getInitial()), 18 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 16 * BoardCell.CELL_WIDTH);
+		*/
 
 	}
 }
