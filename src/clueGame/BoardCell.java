@@ -79,9 +79,11 @@ public class BoardCell {
 
 	public void draw(Graphics g, HashMap<Character, String> legend) {
 		Graphics2D g2D = (Graphics2D) g;
+		g.setColor(Color.BLUE);
 		if (this.isRoom()) {
-//			g.setColor(Color.LIGHT_GRAY);
-//			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+			if (this.nameMe == true) {
+				g.drawString(legend.get(this.getInitial()), column * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, row * BoardCell.CELL_WIDTH);
+			}
 			return;
 		}
 		if (isWalkway()) {
@@ -93,8 +95,8 @@ public class BoardCell {
 			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 		}
 		else if (isDoorway()) {
-		//	g.setColor(Color.LIGHT_GRAY);
-		//	g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+			//	g.setColor(Color.LIGHT_GRAY);
+			//	g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 			g.setColor(Color.CYAN);
 			int lineOffset = 2;
 			g2D.setStroke(new BasicStroke(5));
@@ -119,11 +121,6 @@ public class BoardCell {
 		g2D.setStroke(new BasicStroke(1));
 		g.setColor(Color.BLACK);
 		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
-		if (this.nameMe == true) {
-			g.setColor(Color.BLUE);
-			System.out.println(row + " " + column);
-			g.drawString(legend.get(this.getInitial()), column * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, row * BoardCell.CELL_WIDTH);
-		}
 	}
 
 
@@ -170,7 +167,7 @@ public class BoardCell {
 	public boolean isCloset() {
 		return (initial == 'X');
 	}
-	
+
 	public void setNameMe() {
 		this.nameMe = true;
 	}

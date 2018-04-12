@@ -136,6 +136,18 @@ public class Board extends JPanel {
 	public Set<Card> getCards(){
 		return cards;
 	}
+	
+	public Set<Card> getWeaponCards() {
+		return weaponCards;
+	}
+	
+	public Set<Card> getRoomCards() {
+		return roomCards;
+	}
+	
+	public Set<Card> getPlayerCards() {
+		return playerCards;
+	}
 
 	//------------------------------------------------------------------------------
 
@@ -214,7 +226,7 @@ public class Board extends JPanel {
 					throw new BadConfigFormatException("Board Layout Configuration Error: Invalid Cell Initial (Letter) Entry");
 				}
 				if (splitString[i].length() == 2) {
-					if (splitString[i].charAt(1) == 'N') { // 'N' is not needed right now (used for where the room name will display) /--------REDO COMMENT---------
+					if (splitString[i].charAt(1) == 'N') { // N indicates where the room name is displayed on the board
 						board[currentRow][i] = new BoardCell(currentRow, i, splitString[i].charAt(0)); // make a new cell using: current row, current column, board character
 						board[currentRow][i].setNameMe();
 					}
@@ -233,7 +245,7 @@ public class Board extends JPanel {
 		calcAdjList();
 		visited = new HashSet<BoardCell>();
 	}
-
+	
 	/**
 	 * Used to construct the array of players with their corresponding info (name, starting location, color)
 	 */
@@ -629,19 +641,6 @@ public class Board extends JPanel {
 		g.drawLine(BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Bottom border
 		g.drawLine(BoardCell.OFFSET, 0, BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Left border
 		g.drawLine(numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Right border
-		
-		/*
-		g.setColor(Color.BLUE);
-		g.drawString(legend.get(board[2][1].getInitial()), 1 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[2][7].getInitial()), 7 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[2][12].getInitial()), 12 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[2][17].getInitial()), 17 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 2 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[9][1].getInitial()), 1 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 9 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[9][17].getInitial()), 17 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 9 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[18][2].getInitial()), 2 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 18 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[18][11].getInitial()), 11 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 18 * BoardCell.CELL_WIDTH);
-		g.drawString(legend.get(board[16][18].getInitial()), 18 * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, 16 * BoardCell.CELL_WIDTH);
-		*/
 
 	}
 }
