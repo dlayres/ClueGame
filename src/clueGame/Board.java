@@ -7,6 +7,7 @@
 package clueGame;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -48,6 +49,8 @@ public class Board extends JPanel {
 	private Set<Card> weaponCards; // Set of weapon cards
 	private Set<Card> roomCards; // Set of room cards
 	private Set<Card> playerCards; // Set of player cards
+	
+	private MyCardsGUI myCards;
 	
 	private Set<BoardCell> doorways = new HashSet<BoardCell>(); // Set containing all the doorway cells
 
@@ -425,7 +428,7 @@ public class Board extends JPanel {
 			}
 			playerList[k].setMyCards(cardList); // Set the player's card list to the chosen cards
 		}
-		
+		myCards = new MyCardsGUI();
 	}
 
 
@@ -637,8 +640,10 @@ public class Board extends JPanel {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g); // Always called
+		setLayout(new BorderLayout());
+		
+		add(myCards, BorderLayout.EAST);
 		
 		// Segment to initialize grid background
 		g.setColor(Color.LIGHT_GRAY);

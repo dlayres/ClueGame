@@ -22,7 +22,7 @@ public class BoardCell {
 
 	public static final int CELL_WIDTH = 30;
 	public static final int CELL_HEIGHT = 30;
-	public static final int OFFSET = 3 * CELL_WIDTH;
+	public static final int OFFSET = 2 * CELL_WIDTH;
 
 	/**
 	 * BoardCell test constructor

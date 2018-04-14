@@ -23,6 +23,7 @@ public class ClueGame extends JFrame {
 
 	private static Board board; // Board GUI JPanel
 	private DetectiveNotes detectiveNotes;
+	private MyCardsGUI myCardsGUI;
 
 	public ClueGame() {
 		// Board is singleton, get the only instance there is
@@ -43,14 +44,20 @@ public class ClueGame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("ClueGame");
 		setSize(1000, 800);
+		setLayout(new BorderLayout());
+		
+	//	JPanel topPanel = new JPanel();
+	//	topPanel.setLayout(new BorderLayout());
 
 		// Create the JPanel for the board GUI and add it to the JFrame
 		JPanel boardPanel = board;
-		add(boardPanel);
-
-		// Create the JPanel for the control GUI and add it to the JFrame
-		ControlGUI gui = new ControlGUI();
-		add(gui, BorderLayout.SOUTH);
+	//	topPanel.add(boardPanel);
+		
+	//	myCardsGUI = new MyCardsGUI();
+	//	myCardsGUI.setSize(500, 1000);
+	//	topPanel.add(myCardsGUI, BorderLayout.EAST);
+		
+		add(board, BorderLayout.CENTER);
 
 		// Create a menu bar with "File" drop-down option
 		JMenuBar menuBar = new JMenuBar();
@@ -58,6 +65,11 @@ public class ClueGame extends JFrame {
 		menuBar.add(createFileMenu());
 		
 		detectiveNotes = new DetectiveNotes();
+		
+		// Create the JPanel for the control GUI and add it to the JFrame
+		ControlGUI gui = new ControlGUI();
+		gui.setSize(800, 600);
+		add(gui, BorderLayout.SOUTH);
 	}
 	
 	/**
