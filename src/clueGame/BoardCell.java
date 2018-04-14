@@ -76,7 +76,12 @@ public class BoardCell {
 		}
 		this.nameMe = false;
 	}
-
+	
+	/**
+	 * Draws a single board cell
+	 * @param g Graphics object to get access to drawing functions
+	 * @param legend Legend map to display room names based on cell initial
+	 */
 	public void draw(Graphics g, HashMap<Character, String> legend) {
 		Graphics2D g2D = (Graphics2D) g;
 		g.setColor(Color.BLUE);

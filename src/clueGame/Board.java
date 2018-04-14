@@ -624,23 +624,22 @@ public class Board extends JPanel {
 		
 		super.paintComponent(g);
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH, numRows * BoardCell.CELL_HEIGHT);
-		for (int i = 0; i < numRows; ++i) {
+		g.fillRect(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH, numRows * BoardCell.CELL_HEIGHT); // Create gray background rectangle
+		for (int i = 0; i < numRows; ++i) { // For all board cells
 			for (int j = 0; j < numColumns; ++j) {
-				// call draw
-				board[i][j].draw(g,legend);
+				board[i][j].draw(g,legend); // Draw them using their draw method
 			}
 		}
-		for(BoardCell doorwayCell : doorways){
+		for(BoardCell doorwayCell : doorways){ // Draws all doorways last so they have proper border (not overlapping)
 			doorwayCell.draw(g,legend);
 		}
 		g.setColor(Color.BLACK);
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.setStroke(new BasicStroke(1));
-		g.drawLine(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0); // Top border
-		g.drawLine(BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Bottom border
-		g.drawLine(BoardCell.OFFSET, 0, BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Left border
-		g.drawLine(numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Right border
+		g.drawLine(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0); // Draw top border of the board
+		g.drawLine(BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Draw bottom border of the board
+		g.drawLine(BoardCell.OFFSET, 0, BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Draw left border of the board
+		g.drawLine(numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Draw right border of the board
 
 	}
 }
