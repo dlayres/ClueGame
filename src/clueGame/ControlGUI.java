@@ -61,7 +61,7 @@ public class ControlGUI extends JPanel {
 		name.setEditable(false);
 		resultPanel.add(name);
 
-		panel.add(namePanel);
+		panel.add(namePanel); // Adds each of the text fields to the control panel
 		panel.add(guessPanel);
 		panel.add(rollPanel);
 		panel.add(resultPanel);

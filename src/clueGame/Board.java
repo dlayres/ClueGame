@@ -45,11 +45,11 @@ public class Board extends JPanel {
 	private Set<Card> cards; // Set of every card in the game
 	private Solution answer; // The three cards randomly chosen as the game's solution
 	
-	private Set<Card> weaponCards; 
-	private Set<Card> roomCards;
-	private Set<Card> playerCards;
+	private Set<Card> weaponCards; // Set of weapon cards
+	private Set<Card> roomCards; // Set of room cards
+	private Set<Card> playerCards; // Set of player cards
 	
-	private Set<BoardCell> doorways = new HashSet<BoardCell>();
+	private Set<BoardCell> doorways = new HashSet<BoardCell>(); // Set containing all the doorway cells
 
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -137,14 +137,26 @@ public class Board extends JPanel {
 		return cards;
 	}
 	
+	/**
+	 * Gets the set of all weapon cards in the game
+	 * @return weaponCards
+	 */
 	public Set<Card> getWeaponCards() {
 		return weaponCards;
 	}
 	
+	/**
+	 * Gets the set of all room cards in the game
+	 * @return roomCards
+	 */
 	public Set<Card> getRoomCards() {
 		return roomCards;
 	}
 	
+	/**
+	 * Gets the set of all player cards in the game
+	 * @return playerCards
+	 */
 	public Set<Card> getPlayerCards() {
 		return playerCards;
 	}
@@ -619,6 +631,10 @@ public class Board extends JPanel {
 		return disprovingCard;
 	}
 	
+	/**
+	 * paintComponent() : Draws the board, each cell draws itself
+	 * @param g Graphics object for enabling draw functions
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		

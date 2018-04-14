@@ -85,27 +85,27 @@ public class BoardCell {
 	public void draw(Graphics g, HashMap<Character, String> legend) {
 		Graphics2D g2D = (Graphics2D) g;
 		g.setColor(Color.BLUE);
-		if (this.isRoom()) {
-			if (this.nameMe == true) {
-				g.drawString(legend.get(this.getInitial()), column * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, row * BoardCell.CELL_WIDTH);
+		if (this.isRoom()) { // if the cell is a room
+			if (this.nameMe == true) { // and it's where we should put the name
+				g.drawString(legend.get(this.getInitial()), column * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, row * BoardCell.CELL_WIDTH); // Draw the room name at that cell
 			}
 			return;
 		}
-		if (isWalkway()) {
+		if (isWalkway()) { // if the cell is a walkway
 			g.setColor(Color.YELLOW);
-			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT); // Draw a yellow cell
 		}
-		else if (isCloset()) {
+		else if (isCloset()) { // if the cell is a closet
 			g.setColor(Color.RED);
-			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+			g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT); // Draw a red cell
 		}
-		else if (isDoorway()) {
+		else if (isDoorway()) { // if the cell is a doorway
 			//	g.setColor(Color.LIGHT_GRAY);
 			//	g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 			g.setColor(Color.CYAN);
 			int lineOffset = 2;
-			g2D.setStroke(new BasicStroke(5));
-			switch(doorDirection){
+			g2D.setStroke(new BasicStroke(5)); // Draw a thick cyan line
+			switch(doorDirection){ // Draw a line above, below, to the left, or to the right of the cell depending on the door direction
 			case UP:
 				g.drawLine(column*CELL_HEIGHT+OFFSET + lineOffset, row*CELL_WIDTH, column*CELL_HEIGHT+OFFSET + CELL_WIDTH - lineOffset, row*CELL_WIDTH);
 				break;
@@ -125,7 +125,7 @@ public class BoardCell {
 		}
 		g2D.setStroke(new BasicStroke(1));
 		g.setColor(Color.BLACK);
-		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT); // Outline the cells with a thin black border
 	}
 
 
@@ -142,7 +142,7 @@ public class BoardCell {
 	public int getColumn() {
 		return column;
 	}
-
+	
 	public boolean isWalkway() {
 		return (initial == 'W');
 	}
@@ -172,7 +172,10 @@ public class BoardCell {
 	public boolean isCloset() {
 		return (initial == 'X');
 	}
-
+	
+	/**
+	 * sets nameMe to true (indicates to display the room name at this cell)
+	 */
 	public void setNameMe() {
 		this.nameMe = true;
 	}
