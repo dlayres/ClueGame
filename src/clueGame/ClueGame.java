@@ -50,7 +50,7 @@ public class ClueGame extends JFrame {
 
 		// Create the JPanel for the control GUI and add it to the JFrame
 		ControlGUI gui = new ControlGUI();
-		add(gui, BorderLayout.SOUTH);
+		//add(gui, BorderLayout.SOUTH);
 
 		// Create a menu bar with "File" drop-down option
 		JMenuBar menuBar = new JMenuBar();

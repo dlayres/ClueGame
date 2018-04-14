@@ -638,17 +638,25 @@ public class Board extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		
-		super.paintComponent(g);
+		super.paintComponent(g); // Always called
+		
+		// Segment to initialize grid background
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH, numRows * BoardCell.CELL_HEIGHT); // Create gray background rectangle
-		for (int i = 0; i < numRows; ++i) { // For all board cells
+		g.fillRect(BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH, numRows * BoardCell.CELL_HEIGHT); // Create light gray background rectangle for entire board first
+		
+		// Draw each board cell, and some of these cells will also draw the room name
+		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
 				board[i][j].draw(g,legend); // Draw them using their draw method
 			}
 		}
+		
+		// Draw doorway indication
 		for(BoardCell doorwayCell : doorways){ // Draws all doorways last so they have proper border (not overlapping)
 			doorwayCell.draw(g,legend);
 		}
+		
+		// Segment to give the board a black outline
 		g.setColor(Color.BLACK);
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.setStroke(new BasicStroke(1));
@@ -657,5 +665,9 @@ public class Board extends JPanel {
 		g.drawLine(BoardCell.OFFSET, 0, BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Draw left border of the board
 		g.drawLine(numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, 0, numColumns * BoardCell.CELL_WIDTH + BoardCell.OFFSET, numRows * BoardCell.CELL_HEIGHT); // Draw right border of the board
 
+		// Draw the players at their initial starting locations
+		for (int i = 0; i < NUM_PLAYERS; i++) {
+			playerList[i].draw(g);
+		}
 	}
 }

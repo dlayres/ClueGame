@@ -2,6 +2,7 @@ package clueGame;
 
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
@@ -61,6 +62,16 @@ public abstract class Player {
 			color = null; // Not defined
 		}
 		return color;
+	}
+	
+	/**
+	 * draw() : This function is used to draw the player on the board at their current location
+	 * @param g
+	 */
+	public void draw(Graphics g) {
+		g.setColor(this.color); // Set color to the player's color
+		// Draw player as a circle at their location on the board with the cell dimensions
+		g.fillOval(column*BoardCell.CELL_HEIGHT + BoardCell.OFFSET, row*BoardCell.CELL_WIDTH, BoardCell.CELL_WIDTH, BoardCell.CELL_HEIGHT);
 	}
 	
 	public abstract Card disproveSuggestion(Solution Suggestion);
