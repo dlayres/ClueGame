@@ -45,18 +45,9 @@ public class ClueGame extends JFrame {
 		setTitle("ClueGame");
 		setSize(1000, 800);
 		setLayout(new BorderLayout());
-		
-	//	JPanel topPanel = new JPanel();
-	//	topPanel.setLayout(new BorderLayout());
 
 		// Create the JPanel for the board GUI and add it to the JFrame
 		JPanel boardPanel = board;
-	//	topPanel.add(boardPanel);
-		
-	//	myCardsGUI = new MyCardsGUI();
-	//	myCardsGUI.setSize(500, 1000);
-	//	topPanel.add(myCardsGUI, BorderLayout.EAST);
-		
 		add(board, BorderLayout.CENTER);
 
 		// Create a menu bar with "File" drop-down option

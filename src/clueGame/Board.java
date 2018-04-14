@@ -50,7 +50,7 @@ public class Board extends JPanel {
 	private Set<Card> roomCards; // Set of room cards
 	private Set<Card> playerCards; // Set of player cards
 	
-	private MyCardsGUI myCards;
+	private MyCardsGUI myCards; // GUI that displays the cards dealt to the human player
 	
 	private Set<BoardCell> doorways = new HashSet<BoardCell>(); // Set containing all the doorway cells
 
@@ -428,7 +428,7 @@ public class Board extends JPanel {
 			}
 			playerList[k].setMyCards(cardList); // Set the player's card list to the chosen cards
 		}
-		myCards = new MyCardsGUI();
+		myCards = new MyCardsGUI(); // All initialization is done, can now make the human cards GUI
 	}
 
 
@@ -643,7 +643,7 @@ public class Board extends JPanel {
 		super.paintComponent(g); // Always called
 		setLayout(new BorderLayout());
 		
-		add(myCards, BorderLayout.EAST);
+		add(myCards, BorderLayout.EAST); // Add the myCards GUI to the right side of the board
 		
 		// Segment to initialize grid background
 		g.setColor(Color.LIGHT_GRAY);
