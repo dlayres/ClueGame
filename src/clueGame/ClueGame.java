@@ -58,6 +58,7 @@ public class ClueGame extends JFrame {
 		menuBar.add(createFileMenu());
 		
 		detectiveNotes = new DetectiveNotes();
+		
 	}
 	
 	/**
@@ -105,6 +106,6 @@ public class ClueGame extends JFrame {
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame(); // Make ClueGame GUI
 		game.setVisible(true); // Display the GUI
-
+		SplashScreen splash = new SplashScreen(game); // Display the splash box at the start of the game for the user
 	}
 }
