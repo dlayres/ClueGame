@@ -680,7 +680,19 @@ public class Board extends JPanel {
 	}
 	public String displayNextPlayer() {
 		String nextPlayerName = new String(playerList[currentPlayer].getPlayerName());
-		currentPlayer = (currentPlayer + 1) % playerList.length;
 		return nextPlayerName;
+	}
+	
+	public String movePlayer(){
+		int randomRoll = (int)Math.floor((Math.random() * 5) + 1);
+		Player nextPlayer = playerList[currentPlayer];
+		currentPlayer = (currentPlayer + 1) % playerList.length;
+		if(nextPlayer instanceof ComputerPlayer){
+			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll);
+			BoardCell targetCell = ((ComputerPlayer) nextPlayer).selectTarget(getTargets());
+			((ComputerPlayer) nextPlayer).updateLocation(targetCell);
+			repaint();
+		}
+		return String.valueOf(randomRoll);
 	}
 }

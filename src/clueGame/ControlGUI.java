@@ -58,9 +58,9 @@ public class ControlGUI extends JPanel {
 		rollPanel = new JPanel(); // Adds a text field to display the current die roll value
 		JLabel rollNameLabel = new JLabel("Die Roll");
 		rollPanel.add(rollNameLabel);
-		name = new JTextField(20);
-		name.setEditable(false);
-		rollPanel.add(name);
+		rollNumber = new JTextField(20);
+		rollNumber.setEditable(false);
+		rollPanel.add(rollNumber);
 
 		guessPanel = new JPanel(); // Adds a text field to display the last suggestion made
 		JLabel guessNameLabel = new JLabel("Suggestion");
@@ -93,6 +93,7 @@ public class ControlGUI extends JPanel {
 		nextPlayer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				playerName.setText(board.displayNextPlayer());
+				rollNumber.setText(board.movePlayer());
 			}
 		});
 		JButton makeAccusation = new JButton("Make an accusation");
