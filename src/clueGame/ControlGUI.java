@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -92,8 +93,13 @@ public class ControlGUI extends JPanel {
 		JButton nextPlayer = new JButton("Next player");
 		nextPlayer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				playerName.setText(board.displayNextPlayer());
-				board.movePlayer(rollNumber);
+				if(board.getIsHumanPlayersTurn()){
+					JOptionPane.showMessageDialog(board, "You must make a move");
+				}
+				else{
+					playerName.setText(board.displayNextPlayer());
+					board.movePlayer(rollNumber);
+				}
 			}
 		});
 		JButton makeAccusation = new JButton("Make an accusation");

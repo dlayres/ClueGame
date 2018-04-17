@@ -72,4 +72,9 @@ public class HumanPlayer extends Player{
 		
 		return cardToDisprove;
 	}
+	
+	public void updateLocation(BoardCell moveTo) {
+		this.row = moveTo.getRow();
+		this.column = moveTo.getColumn();
+	}
 }

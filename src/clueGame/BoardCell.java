@@ -140,6 +140,12 @@ public class BoardCell {
 		g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 	}
 
+	
+	public boolean contains(int x, int y){
+		return ((x > column*CELL_HEIGHT+OFFSET) && (x < column*CELL_HEIGHT+OFFSET + CELL_WIDTH) && (y < row*CELL_WIDTH + CELL_HEIGHT) && (y > row*CELL_WIDTH));
+	}
+	
+	
 	/**
 	 * @return the row
 	 */

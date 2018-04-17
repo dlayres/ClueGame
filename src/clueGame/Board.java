@@ -11,6 +11,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,18 +24,21 @@ import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener{
 	private int numRows;
 	private int numColumns;
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
 	private int currentPlayer = 0; // Player 0 is the human player and should go first
+	private Player nextPlayer;
 	private boolean isHumanPlayersTurn = false;
-	
+	private int mouseX;
+	private int mouseY;
 
 	private BoardCell[][] board; // The grid of the board
 	private HashMap<Character, String> legend; // Used for determining room identity
@@ -61,7 +66,7 @@ public class Board extends JPanel {
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
-	private Board() {}
+	private Board() {addMouseListener(this);}
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
@@ -166,6 +171,10 @@ public class Board extends JPanel {
 	 */
 	public Set<Card> getPlayerCards() {
 		return playerCards;
+	}
+	
+	public boolean getIsHumanPlayersTurn() {
+		return isHumanPlayersTurn;
 	}
 
 	//------------------------------------------------------------------------------
@@ -687,6 +696,29 @@ public class Board extends JPanel {
 		}
 		
 	}
+	
+	public void mouseClicked(MouseEvent e){
+		if(isHumanPlayersTurn){
+			mouseX = e.getX();
+			mouseY = e.getY();
+			for(BoardCell nextTarget : targets){
+				if(nextTarget.contains(mouseX, mouseY)){
+					((HumanPlayer) nextPlayer).updateLocation(nextTarget);
+					isHumanPlayersTurn = false;
+					repaint();
+					break;
+				}
+			}
+			if(isHumanPlayersTurn){
+				JOptionPane.showMessageDialog(this, "Not a target");
+			}
+		}
+	}
+	public void mouseEntered(MouseEvent e){}
+	public void mouseExited(MouseEvent e){}
+	public void mouseReleased(MouseEvent e){}
+	public void mousePressed(MouseEvent e){}
+	
 	public String displayNextPlayer() {
 		String nextPlayerName = new String(playerList[currentPlayer].getPlayerName());
 		return nextPlayerName;
@@ -695,7 +727,7 @@ public class Board extends JPanel {
 	public void movePlayer(JTextField rollNumber){
 		int randomRoll = (int)Math.floor((Math.random() * 6) + 1);
 		rollNumber.setText(String.valueOf(randomRoll));
-		Player nextPlayer = playerList[currentPlayer];
+		nextPlayer = playerList[currentPlayer];
 		currentPlayer = (currentPlayer + 1) % playerList.length;
 		if(nextPlayer instanceof ComputerPlayer){
 			isHumanPlayersTurn = false;
