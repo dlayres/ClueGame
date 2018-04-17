@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +14,19 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ControlGUI extends JPanel {
+	private JTextField playerName;
+	private JTextField rollNumber;
+	private JTextField lastSuggestion;
+	private JTextField disprovingResult;
+	
 	private JTextField name;
+	
+	private static Board board;
+	
+	private JPanel namePanel;
+	private JPanel rollPanel;
+	private JPanel guessPanel;
+	private JPanel resultPanel;
 	
 	public ControlGUI()
 	{
@@ -22,6 +36,7 @@ public class ControlGUI extends JPanel {
 		add(panel);
 		panel = createInformationPanels();
 		add(panel);
+		board = Board.getInstance();
 	}
 	
 	/**
@@ -33,28 +48,28 @@ public class ControlGUI extends JPanel {
 		// Use a grid layout, 2 row, 2 elements (label, text)
 		panel.setLayout(new GridLayout(2,2));
 
-		JPanel namePanel = new JPanel(); // Adds a text field to display the current player's turn
+		namePanel = new JPanel(); // Adds a text field to display the current player's turn
 		JLabel nameLabel = new JLabel("Whose turn?");
 		namePanel.add(nameLabel);
-		name = new JTextField(17);
-		name.setEditable(false);
-		namePanel.add(name);
+		playerName = new JTextField(17);
+		playerName.setEditable(false);
+		namePanel.add(playerName);
 
-		JPanel rollPanel = new JPanel(); // Adds a text field to display the current die roll value
+		rollPanel = new JPanel(); // Adds a text field to display the current die roll value
 		JLabel rollNameLabel = new JLabel("Die Roll");
 		rollPanel.add(rollNameLabel);
 		name = new JTextField(20);
 		name.setEditable(false);
 		rollPanel.add(name);
 
-		JPanel guessPanel = new JPanel(); // Adds a text field to display the last suggestion made
+		guessPanel = new JPanel(); // Adds a text field to display the last suggestion made
 		JLabel guessNameLabel = new JLabel("Suggestion");
 		guessPanel.add(guessNameLabel);
 		name = new JTextField(21);
 		name.setEditable(false);
 		guessPanel.add(name);
 
-		JPanel resultPanel = new JPanel(); // Adds a text field to display the response card to the suggestion (if any)
+		resultPanel = new JPanel(); // Adds a text field to display the response card to the suggestion (if any)
 		JLabel resultNameLabel = new JLabel("Disproving Card");
 		resultPanel.add(resultNameLabel);
 		name = new JTextField(19);
@@ -75,6 +90,11 @@ public class ControlGUI extends JPanel {
 	private JPanel createButtonPanel() { // Creates two buttons to end turn (go to next player) and make accusation
 		// no layout specified, so this is flow
 		JButton nextPlayer = new JButton("Next player");
+		nextPlayer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				playerName.setText(board.displayNextPlayer());
+			}
+		});
 		JButton makeAccusation = new JButton("Make an accusation");
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 2));

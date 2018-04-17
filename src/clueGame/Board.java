@@ -21,7 +21,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 public class Board extends JPanel {
@@ -29,6 +31,7 @@ public class Board extends JPanel {
 	private int numColumns;
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
+	private int currentPlayer = 0; // Player 0 is the human player and should go first
 	
 
 	private BoardCell[][] board; // The grid of the board
@@ -266,7 +269,7 @@ public class Board extends JPanel {
 	 */
 	public void loadPlayerConfig(){
 		playerList = new Player[NUM_PLAYERS]; // Creates an array of 6 players for the game
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < NUM_PLAYERS; i++){
 			playerList[i] = new HumanPlayer();
 		}
 		try {
@@ -674,5 +677,10 @@ public class Board extends JPanel {
 		for (int i = 0; i < NUM_PLAYERS; i++) {
 			playerList[i].draw(g);
 		}
+	}
+	public String displayNextPlayer() {
+		String nextPlayerName = new String(playerList[currentPlayer].getPlayerName());
+		currentPlayer = (currentPlayer + 1) % playerList.length;
+		return nextPlayerName;
 	}
 }
