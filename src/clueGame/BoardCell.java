@@ -134,6 +134,11 @@ public class BoardCell {
 		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 	}
 
+	
+	public void targetDraw(Graphics g) {
+		g.setColor(Color.green);
+		g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
+	}
 
 	/**
 	 * @return the row

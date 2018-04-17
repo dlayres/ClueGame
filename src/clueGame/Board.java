@@ -32,6 +32,7 @@ public class Board extends JPanel {
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
 	private int currentPlayer = 0; // Player 0 is the human player and should go first
+	private boolean isHumanPlayersTurn = false;
 	
 
 	private BoardCell[][] board; // The grid of the board
@@ -677,22 +678,37 @@ public class Board extends JPanel {
 		for (int i = 0; i < NUM_PLAYERS; i++) {
 			playerList[i].draw(g);
 		}
+		
+		// Draw the human players targets if need to
+		if (isHumanPlayersTurn) {
+			for (BoardCell nextTarget : targets) {
+				nextTarget.targetDraw(g);
+			}
+		}
+		
 	}
 	public String displayNextPlayer() {
 		String nextPlayerName = new String(playerList[currentPlayer].getPlayerName());
 		return nextPlayerName;
 	}
 	
-	public String movePlayer(){
-		int randomRoll = (int)Math.floor((Math.random() * 5) + 1);
+	public void movePlayer(JTextField rollNumber){
+		int randomRoll = (int)Math.floor((Math.random() * 6) + 1);
+		rollNumber.setText(String.valueOf(randomRoll));
 		Player nextPlayer = playerList[currentPlayer];
 		currentPlayer = (currentPlayer + 1) % playerList.length;
 		if(nextPlayer instanceof ComputerPlayer){
+			isHumanPlayersTurn = false;
 			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll);
 			BoardCell targetCell = ((ComputerPlayer) nextPlayer).selectTarget(getTargets());
 			((ComputerPlayer) nextPlayer).updateLocation(targetCell);
 			repaint();
 		}
-		return String.valueOf(randomRoll);
+		else {
+			isHumanPlayersTurn = true;
+			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll);
+			repaint();
+			// BoardCell targetCell = ---------Get Player's decision-------------- 
+		}
 	}
 }

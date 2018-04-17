@@ -93,7 +93,7 @@ public class ControlGUI extends JPanel {
 		nextPlayer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				playerName.setText(board.displayNextPlayer());
-				rollNumber.setText(board.movePlayer());
+				board.movePlayer(rollNumber);
 			}
 		});
 		JButton makeAccusation = new JButton("Make an accusation");
