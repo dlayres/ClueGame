@@ -20,14 +20,12 @@ public class ControlGUI extends JPanel {
 	private JTextField lastSuggestion;
 	private JTextField disprovingResult;
 	
-	private JTextField name;
-	
-	private static Board board;
-	
 	private JPanel namePanel;
 	private JPanel rollPanel;
 	private JPanel guessPanel;
 	private JPanel resultPanel;
+	
+	private static Board board; // Board GUI JPanel
 	
 	public ControlGUI()
 	{
@@ -37,7 +35,7 @@ public class ControlGUI extends JPanel {
 		add(panel);
 		panel = createInformationPanels();
 		add(panel);
-		board = Board.getInstance();
+		board = Board.getInstance(); // Board is singleton, get the only instance there is
 	}
 	
 	/**
@@ -66,16 +64,16 @@ public class ControlGUI extends JPanel {
 		guessPanel = new JPanel(); // Adds a text field to display the last suggestion made
 		JLabel guessNameLabel = new JLabel("Suggestion");
 		guessPanel.add(guessNameLabel);
-		name = new JTextField(21);
-		name.setEditable(false);
-		guessPanel.add(name);
+		lastSuggestion = new JTextField(21);
+		lastSuggestion.setEditable(false);
+		guessPanel.add(lastSuggestion);
 
 		resultPanel = new JPanel(); // Adds a text field to display the response card to the suggestion (if any)
 		JLabel resultNameLabel = new JLabel("Disproving Card");
 		resultPanel.add(resultNameLabel);
-		name = new JTextField(19);
-		name.setEditable(false);
-		resultPanel.add(name);
+		disprovingResult = new JTextField(19);
+		disprovingResult.setEditable(false);
+		resultPanel.add(disprovingResult);
 
 		panel.add(namePanel); // Adds each of the text fields to the control panel
 		panel.add(guessPanel);
@@ -91,17 +89,18 @@ public class ControlGUI extends JPanel {
 	private JPanel createButtonPanel() { // Creates two buttons to end turn (go to next player) and make accusation
 		// no layout specified, so this is flow
 		JButton nextPlayer = new JButton("Next player");
-		nextPlayer.addActionListener(new ActionListener(){
+		nextPlayer.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
-				if(board.getIsHumanPlayersTurn()){
-					JOptionPane.showMessageDialog(board, "You must make a move");
+				if(board.getIsHumanPlayersTurn()){ // If it is the human's turn, they can't go to the next player until their turn is over
+					JOptionPane.showMessageDialog(board, "You must make a move"); // Error message
 				}
 				else{
-					playerName.setText(board.displayNextPlayer());
-					board.movePlayer(rollNumber);
+					playerName.setText(board.displayNextPlayer()); // Set the playerName JTextField to the current player
+					board.movePlayer(rollNumber); // Allows the current player to move
 				}
 			}
 		});
+		
 		JButton makeAccusation = new JButton("Make an accusation");
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 2));
@@ -110,19 +109,4 @@ public class ControlGUI extends JPanel {
 		return panel;
 	}
 	
-	/*
-	public static void main(String[] args) {
-		// Create a JFrame with all the normal functionality
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("ClueGame");
-		frame.setSize(800, 300);	
-		// Create the JPanel and add it to the JFrame
-		ControlGUI gui = new ControlGUI();
-		frame.add(gui, BorderLayout.CENTER);
-		// Now let's view it
-		frame.setVisible(true);
-	}
-	*/
-
 }

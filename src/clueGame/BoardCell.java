@@ -134,13 +134,21 @@ public class BoardCell {
 		g.drawRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 	}
 
-	
+	/**
+	 * Draws specific cells in green only if they are possible targets for the human player
+	 * @param g Graphics object to get access to drawing functions
+	 */
 	public void targetDraw(Graphics g) {
 		g.setColor(Color.green);
 		g.fillRect(column*CELL_HEIGHT+OFFSET, row*CELL_WIDTH, CELL_WIDTH, CELL_HEIGHT);
 	}
 
-	
+	/**
+	 * Determines if a point is within a board cell
+	 * @param x X value of point in consideration
+	 * @param y Y value of point in consideration
+	 * @return Returns true or false if the cell contains the point
+	 */
 	public boolean contains(int x, int y){
 		return ((x > column*CELL_HEIGHT+OFFSET) && (x < column*CELL_HEIGHT+OFFSET + CELL_WIDTH) && (y < row*CELL_WIDTH + CELL_HEIGHT) && (y > row*CELL_WIDTH));
 	}

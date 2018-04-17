@@ -35,9 +35,9 @@ public class Board extends JPanel implements MouseListener{
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
 	private int currentPlayer = 0; // Player 0 is the human player and should go first
-	private Player nextPlayer;
+	private Player nextPlayer; // Player whose turn is next
 	private boolean isHumanPlayersTurn = false;
-	private int mouseX;
+	private int mouseX; // Stores the x and y position of the mouse when board is clicked
 	private int mouseY;
 
 	private BoardCell[][] board; // The grid of the board
@@ -66,7 +66,7 @@ public class Board extends JPanel implements MouseListener{
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
-	private Board() {addMouseListener(this);}
+	private Board() {addMouseListener(this);} // adds mouse listener to detect clicks
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
@@ -173,6 +173,10 @@ public class Board extends JPanel implements MouseListener{
 		return playerCards;
 	}
 	
+	/**
+	 * Gets the value for whether or not it is currently the human player's turn
+	 * @return isHumanPlayersTurn
+	 */
 	public boolean getIsHumanPlayersTurn() {
 		return isHumanPlayersTurn;
 	}
@@ -688,7 +692,7 @@ public class Board extends JPanel implements MouseListener{
 			playerList[i].draw(g);
 		}
 		
-		// Draw the human players targets if need to
+		// If it is the human player's turn, it should draw the possible targets using a special draw function in BoardCell
 		if (isHumanPlayersTurn) {
 			for (BoardCell nextTarget : targets) {
 				nextTarget.targetDraw(g);
@@ -697,50 +701,62 @@ public class Board extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * Function that executes when mouse is clicked on board
+	 */
 	public void mouseClicked(MouseEvent e){
-		if(isHumanPlayersTurn){
+		if(isHumanPlayersTurn){ // If it's the human player's turn, get the mouseX and mouseY position, and check if any of the possible targets contain that point
 			mouseX = e.getX();
 			mouseY = e.getY();
 			for(BoardCell nextTarget : targets){
 				if(nextTarget.contains(mouseX, mouseY)){
-					((HumanPlayer) nextPlayer).updateLocation(nextTarget);
+					((HumanPlayer) nextPlayer).updateLocation(nextTarget); // If a target contains the click position, the human moves to that cell and the turn is over
 					isHumanPlayersTurn = false;
 					repaint();
 					break;
 				}
 			}
-			if(isHumanPlayersTurn){
-				JOptionPane.showMessageDialog(this, "Not a target");
+			if(isHumanPlayersTurn){ // If the loop exited and it is still the human's turn, they did not click on a possible target
+				JOptionPane.showMessageDialog(this, "Invalid location"); // Gives error message
 			}
 		}
 	}
+	// Functions that must be created for MouseListener
 	public void mouseEntered(MouseEvent e){}
 	public void mouseExited(MouseEvent e){}
 	public void mouseReleased(MouseEvent e){}
 	public void mousePressed(MouseEvent e){}
 	
+	/**
+	 * Updates the JTextField for displaying the current player's turn
+	 * @return nextPlayerName
+	 */
 	public String displayNextPlayer() {
 		String nextPlayerName = new String(playerList[currentPlayer].getPlayerName());
 		return nextPlayerName;
 	}
 	
+	/**
+	 * Picks a random roll, updates the JTextField to display the roll value, and if it's the computer's turn, they move to a random target
+	 * If it's the player's turn, the targets are displayed and they have to click one to progress the game
+	 * @param rollNumber Text field to display the value of the roll, gets updated from ControlGUI
+	 */
 	public void movePlayer(JTextField rollNumber){
-		int randomRoll = (int)Math.floor((Math.random() * 6) + 1);
-		rollNumber.setText(String.valueOf(randomRoll));
-		nextPlayer = playerList[currentPlayer];
+		int randomRoll = (int)Math.floor((Math.random() * 6) + 1); // Picks a random roll 1 - 6
+		rollNumber.setText(String.valueOf(randomRoll)); // Updates rollNumber JTextField
+		nextPlayer = playerList[currentPlayer]; // Gets the current player, and sets currentPlayer to the next player
 		currentPlayer = (currentPlayer + 1) % playerList.length;
-		if(nextPlayer instanceof ComputerPlayer){
-			isHumanPlayersTurn = false;
-			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll);
+		if(nextPlayer instanceof ComputerPlayer){ // If player is computer,
+			isHumanPlayersTurn = false; // It is not the human's turn
+			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll); // Calculates the targets and selects a location to move to
 			BoardCell targetCell = ((ComputerPlayer) nextPlayer).selectTarget(getTargets());
 			((ComputerPlayer) nextPlayer).updateLocation(targetCell);
-			repaint();
+			repaint(); // Redraws board to display computer player's new location
 		}
 		else {
-			isHumanPlayersTurn = true;
-			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll);
-			repaint();
-			// BoardCell targetCell = ---------Get Player's decision-------------- 
+			isHumanPlayersTurn = true; // It is the human player's turn
+			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll); // Calculates the targets
+			repaint(); // Draws the targets for the human player to see
 		}
 	}
 }

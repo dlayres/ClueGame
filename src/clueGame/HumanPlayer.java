@@ -73,6 +73,10 @@ public class HumanPlayer extends Player{
 		return cardToDisprove;
 	}
 	
+	/**
+	 * updateLocation() : changes the human player's row and column location
+	 * @param moveTo
+	 */
 	public void updateLocation(BoardCell moveTo) {
 		this.row = moveTo.getRow();
 		this.column = moveTo.getColumn();
