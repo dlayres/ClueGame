@@ -8,11 +8,6 @@ import java.util.Set;
  * ComputerPlayer class is an extension of the Player class and is used for non-human players
  */
 public class ComputerPlayer extends Player {
-
-	private boolean recentlyLeftARoom;
-	private boolean currentlyInRoom;
-	private char roomLeft = 'Z';
-
 	private Set<Card> unseenWeaponCards;
 	private Set<Card> unseenPlayerCards;
 
@@ -59,8 +54,8 @@ public class ComputerPlayer extends Player {
 					return nextTarget; // go to the proposed room
 				}
 			}
-			currentlyInRoom = false;
 			// if we didn't find a door way, go to a random target on the board
+			currentlyInRoom = false;
 			int rand = (int)Math.floor((Math.random() * targets.size())); // index of random spot in the target set
 			int iter = 0;
 			for (BoardCell nextTarget : targets) { // go through the targets

@@ -14,6 +14,10 @@ public abstract class Player {
 	private Color color; // Color object designated to player
 	protected Set<Card> myCards; // Player's current possessed cards
 	
+	protected boolean recentlyLeftARoom;
+	protected boolean currentlyInRoom;
+	protected char roomLeft = 'Z';
+	
 	// Default constructor for player (Mainly for testing)
 	public Player() {
 		this.row = 0;

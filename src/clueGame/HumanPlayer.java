@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * HumanPlayer class is an extension of the Player class and is used for human players
@@ -80,5 +81,23 @@ public class HumanPlayer extends Player{
 	public void updateLocation(BoardCell moveTo) {
 		this.row = moveTo.getRow();
 		this.column = moveTo.getColumn();
+		if (this.recentlyLeftARoom == true) {
+			this.roomLeft = moveTo.getInitial();
+		}
+		else {
+			this.roomLeft = 'Z';
+		}
 	}
+	
+	public Set<BoardCell> checkTargets(Set<BoardCell> targets) {
+		Set<BoardCell> invalidTargets = new HashSet<BoardCell>();
+		for (BoardCell nextTarget : targets) {
+			if (nextTarget.getInitial() == this.roomLeft) {
+				invalidTargets.add(nextTarget);
+			}
+		}
+		targets.removeAll(invalidTargets);
+		return targets;
+	}
+	
 }
