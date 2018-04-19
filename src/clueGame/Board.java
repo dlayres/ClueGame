@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -23,6 +24,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -39,6 +43,7 @@ public class Board extends JPanel implements MouseListener{
 	private boolean isHumanPlayersTurn = false;
 	private int mouseX; // Stores the x and y position of the mouse when board is clicked
 	private int mouseY;
+	private JDialog suggestionDialog;
 
 	private BoardCell[][] board; // The grid of the board
 	private HashMap<Character, String> legend; // Used for determining room identity
@@ -66,7 +71,13 @@ public class Board extends JPanel implements MouseListener{
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
 	// constructor is private to ensure only one can be created
-	private Board() {addMouseListener(this);} // adds mouse listener to detect clicks
+	private Board() {
+		addMouseListener(this); // adds mouse listener to detect clicks
+		
+		
+		
+		
+	}
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
@@ -713,6 +724,54 @@ public class Board extends JPanel implements MouseListener{
 					((HumanPlayer) nextPlayer).updateLocation(nextTarget); // If a target contains the click position, the human moves to that cell and the turn is over
 					isHumanPlayersTurn = false;
 					repaint();
+					if(nextTarget.isDoorway()){
+						suggestionDialog = new JDialog();
+						suggestionDialog.setTitle("Make a suggestion");
+						suggestionDialog.setSize(300, 250);
+						suggestionDialog.setLayout(new BorderLayout());
+						JPanel suggestionButtons = new JPanel();
+						suggestionButtons.setLayout(new GridLayout(1, 2));
+						JButton suggestionSubmitButton = new JButton("Submit");
+						JButton suggestionCancelButton = new JButton("Cancel");
+						suggestionButtons.add(suggestionSubmitButton);
+						suggestionButtons.add(suggestionCancelButton);
+						suggestionDialog.add(suggestionButtons, BorderLayout.SOUTH);
+						
+						JPanel suggestionChoices = new JPanel();
+						suggestionChoices.setLayout(new GridLayout(3, 1));
+						JPanel playerChoice = new JPanel();
+						playerChoice.setLayout(new GridLayout(1, 2));
+						JPanel roomChoice = new JPanel();
+						roomChoice.setLayout(new GridLayout(1, 2));
+						JPanel weaponChoice = new JPanel();
+						weaponChoice.setLayout(new GridLayout(1, 2));
+						
+						JLabel roomSuggestionLabel = new JLabel("Current room");
+						JLabel playerSuggestionLabel = new JLabel("Player choice");
+						JLabel weaponSuggestionLabel = new JLabel("Weapon choice");
+						JLabel roomChoiceLabel = new JLabel(legend.get(board[playerList[0].getRow()][playerList[0].getColumn()].getInitial()));
+						JComboBox playerChoiceBox = new JComboBox();
+						for(Card nextPlayerCard : playerCards){ // For all player cards
+							playerChoiceBox.addItem(nextPlayerCard.getCardName()); // Add the name of the card to the combo box as an option
+						}
+						JComboBox weaponChoiceBox = new JComboBox();
+						for(Card nextWeaponCard : weaponCards){ // For all weapon cards
+							weaponChoiceBox.addItem(nextWeaponCard.getCardName()); // Add the name of the card to the combo box as an option
+						}
+						roomChoice.add(roomSuggestionLabel);
+						roomChoice.add(roomChoiceLabel);
+						playerChoice.add(playerSuggestionLabel);
+						playerChoice.add(playerChoiceBox);
+						weaponChoice.add(weaponSuggestionLabel);
+						weaponChoice.add(weaponChoiceBox);
+						
+						suggestionChoices.add(roomChoice);
+						suggestionChoices.add(playerChoice);
+						suggestionChoices.add(weaponChoice);
+						
+						suggestionDialog.add(suggestionChoices, BorderLayout.CENTER);
+						suggestionDialog.setVisible(true);
+					}
 					break;
 				}
 			}
