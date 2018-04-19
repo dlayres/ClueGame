@@ -24,7 +24,7 @@ public class ClueGame extends JFrame {
 	private static Board board; // Board GUI JPanel
 	private DetectiveNotes detectiveNotes;
 	private MyCardsGUI myCardsGUI;
-	private ControlGUI gui;
+	private static ControlGUI gui;
 	
 	public ClueGame() {
 		// Board is singleton, get the only instance there is
@@ -103,6 +103,10 @@ public class ClueGame extends JFrame {
 		}
 		item.addActionListener(new MenuItemListener());
 		return item;
+	}
+	
+	public static void setSuggestionText(String s){
+		gui.setSuggestionText(s);
 	}
 
 
