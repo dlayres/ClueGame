@@ -694,11 +694,10 @@ public class Board extends JPanel implements MouseListener{
 		
 		// If it is the human player's turn, it should draw the possible targets using a special draw function in BoardCell
 		if (isHumanPlayersTurn) {
-			targets = ((HumanPlayer)nextPlayer).checkTargets(targets);
+			targets = ((HumanPlayer)nextPlayer).checkTargets(targets); // Check targets for possible rooms with 2 doors
 			for (BoardCell nextTarget : targets) {
 				nextTarget.targetDraw(g);
 			}
-			//System.out.println(targets);
 		}
 		
 	}
@@ -712,13 +711,13 @@ public class Board extends JPanel implements MouseListener{
 			mouseY = e.getY();
 			for(BoardCell nextTarget : targets){
 				if(nextTarget.contains(mouseX, mouseY)){
-					if (nextTarget.isDoorway()) {
-						nextPlayer.recentlyLeftARoom = true;
+					if (nextTarget.isDoorway()) { // if the target we choose is a room
+						nextPlayer.currentlyInRoom = true; // keep track that we are in a room
 					}
 					else {
-						nextPlayer.recentlyLeftARoom = false;
+						nextPlayer.currentlyInRoom = false; // otherwise we know we are not in a room
 					}
-					((HumanPlayer) nextPlayer).updateLocation(nextTarget); // If a target contains the click position, the human moves to that cell and the turn is over
+					((HumanPlayer) nextPlayer).updateLocation(nextTarget); // If a target contains the click position, the human moves to that cell and the turn is over. Also updates the last visited cell initial
 					isHumanPlayersTurn = false;
 					repaint();
 					break;
