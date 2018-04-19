@@ -31,10 +31,9 @@ public class SuggestionDialog extends JDialog{
 		JButton suggestionSubmitButton = new JButton("Submit");
 		suggestionSubmitButton.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
-				Solution newSuggestion = new Solution((String)playerChoiceBox.getSelectedItem(), roomChoiceLabel.getText(), (String)weaponChoiceBox.getSelectedItem());
-				System.out.println(newSuggestion.player + " " + newSuggestion.room + " " + newSuggestion.weapon);
+				board.latestAnswer = new Solution((String)playerChoiceBox.getSelectedItem(), roomChoiceLabel.getText(), (String)weaponChoiceBox.getSelectedItem());
 				
-				board.latestAnswer = newSuggestion;
+				
 				
 				
 				

@@ -780,7 +780,6 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
-<<<<<<< HEAD
 	public boolean checkIfInRoom() {
 		return nextPlayer.currentlyInRoom;
 	}
@@ -791,9 +790,5 @@ public class Board extends JPanel implements MouseListener{
 	
 	public Solution makeSuggestion() {
 		return ((ComputerPlayer)nextPlayer).makeSuggestion(this.getCellAt(nextPlayer.getRow(), nextPlayer.getColumn()), legend);
-=======
-	public void setSuggestionText(){
-		
->>>>>>> suggestionGUI
 	}
 }
