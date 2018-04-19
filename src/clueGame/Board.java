@@ -43,7 +43,8 @@ public class Board extends JPanel implements MouseListener{
 	private boolean isHumanPlayersTurn = false;
 	private int mouseX; // Stores the x and y position of the mouse when board is clicked
 	private int mouseY;
-	private JDialog suggestionDialog;
+	private SuggestionDialog suggestionDialog;
+	public Solution latestAnswer;
 
 	private BoardCell[][] board; // The grid of the board
 	private HashMap<Character, String> legend; // Used for determining room identity
@@ -73,10 +74,6 @@ public class Board extends JPanel implements MouseListener{
 	// constructor is private to ensure only one can be created
 	private Board() {
 		addMouseListener(this); // adds mouse listener to detect clicks
-		
-		
-		
-		
 	}
 	// this method returns the only Board
 	public static Board getInstance() {
@@ -457,6 +454,7 @@ public class Board extends JPanel implements MouseListener{
 			playerList[k].setMyCards(cardList); // Set the player's card list to the chosen cards
 		}
 		myCards = new MyCardsGUI(); // All initialization is done, can now make the human cards GUI
+		suggestionDialog = new SuggestionDialog(); // Can also now make the suggestion dialog GUI with all the information it needs
 	}
 
 
@@ -732,51 +730,7 @@ public class Board extends JPanel implements MouseListener{
 					isHumanPlayersTurn = false;
 					repaint();
 					if(nextTarget.isDoorway()){
-						suggestionDialog = new JDialog();
-						suggestionDialog.setTitle("Make a suggestion");
-						suggestionDialog.setSize(300, 250);
-						suggestionDialog.setLayout(new BorderLayout());
-						JPanel suggestionButtons = new JPanel();
-						suggestionButtons.setLayout(new GridLayout(1, 2));
-						JButton suggestionSubmitButton = new JButton("Submit");
-						JButton suggestionCancelButton = new JButton("Cancel");
-						suggestionButtons.add(suggestionSubmitButton);
-						suggestionButtons.add(suggestionCancelButton);
-						suggestionDialog.add(suggestionButtons, BorderLayout.SOUTH);
-						
-						JPanel suggestionChoices = new JPanel();
-						suggestionChoices.setLayout(new GridLayout(3, 1));
-						JPanel playerChoice = new JPanel();
-						playerChoice.setLayout(new GridLayout(1, 2));
-						JPanel roomChoice = new JPanel();
-						roomChoice.setLayout(new GridLayout(1, 2));
-						JPanel weaponChoice = new JPanel();
-						weaponChoice.setLayout(new GridLayout(1, 2));
-						
-						JLabel roomSuggestionLabel = new JLabel("Current room");
-						JLabel playerSuggestionLabel = new JLabel("Player choice");
-						JLabel weaponSuggestionLabel = new JLabel("Weapon choice");
-						JLabel roomChoiceLabel = new JLabel(legend.get(board[playerList[0].getRow()][playerList[0].getColumn()].getInitial()));
-						JComboBox playerChoiceBox = new JComboBox();
-						for(Card nextPlayerCard : playerCards){ // For all player cards
-							playerChoiceBox.addItem(nextPlayerCard.getCardName()); // Add the name of the card to the combo box as an option
-						}
-						JComboBox weaponChoiceBox = new JComboBox();
-						for(Card nextWeaponCard : weaponCards){ // For all weapon cards
-							weaponChoiceBox.addItem(nextWeaponCard.getCardName()); // Add the name of the card to the combo box as an option
-						}
-						roomChoice.add(roomSuggestionLabel);
-						roomChoice.add(roomChoiceLabel);
-						playerChoice.add(playerSuggestionLabel);
-						playerChoice.add(playerChoiceBox);
-						weaponChoice.add(weaponSuggestionLabel);
-						weaponChoice.add(weaponChoiceBox);
-						
-						suggestionChoices.add(roomChoice);
-						suggestionChoices.add(playerChoice);
-						suggestionChoices.add(weaponChoice);
-						
-						suggestionDialog.add(suggestionChoices, BorderLayout.CENTER);
+						suggestionDialog.setRoomLabel(legend.get(board[playerList[0].getRow()][playerList[0].getColumn()].getInitial())); // Sets the suggestion dialog to use the name of the room the player is currently in
 						suggestionDialog.setVisible(true);
 					}
 					break;
@@ -826,6 +780,7 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
+<<<<<<< HEAD
 	public boolean checkIfInRoom() {
 		return nextPlayer.currentlyInRoom;
 	}
@@ -836,5 +791,9 @@ public class Board extends JPanel implements MouseListener{
 	
 	public Solution makeSuggestion() {
 		return ((ComputerPlayer)nextPlayer).makeSuggestion(this.getCellAt(nextPlayer.getRow(), nextPlayer.getColumn()), legend);
+=======
+	public void setSuggestionText(){
+		
+>>>>>>> suggestionGUI
 	}
 }

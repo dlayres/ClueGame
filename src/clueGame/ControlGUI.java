@@ -116,4 +116,8 @@ public class ControlGUI extends JPanel {
 		return panel;
 	}
 	
+	public void setSuggestionText(String suggestionString){
+		lastSuggestion.setText(board.latestAnswer.player + ", " + board.latestAnswer.weapon + ", " + board.latestAnswer.room);
+	}
+	
 }
