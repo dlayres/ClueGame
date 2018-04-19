@@ -8,13 +8,14 @@ import java.util.Set;
  * ComputerPlayer class is an extension of the Player class and is used for non-human players
  */
 public class ComputerPlayer extends Player {
-	
+
 	private boolean recentlyLeftARoom;
+	private boolean currentlyInRoom;
 	private char roomLeft = 'Z';
-	
+
 	private Set<Card> unseenWeaponCards;
 	private Set<Card> unseenPlayerCards;
-	
+
 	/**
 	 * ComputerPlayer constructor
 	 * @param row - Initial Row location of cpu on map
@@ -27,8 +28,9 @@ public class ComputerPlayer extends Player {
 		unseenWeaponCards = new HashSet<Card>();
 		unseenPlayerCards = new HashSet<Card>();
 		recentlyLeftARoom = false;
+		currentlyInRoom = false;
 	}
-	
+
 	/**
 	 * ComputerPlayer Testing constructor : makes a test cpu player for junit tests
 	 * @param row - Initial row location of test cpu
@@ -39,6 +41,7 @@ public class ComputerPlayer extends Player {
 		unseenWeaponCards = new HashSet<Card>();
 		unseenPlayerCards = new HashSet<Card>();
 		recentlyLeftARoom = false;
+		currentlyInRoom = false;
 	}
 
 	/**
@@ -51,10 +54,12 @@ public class ComputerPlayer extends Player {
 		if (recentlyLeftARoom == false) {
 			for (BoardCell nextTarget : targets) { // go through each possible target
 				if (nextTarget.isDoorway()) { // if this target is a doorway then pick this target
+					currentlyInRoom = true;
 					setRecentlyLeftARoom(true,nextTarget.getInitial()); // set recentlyLeftARoom to true since we have just entered a room (used for next move), along with the room's initial
 					return nextTarget; // go to the proposed room
 				}
 			}
+			currentlyInRoom = false;
 			// if we didn't find a door way, go to a random target on the board
 			int rand = (int)Math.floor((Math.random() * targets.size())); // index of random spot in the target set
 			int iter = 0;
@@ -68,6 +73,7 @@ public class ComputerPlayer extends Player {
 		else { // if we have recently left a room
 			for (BoardCell nextTarget : targets) { // go through each possible target
 				if (nextTarget.isDoorway() && (nextTarget.getInitial() != roomLeft)) { // if the proposed target is a doorway/room and we did not just leave this room
+					currentlyInRoom = true;
 					setRecentlyLeftARoom(true,nextTarget.getInitial()); // set recentlyLeftARoom to true, along with the entered room's initial
 					return nextTarget; // go to the proposed room
 				}
@@ -78,20 +84,24 @@ public class ComputerPlayer extends Player {
 			for (BoardCell nextTarget : targets) {
 				if (iter == rand) {
 					if (nextTarget.isDoorway()) {
+						currentlyInRoom = true;
 						setRecentlyLeftARoom(true,nextTarget.getInitial());
 					}
 					else {
-						setRecentlyLeftARoom(false,'Z'); // this denotes a walkway: set recently left a room to false and put dummy char initial which doesn't represent any rooms
+						if(!currentlyInRoom){
+							setRecentlyLeftARoom(false,'Z'); // this denotes a walkway: set recently left a room to false and put dummy char initial which doesn't represent any rooms
+						}
 					}
+					currentlyInRoom = false;
 					return nextTarget;
 				}
 				iter++;
 			}
 		}
-		
+
 		return new BoardCell(0,0);
 	}
-	
+
 	/**
 	 * updateLocation() : changes the CPU's row and column location
 	 * @param moveTo
@@ -100,8 +110,8 @@ public class ComputerPlayer extends Player {
 		this.row = moveTo.getRow();
 		this.column = moveTo.getColumn();
 	}
-	
-	
+
+
 	/**
 	 * makeSuggestion() : Given the current location BoardCell for the CPU, makes a suggestion based off of unknown weapon and player cards 
 	 * @param locationCell
@@ -128,10 +138,10 @@ public class ComputerPlayer extends Player {
 			i++;
 		}
 		suggestion.room = legend.get(locationCell.getInitial()); // make the cpu's room suggestion based on which cell/room the cpu is currently located at (supplies char initial as input to map)
-		
+
 		return suggestion;
 	}
-	
+
 	/**
 	 * disproveSuggestion() : Given a suggestion from another player, cpu attempts to disprove the suggestion using one of its cards
 	 * @param suggestion
@@ -146,7 +156,7 @@ public class ComputerPlayer extends Player {
 				matchingCards.add(nextCard); // add to list of matching cards
 			}
 		}
-		
+
 		// pick a random card to choose from the matching cards
 		int randMatchingCard = (int)Math.floor((Math.random() * matchingCards.size()));
 		int i = 0;
@@ -159,7 +169,7 @@ public class ComputerPlayer extends Player {
 		}
 		return cardToDisprove; // returns the disproving card (may still be null if no matches found)
 	}
-	
+
 	/**
 	 * @return if cpu has recentlyLeftARoom
 	 */
@@ -204,5 +214,5 @@ public class ComputerPlayer extends Player {
 		this.unseenPlayerCards = unseenPlayerCards;
 	}
 
-	
+
 }
