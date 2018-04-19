@@ -24,7 +24,7 @@ public class gameSetupTests {
 	public static void setUp() {
 		// Board is singleton, get the only instance there is
 		board = Board.getInstance();
-		board.setConfigFiles("boardLayout.csv", "ourLegend.txt");		
+		board.setConfigFiles("boardLayout (worse rooms).csv", "ourLegend.txt");		
 		// Initialize will load both of our board configuration files 
 		board.initialize();
 		// set the file names to use our player config file

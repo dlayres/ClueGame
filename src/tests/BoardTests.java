@@ -31,7 +31,7 @@ public class BoardTests {
 		// Board is singleton, get the only instance there is
 		board = Board.getInstance();
 		// set the file names to use our board layout files
-		board.setConfigFiles("boardLayout.csv", "ourLegend.txt");		
+		board.setConfigFiles("boardLayout (worse rooms).csv", "ourLegend.txt");		
 		// Initialize will load BOTH of our configuration files 
 		board.initialize();
 	}

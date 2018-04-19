@@ -25,7 +25,7 @@ public class AdjacencyTargetTests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use our config files
-		board.setConfigFiles("boardLayout.csv", "ourLegend.txt");		
+		board.setConfigFiles("boardLayout (worse rooms).csv", "ourLegend.txt");		
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
