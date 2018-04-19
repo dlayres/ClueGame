@@ -91,12 +91,19 @@ public class ControlGUI extends JPanel {
 		JButton nextPlayer = new JButton("Next player");
 		nextPlayer.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
-				if(board.getIsHumanPlayersTurn()){ // If it is the human's turn, they can't go to the next player until their turn is over
+				if(board.getIsHumanPlayersTurn()){ // If it is still the human's turn, they can't go to the next player until their turn is over
 					JOptionPane.showMessageDialog(board, "You must make a move"); // Error message
 				}
 				else{
 					playerName.setText(board.displayNextPlayer()); // Set the playerName JTextField to the current player
 					board.movePlayer(rollNumber); // Allows the current player to move
+					// make suggestion based on move
+					if (board.checkNextPlayer() == false) {
+						if (board.checkIfInRoom() == true) {
+							Solution Suggestion = board.makeSuggestion();
+							lastSuggestion.setText(Suggestion.player + ", " + Suggestion.room + ", " + Suggestion.weapon);
+						}
+					}
 				}
 			}
 		});

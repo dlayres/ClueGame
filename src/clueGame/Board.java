@@ -825,4 +825,16 @@ public class Board extends JPanel implements MouseListener{
 			repaint(); // Draws the targets for the human player to see
 		}
 	}
+	
+	public boolean checkIfInRoom() {
+		return nextPlayer.currentlyInRoom;
+	}
+	
+	public boolean checkNextPlayer() {
+		return (nextPlayer instanceof HumanPlayer);
+	}
+	
+	public Solution makeSuggestion() {
+		return ((ComputerPlayer)nextPlayer).makeSuggestion(this.getCellAt(nextPlayer.getRow(), nextPlayer.getColumn()), legend);
+	}
 }
