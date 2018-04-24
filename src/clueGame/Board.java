@@ -45,6 +45,7 @@ public class Board extends JPanel implements MouseListener{
 	private int mouseY;
 	private SuggestionDialog suggestionDialog;
 	public Solution latestAnswer;
+	public Card lastestDisprovingCard = new Card();
 
 	private BoardCell[][] board; // The grid of the board
 	private HashMap<Character, String> legend; // Used for determining room identity
@@ -188,7 +189,10 @@ public class Board extends JPanel implements MouseListener{
 	public boolean getIsHumanPlayersTurn() {
 		return isHumanPlayersTurn;
 	}
-
+	
+	public int getCurrentPlayerIndex() {
+		return currentPlayer;
+	}
 	//------------------------------------------------------------------------------
 
 	//------------------------------Member functions--------------------------------
