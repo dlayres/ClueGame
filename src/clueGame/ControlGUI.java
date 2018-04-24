@@ -102,7 +102,7 @@ public class ControlGUI extends JPanel {
 						if (board.checkIfInRoom() == true) {
 							Solution Suggestion = board.makeSuggestion();
 							lastSuggestion.setText(Suggestion.player + ", " + Suggestion.room + ", " + Suggestion.weapon);
-							board.lastestDisprovingCard = board.handleSuggestion(board.getCurrentPlayerIndex(), Suggestion, board.getPlayerList());
+							board.lastestDisprovingCard = board.handleSuggestion((board.getCurrentPlayerIndex()+(Board.NUM_PLAYERS-1)) % Board.NUM_PLAYERS, Suggestion, board.getPlayerList());
 							if (board.lastestDisprovingCard == null) {
 								disprovingResult.setText("No new clue!");
 							}

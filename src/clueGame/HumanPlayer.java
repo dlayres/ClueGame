@@ -3,6 +3,11 @@ package clueGame;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 /**
  * HumanPlayer class is an extension of the Player class and is used for human players
  */
@@ -55,8 +60,11 @@ public class HumanPlayer extends Player{
 		}
 		// if player has a single matching card, return the only item in the set
 		else if (matchingCards.size() == 1) {
+			
+			
 			for(Card pickCard : matchingCards) {
 				cardToDisprove = pickCard;
+				JOptionPane.showMessageDialog(Board.getInstance(), "You disproved the latest suggestion using your " + cardToDisprove.getCardName() + " card!"); // Gives error message
 				return cardToDisprove;
 			}
 		}

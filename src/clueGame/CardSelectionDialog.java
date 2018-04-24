@@ -23,8 +23,9 @@ public class CardSelectionDialog extends JDialog{
 		board = board.getInstance();
 
 		setTitle("Select a card to disprove");
-		setSize(650, 200);
+		setSize(550, 200);
 		setLayout(new GridLayout(3, 1));
+		setLocationRelativeTo(board);
 		
 		JLabel instructionLabel = new JLabel("A player made a suggestion and you have to disprove it! Select a card you want to show");
 		

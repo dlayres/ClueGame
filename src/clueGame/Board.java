@@ -58,7 +58,7 @@ public class Board extends JPanel implements MouseListener{
 	private String playerConfigFile; // Player Configuration File Name
 	private String weaponConfigFile; // Weapon Configuration File Name
 	
-	public static Player[] playerList; // Array of players in the game
+	private Player[] playerList; // Array of players in the game
 	private Set<Card> cards; // Set of every card in the game
 	private Solution answer; // The three cards randomly chosen as the game's solution
 	
@@ -642,12 +642,12 @@ public class Board extends JPanel implements MouseListener{
 	 */
 	public Card handleSuggestion(int indexOfSuggestingPlayer, Solution suggestion, Player[] playerList){
 		Card disprovingCard = null;
-		int temp = (indexOfSuggestingPlayer+(NUM_PLAYERS-1)) % NUM_PLAYERS;
+		//int temp = (indexOfSuggestingPlayer+(NUM_PLAYERS-1)) % NUM_PLAYERS;
 		/*
 		String name = playerList[temp].getPlayerName();
 		System.out.println(name);
 		*/
-		for (int i = (temp + 1) % playerList.length; i != temp; i = (i+1) % playerList.length) { // start at player after the suggesting player, iterate through other players until back at suggesting player
+		for (int i = (indexOfSuggestingPlayer + 1) % playerList.length; i != indexOfSuggestingPlayer; i = (i+1) % playerList.length) { // start at player after the suggesting player, iterate through other players until back at suggesting player
 			if (playerList[i] instanceof ComputerPlayer) { // if the next player is a cpu
 				ComputerPlayer nextCPU = (ComputerPlayer) playerList[i];
 				Card cardCheck = nextCPU.disproveSuggestion(suggestion); // check if this cpu can disprove the suggestion
