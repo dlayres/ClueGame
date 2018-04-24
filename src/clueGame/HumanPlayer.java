@@ -63,7 +63,7 @@ public class HumanPlayer extends Player{
 		else {
 			CardSelectionDialog cardOptionsGUI = new CardSelectionDialog(matchingCards);
 			cardOptionsGUI.setVisible(true);
-			while(cardOptionsGUI.isVisible()){}
+			
 			if(disprovingCard != null){
 				return disprovingCard;
 			}

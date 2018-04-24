@@ -133,7 +133,18 @@ public class ComputerPlayer extends Player {
 			i++;
 		}
 		suggestion.room = legend.get(locationCell.getInitial()); // make the cpu's room suggestion based on which cell/room the cpu is currently located at (supplies char initial as input to map)
-
+		
+		Set<Card> cards = Board.playerList[0].getMyCards();
+		for (Card durr : cards) {
+			if (durr.getType() == CardType.WEAPON) {
+				suggestion.weapon = durr.getCardName();
+			}
+			if (durr.getType() == CardType.PLAYER) {
+				suggestion.player = durr.getCardName();
+			}
+			
+		}
+		
 		return suggestion;
 	}
 

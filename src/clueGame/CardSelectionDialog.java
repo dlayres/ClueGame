@@ -23,7 +23,7 @@ public class CardSelectionDialog extends JDialog{
 		board = board.getInstance();
 
 		setTitle("Select a card to disprove");
-		setSize(500, 200);
+		setSize(650, 200);
 		setLayout(new GridLayout(3, 1));
 		
 		JLabel instructionLabel = new JLabel("A player made a suggestion and you have to disprove it! Select a card you want to show");
@@ -36,6 +36,12 @@ public class CardSelectionDialog extends JDialog{
 		}
 		
 		add(cardOptions);
+		
+		
+		// CODE FROM THE COMPUTING GODS
+		// DO NOT CONTINUE FUNCTION UNTIL THE BOX HAS BEEN DISPOSED!!!!!
+		// WHICH WILL PREVENT SUSEQUENT CODE FROM RUNNING
+		setModal(true);
 		
 		JButton selectionSubmitButton = new JButton("Submit");
 		selectionSubmitButton.addActionListener(new ActionListener(){ // Listens for a button click

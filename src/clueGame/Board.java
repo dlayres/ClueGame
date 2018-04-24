@@ -40,7 +40,7 @@ public class Board extends JPanel implements MouseListener{
 	public static final int NUM_PLAYERS = 6;
 	private int currentPlayer = 0; // Player 0 is the human player and should go first
 	private Player nextPlayer; // Player whose turn is next
-	private boolean isHumanPlayersTurn = false;
+	public static boolean isHumanPlayersTurn = false;
 	private int mouseX; // Stores the x and y position of the mouse when board is clicked
 	private int mouseY;
 	private SuggestionDialog suggestionDialog;
@@ -58,7 +58,7 @@ public class Board extends JPanel implements MouseListener{
 	private String playerConfigFile; // Player Configuration File Name
 	private String weaponConfigFile; // Weapon Configuration File Name
 	
-	private Player[] playerList; // Array of players in the game
+	public static Player[] playerList; // Array of players in the game
 	private Set<Card> cards; // Set of every card in the game
 	private Solution answer; // The three cards randomly chosen as the game's solution
 	
@@ -642,7 +642,12 @@ public class Board extends JPanel implements MouseListener{
 	 */
 	public Card handleSuggestion(int indexOfSuggestingPlayer, Solution suggestion, Player[] playerList){
 		Card disprovingCard = null;
-		for (int i = (indexOfSuggestingPlayer + 1) % playerList.length; i != indexOfSuggestingPlayer; i = (i+1) % playerList.length) { // start at player after the suggesting player, iterate through other players until back at suggesting player
+		int temp = (indexOfSuggestingPlayer+(NUM_PLAYERS-1)) % NUM_PLAYERS;
+		/*
+		String name = playerList[temp].getPlayerName();
+		System.out.println(name);
+		*/
+		for (int i = (temp + 1) % playerList.length; i != temp; i = (i+1) % playerList.length) { // start at player after the suggesting player, iterate through other players until back at suggesting player
 			if (playerList[i] instanceof ComputerPlayer) { // if the next player is a cpu
 				ComputerPlayer nextCPU = (ComputerPlayer) playerList[i];
 				Card cardCheck = nextCPU.disproveSuggestion(suggestion); // check if this cpu can disprove the suggestion
@@ -795,4 +800,5 @@ public class Board extends JPanel implements MouseListener{
 	public Solution makeSuggestion() {
 		return ((ComputerPlayer)nextPlayer).makeSuggestion(this.getCellAt(nextPlayer.getRow(), nextPlayer.getColumn()), legend);
 	}
+	
 }
