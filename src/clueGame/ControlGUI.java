@@ -18,14 +18,14 @@ public class ControlGUI extends JPanel {
 	private JTextField playerName;
 	private JTextField rollNumber;
 	private JTextField lastSuggestion;
-	private JTextField disprovingResult;
+	public static JTextField disprovingResult;
 	
 	private JPanel namePanel;
 	private JPanel rollPanel;
 	private JPanel guessPanel;
 	private JPanel resultPanel;
 	
-	private static Board board; // Board GUI JPanel
+	private static Board board;
 	
 	public ControlGUI()
 	{
@@ -89,7 +89,7 @@ public class ControlGUI extends JPanel {
 	private JPanel createButtonPanel() { // Creates two buttons to end turn (go to next player) and make accusation
 		// no layout specified, so this is flow
 		JButton nextPlayer = new JButton("Next player");
-		nextPlayer.addActionListener(new ActionListener(){ // Listens for a button click
+		nextPlayer.addActionListener(new ActionListener(){ // Listens for a button click of "Next Player"
 			public void actionPerformed(ActionEvent e) {
 				if(board.getIsHumanPlayersTurn()){ // If it is still the human's turn, they can't go to the next player until their turn is over
 					JOptionPane.showMessageDialog(board, "You must make a move"); // Error message
@@ -102,6 +102,13 @@ public class ControlGUI extends JPanel {
 						if (board.checkIfInRoom() == true) {
 							Solution Suggestion = board.makeSuggestion();
 							lastSuggestion.setText(Suggestion.player + ", " + Suggestion.room + ", " + Suggestion.weapon);
+							board.lastestDisprovingCard = board.handleSuggestion(board.getCurrentPlayerIndex(), Suggestion, board.getPlayerList());
+							if (board.lastestDisprovingCard == null) {
+								disprovingResult.setText("No new clue!");
+							}
+							else {
+								disprovingResult.setText(board.lastestDisprovingCard.getCardName());
+							}
 						}
 					}
 				}
