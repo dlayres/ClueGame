@@ -638,7 +638,7 @@ public class Board extends JPanel implements MouseListener{
 	 */
 	public Card handleSuggestion(int indexOfSuggestingPlayer, Solution suggestion, Player[] playerList){
 		Card disprovingCard = null;
-		for (int i = indexOfSuggestingPlayer+1; i != indexOfSuggestingPlayer; i = (i+1) % playerList.length) { // start at player after the suggesting player, iterate through other players until back at suggesting player
+		for (int i = (indexOfSuggestingPlayer + 1) % playerList.length; i != indexOfSuggestingPlayer; i = (i+1) % playerList.length) { // start at player after the suggesting player, iterate through other players until back at suggesting player
 			if (playerList[i] instanceof ComputerPlayer) { // if the next player is a cpu
 				ComputerPlayer nextCPU = (ComputerPlayer) playerList[i];
 				Card cardCheck = nextCPU.disproveSuggestion(suggestion); // check if this cpu can disprove the suggestion

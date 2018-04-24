@@ -7,15 +7,17 @@ import java.util.Set;
  * HumanPlayer class is an extension of the Player class and is used for human players
  */
 public class HumanPlayer extends Player{
+	Card disprovingCard = null;
+
 	// Default constructor (used for testing)
 	public HumanPlayer() {
 		super();
 	}
-	
+
 	public HumanPlayer(int row, int column) {
 		super(row,column);
 	}
-	
+
 	/**
 	 * HumanPlayer constructor
 	 * @param row - Initial row location for this player
@@ -26,7 +28,7 @@ public class HumanPlayer extends Player{
 	public HumanPlayer(int row, int column, String playerName, String color) {
 		super(row, column, playerName, color);
 	}
-	
+
 	public Solution makeAccusation(String player, String weapon, String room) {
 		Solution proposedSolution = new Solution();
 		proposedSolution.player = player;
@@ -58,22 +60,29 @@ public class HumanPlayer extends Player{
 				return cardToDisprove;
 			}
 		}
-		else { // TODO: Currently have the card selection be random if more than two cards. This will be changed to allow player choice once more of code has been implemented
-			// pick a random card to choose from the matching cards
-			int randMatchingCard = (int)Math.floor((Math.random() * matchingCards.size()));
-			int i = 0;
-			for(Card next : matchingCards) { // Iterates through weapon card set until i equals the randomly chosen number
-				if (i == randMatchingCard) {
-					cardToDisprove = next; // set disproving card
-					break;
+		else {
+			CardSelectionDialog cardOptionsGUI = new CardSelectionDialog(matchingCards);
+			cardOptionsGUI.setVisible(true);
+			while(cardOptionsGUI.isVisible()){}
+			if(disprovingCard != null){
+				return disprovingCard;
+			}
+			else{
+				int randMatchingCard = (int)Math.floor((Math.random() * matchingCards.size()));
+				int i = 0;
+				for(Card next : matchingCards) { // Iterates through weapon card set until i equals the randomly chosen number
+					if (i == randMatchingCard) {
+						cardToDisprove = next; // set disproving card
+						break;
+					}
+					i++;
 				}
-				i++;
 			}
 		}
-		
+
 		return cardToDisprove;
 	}
-	
+
 	/**
 	 * updateLocation() : changes the human player's row and column location
 	 * @param moveTo
@@ -88,7 +97,7 @@ public class HumanPlayer extends Player{
 			this.roomLeft = 'Z'; // set our player's board initial to dummy (non-board) value, allowing us access to all cells again
 		}
 	}
-	
+
 	/**
 	 * checkTargets() : Removes doorway targets that are the same as the room we are already in
 	 * @param targets
@@ -105,4 +114,8 @@ public class HumanPlayer extends Player{
 		return targets;
 	}
 	
+	public void setDisprovingCard(Card cardToDisprove){
+		disprovingCard = cardToDisprove;
+	}
+
 }
