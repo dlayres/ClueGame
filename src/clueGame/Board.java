@@ -40,12 +40,12 @@ public class Board extends JPanel implements MouseListener{
 	public static final int NUM_PLAYERS = 6;
 	private int currentPlayer = 0; // Player 0 is the human player and should go first
 	private Player nextPlayer; // Player whose turn is next
-	public static boolean isHumanPlayersTurn = false;
+	private boolean isHumanPlayersTurn = false;
 	private int mouseX; // Stores the x and y position of the mouse when board is clicked
 	private int mouseY;
 	private SuggestionDialog suggestionDialog;
-	public Solution latestAnswer;
-	public Card lastestDisprovingCard = new Card();
+	private Solution latestAnswer;
+	private Card latestDisprovingCard = new Card();
 
 	private BoardCell[][] board; // The grid of the board
 	private HashMap<Character, String> legend; // Used for determining room identity
@@ -196,6 +196,14 @@ public class Board extends JPanel implements MouseListener{
 	 */
 	public int getCurrentPlayerIndex() {
 		return currentPlayer;
+	}
+	
+	public Card getLatestDisprovingCard() {
+		return latestDisprovingCard;
+	}
+	
+	public void setLatestDisprovingCard(Card disprovingCard){
+		latestDisprovingCard = disprovingCard;
 	}
 	//------------------------------------------------------------------------------
 
@@ -741,7 +749,7 @@ public class Board extends JPanel implements MouseListener{
 						suggestionDialog.setRoomLabel(legend.get(board[playerList[0].getRow()][playerList[0].getColumn()].getInitial())); // Sets the suggestion dialog to use the name of the room the player is currently in
 						suggestionDialog.setVisible(true);
 					}
-					currentPlayer = (currentPlayer + 1) % playerList.length; //Human's turn is over, go to next player's turn
+					currentPlayer = (currentPlayer + 1) % playerList.length; // Human's turn is over, go to next player's turn
 					break;
 				}
 			}

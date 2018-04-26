@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 public class CardSelectionDialog extends JDialog{
 
 	private static Board board;
-
 	
 	public CardSelectionDialog(Set<Card> matchingCards){
 		
