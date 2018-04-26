@@ -17,8 +17,8 @@ import javax.swing.border.TitledBorder;
 public class ControlGUI extends JPanel {
 	private JTextField playerName;
 	private JTextField rollNumber;
-	private JTextField lastSuggestion;
-	public static JTextField disprovingResult;
+	private static JTextField lastSuggestion;
+	private static JTextField disprovingResult;
 	
 	private JPanel namePanel;
 	private JPanel rollPanel;
@@ -87,7 +87,6 @@ public class ControlGUI extends JPanel {
 	 * @return panel
 	 */
 	private JPanel createButtonPanel() { // Creates two buttons to end turn (go to next player) and make accusation
-		// no layout specified, so this is flow
 		JButton nextPlayer = new JButton("Next player");
 		nextPlayer.addActionListener(new ActionListener(){ // Listens for a button click of "Next Player"
 			public void actionPerformed(ActionEvent e) {
@@ -100,15 +99,8 @@ public class ControlGUI extends JPanel {
 					// make suggestion based on move
 					if (board.checkNextPlayer() == false) {
 						if (board.checkIfInRoom() == true) {
-							Solution Suggestion = board.makeSuggestion();
-							lastSuggestion.setText(Suggestion.player + ", " + Suggestion.room + ", " + Suggestion.weapon);
-							board.lastestDisprovingCard = board.handleSuggestion((board.getCurrentPlayerIndex()+(Board.NUM_PLAYERS-1)) % Board.NUM_PLAYERS, Suggestion, board.getPlayerList());
-							if (board.lastestDisprovingCard == null) {
-								disprovingResult.setText("No new clue!");
-							}
-							else {
-								disprovingResult.setText(board.lastestDisprovingCard.getCardName());
-							}
+							Solution suggestion = board.makeSuggestion();
+							findDisprovingCard(suggestion);
 						}
 					}
 				}
@@ -125,6 +117,17 @@ public class ControlGUI extends JPanel {
 	
 	public void setSuggestionText(String suggestionString){
 		lastSuggestion.setText(suggestionString);
+	}
+	
+	public static void findDisprovingCard(Solution suggestion) {
+		lastSuggestion.setText(suggestion.player + ", " + suggestion.room + ", " + suggestion.weapon);
+		board.lastestDisprovingCard = board.handleSuggestion(board.getCurrentPlayerIndex(), suggestion, board.getPlayerList());
+		if (board.lastestDisprovingCard == null) {
+			disprovingResult.setText("No new clue!");
+		}
+		else {
+			disprovingResult.setText(board.lastestDisprovingCard.getCardName());
+		}
 	}
 	
 }

@@ -26,25 +26,16 @@ public class SuggestionDialog extends JDialog{
 		setTitle("Make a suggestion");
 		setSize(300, 250);
 		setLayout(new BorderLayout());
+		setModal(true);
 		
 		JPanel suggestionButtons = new JPanel();
 		suggestionButtons.setLayout(new GridLayout(1, 2));
 		JButton suggestionSubmitButton = new JButton("Submit");
 		suggestionSubmitButton.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
-				Solution newSuggestion = new Solution((String)playerChoiceBox.getSelectedItem(), roomChoiceLabel.getText(), (String)weaponChoiceBox.getSelectedItem());
-				ClueGame.setSuggestionText((String)playerChoiceBox.getSelectedItem() + ", " + roomChoiceLabel.getText() + ", " + (String)weaponChoiceBox.getSelectedItem());
-				
 				dispose();
-				
-				
-				board.lastestDisprovingCard = board.handleSuggestion((board.getCurrentPlayerIndex()+(Board.NUM_PLAYERS-1)) % Board.NUM_PLAYERS, newSuggestion, board.getPlayerList());
-				if (board.lastestDisprovingCard == null) {
-					ControlGUI.disprovingResult.setText("No new clue!");
-				}
-				else {
-					ControlGUI.disprovingResult.setText(board.lastestDisprovingCard.getCardName());
-				}
+				Solution newSuggestion = new Solution((String)playerChoiceBox.getSelectedItem(), roomChoiceLabel.getText(), (String)weaponChoiceBox.getSelectedItem());
+				ControlGUI.findDisprovingCard(newSuggestion);
 			}
 		});
 		JButton suggestionCancelButton = new JButton("Cancel");

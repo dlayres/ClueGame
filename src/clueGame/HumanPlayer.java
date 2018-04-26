@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * HumanPlayer class is an extension of the Player class and is used for human players
  */
 public class HumanPlayer extends Player{
-	Card disprovingCard = null;
+	Card disprovingCard;
 
 	// Default constructor (used for testing)
 	public HumanPlayer() {
@@ -69,9 +69,9 @@ public class HumanPlayer extends Player{
 			}
 		}
 		else {
+			disprovingCard = null;
 			CardSelectionDialog cardOptionsGUI = new CardSelectionDialog(matchingCards);
 			cardOptionsGUI.setVisible(true);
-			
 			if(disprovingCard != null){
 				return disprovingCard;
 			}
