@@ -19,14 +19,14 @@ public class ControlGUI extends JPanel {
 	private JTextField rollNumber;
 	private static JTextField lastSuggestion;
 	private static JTextField disprovingResult;
-	
+
 	private JPanel namePanel;
 	private JPanel rollPanel;
 	private JPanel guessPanel;
 	private JPanel resultPanel;
-	
+
 	private static Board board;
-	
+
 	public ControlGUI()
 	{
 		// Create a GUI layout with 2 rows and 2 columns
@@ -37,7 +37,7 @@ public class ControlGUI extends JPanel {
 		add(panel);
 		board = Board.getInstance(); // Board is singleton, get the only instance there is
 	}
-	
+
 	/**
 	 * Creates all the info panels (player turn, die roll, suggestion, response) and adds them to the GUI
 	 * @return panel
@@ -96,18 +96,39 @@ public class ControlGUI extends JPanel {
 				else{
 					playerName.setText(board.displayNextPlayer()); // Set the playerName JTextField to the current player
 					board.movePlayer(rollNumber); // Allows the current player to move
+					if (board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer) {
+						if (((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).getRecentlyWrong() == true) {
+							((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setRecentlyWrong(false);
+							board.endTurn();
+							return;
+						}
+					}
 					// make suggestion based on move
-					if (board.checkNextPlayer() == false) {
+					if (board.checkNextPlayerIsHuman() == false) {
 						if (board.checkIfInRoom() == true) {
 							Solution suggestion = board.makeSuggestion();
 							findDisprovingCard(suggestion);
 						}
+						board.endTurn();
 					}
 				}
 			}
 		});
-		
+
 		JButton makeAccusation = new JButton("Make an accusation");
+		makeAccusation.addActionListener(new ActionListener(){ // Listens for a button click of "Make Accusation"
+			public void actionPerformed(ActionEvent e) {
+				if(!board.getIsHumanPlayersTurn()){ // If it is still the human's turn, they can't go to the next player until their turn is over
+					JOptionPane.showMessageDialog(board, "It is not your turn"); // Error message
+				}
+				else{
+					AccusationDialog accusationDialog = new AccusationDialog();
+					accusationDialog.setVisible(true);
+				}
+			}
+		});
+
+
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 2));
 		panel.add(nextPlayer);
@@ -123,11 +144,26 @@ public class ControlGUI extends JPanel {
 		lastSuggestion.setText(suggestion.player + ", " + suggestion.room + ", " + suggestion.weapon); // Sets the suggestion JTextField
 		board.setLatestDisprovingCard(board.handleSuggestion(board.getCurrentPlayerIndex(), suggestion, board.getPlayerList())); // Uses board to handle the suggestion and gets a card that disproves it
 		if (board.getLatestDisprovingCard() == null) { // If a disproving card wasn't found
+			if (board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer){
+				boolean matchingRoomCard = false;
+				for(Card nextCard : ((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).getMyCards()){
+					if(nextCard.getCardName().equals(suggestion.room)){
+						matchingRoomCard = true;
+					}
+				}
+				if(!matchingRoomCard){
+					((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setShouldMakeAccusation(true);
+					((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setRightAccusation(suggestion);
+				}
+			}
 			disprovingResult.setText("No new clue!");
 		}
 		else { // A disproving card was found
+			if(board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer){
+				((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).updateCards(board.getLatestDisprovingCard());
+			}
 			disprovingResult.setText(board.getLatestDisprovingCard().getCardName()); // Set the JTextField of the disprovingResult to the card name
 		}
 	}
-	
+
 }

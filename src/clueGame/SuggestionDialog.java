@@ -34,7 +34,7 @@ public class SuggestionDialog extends JDialog{
 		suggestionSubmitButton.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
 				dispose(); // Closes the dialog box and sets the selection to the selected items
-				Solution newSuggestion = new Solution((String)playerChoiceBox.getSelectedItem(), roomChoiceLabel.getText(), (String)weaponChoiceBox.getSelectedItem());
+				Solution newSuggestion = new Solution((String)playerChoiceBox.getSelectedItem(), (String)weaponChoiceBox.getSelectedItem(), roomChoiceLabel.getText());
 				ControlGUI.findDisprovingCard(newSuggestion); // The ControlGUI updates the disprovingCard text field to display the card that disproved the suggestion
 			}
 		});

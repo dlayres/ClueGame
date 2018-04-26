@@ -11,6 +11,42 @@ public class ComputerPlayer extends Player {
 	private Set<Card> unseenWeaponCards;
 	private Set<Card> unseenPlayerCards;
 
+	private boolean shouldMakeAccusation = false;
+	private boolean recentlyWrong = false;
+	private Solution rightAccusation = new Solution();
+
+	/**
+	 * @return the shouldMakeAccusation
+	 */
+	public boolean getShouldMakeAccusation() {
+		return shouldMakeAccusation;
+	}
+
+
+	/**
+	 * @param shouldMakeAccusation the shouldMakeAccusation to set
+	 */
+	public void setShouldMakeAccusation(boolean shouldMakeAccusation) {
+		this.shouldMakeAccusation = shouldMakeAccusation;
+	}
+
+
+	/**
+	 * @return the rightAccusation
+	 */
+	public Solution getRightAccusation() {
+		return rightAccusation;
+	}
+
+
+	/**
+	 * @param rightAccusation the rightAccusation to set
+	 */
+	public void setRightAccusation(Solution rightAccusation) {
+		this.rightAccusation = rightAccusation;
+	}
+
+
 	/**
 	 * ComputerPlayer constructor
 	 * @param row - Initial Row location of cpu on map
@@ -133,7 +169,12 @@ public class ComputerPlayer extends Player {
 			i++;
 		}
 		suggestion.room = legend.get(locationCell.getInitial()); // make the cpu's room suggestion based on which cell/room the cpu is currently located at (supplies char initial as input to map)
-		
+
+
+		//		suggestion.room = Board.answer.room;
+		//		suggestion.player = Board.answer.player;
+		//		suggestion.weapon = Board.answer.weapon;
+
 		return suggestion;
 	}
 
@@ -209,5 +250,28 @@ public class ComputerPlayer extends Player {
 		this.unseenPlayerCards = unseenPlayerCards;
 	}
 
+
+	public boolean getRecentlyWrong() {
+		return recentlyWrong;
+	}
+
+	public void setRecentlyWrong(boolean result) {
+		recentlyWrong = result;
+	}
+
+
+	public void updateCards(Card latestDisprovingCard) {
+		switch(latestDisprovingCard.getType()){
+		case WEAPON:
+			unseenWeaponCards.remove(latestDisprovingCard);
+			break;
+		case PLAYER:
+			unseenPlayerCards.remove(latestDisprovingCard);
+			break;
+		default:
+			break;
+		}
+		return;
+	}
 
 }

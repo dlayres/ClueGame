@@ -39,8 +39,8 @@ public class Board extends JPanel implements MouseListener{
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
 	private int currentPlayer = 0; // Player 0 is the human player and should go first
-	private Player nextPlayer; // Player whose turn is next
-	private boolean isHumanPlayersTurn = false;
+	public Player nextPlayer; // Player whose turn is next
+	public boolean isHumanPlayersTurn = false;
 	private int mouseX; // Stores the x and y position of the mouse when board is clicked
 	private int mouseY;
 	private SuggestionDialog suggestionDialog;
@@ -60,7 +60,7 @@ public class Board extends JPanel implements MouseListener{
 	
 	private Player[] playerList; // Array of players in the game
 	private Set<Card> cards; // Set of every card in the game
-	private Solution answer; // The three cards randomly chosen as the game's solution
+	public static Solution answer; // The three cards randomly chosen as the game's solution
 	
 	private Set<Card> weaponCards; // Set of weapon cards
 	private Set<Card> roomCards; // Set of room cards
@@ -641,7 +641,7 @@ public class Board extends JPanel implements MouseListener{
 	 * @return
 	 */
 	public boolean testAccusation(Solution proposedSolution) {
-		return ((proposedSolution.player == answer.player) && (proposedSolution.weapon == answer.weapon) && (proposedSolution.room == answer.room));
+		return ((proposedSolution.player.equals(answer.player)) && (proposedSolution.weapon.equals(answer.weapon)) && (proposedSolution.room.equals(answer.room)));
 	}
 	
 	/**
@@ -784,11 +784,27 @@ public class Board extends JPanel implements MouseListener{
 		nextPlayer = playerList[currentPlayer]; // Gets the current player, and sets currentPlayer to the next player
 		if(nextPlayer instanceof ComputerPlayer){ // If player is computer,
 			isHumanPlayersTurn = false; // It is not the human's turn
-			calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll); // Calculates the targets and selects a location to move to
-			BoardCell targetCell = ((ComputerPlayer) nextPlayer).selectTarget(getTargets());
-			((ComputerPlayer) nextPlayer).updateLocation(targetCell);
-			repaint(); // Redraws board to display computer player's new location
-			currentPlayer = (currentPlayer + 1) % playerList.length; // Computer's turn is over, go to next player's turn
+			if(((ComputerPlayer) nextPlayer).getShouldMakeAccusation()){
+				Solution accusation = ((ComputerPlayer)nextPlayer).getRightAccusation();
+				boolean accusationCorrect = testAccusation(accusation);
+				if(accusationCorrect){
+					JOptionPane.showMessageDialog(this, nextPlayer.getPlayerName() + " made a correct accusation! The answer was " + accusation.player + " in the " + accusation.room + " with a " + accusation.weapon + ". The game will now end.");
+					System.exit(0);
+				}
+				else{
+					JOptionPane.showMessageDialog(this, nextPlayer.getPlayerName() + " made an incorrect accusation.");
+					((ComputerPlayer)getPlayerList()[getCurrentPlayerIndex()]).setRecentlyWrong(true);
+					((ComputerPlayer)getPlayerList()[getCurrentPlayerIndex()]).setShouldMakeAccusation(false);
+					repaint();
+					return;
+				}
+			}
+			else { // Computer should not make an accusation
+				calcTargets(nextPlayer.getRow(), nextPlayer.getColumn(), randomRoll); // Calculates the targets and selects a location to move to
+				BoardCell targetCell = ((ComputerPlayer) nextPlayer).selectTarget(getTargets());
+				((ComputerPlayer) nextPlayer).updateLocation(targetCell);
+				repaint(); // Redraws board to display computer player's new location
+			}
 		}
 		else {
 			isHumanPlayersTurn = true; // It is the human player's turn
@@ -801,12 +817,23 @@ public class Board extends JPanel implements MouseListener{
 		return nextPlayer.currentlyInRoom;
 	}
 	
-	public boolean checkNextPlayer() {
+	public boolean checkNextPlayerIsHuman() {
 		return (nextPlayer instanceof HumanPlayer);
 	}
 	
 	public Solution makeSuggestion() {
 		return ((ComputerPlayer)nextPlayer).makeSuggestion(this.getCellAt(nextPlayer.getRow(), nextPlayer.getColumn()), legend);
+	}
+	
+	public void endTurn(){
+		currentPlayer = (currentPlayer + 1) % playerList.length;
+	}
+	
+	/**
+	 * @param isHumanPlayersTurn the isHumanPlayersTurn to set
+	 */
+	public void setHumanPlayersTurn(boolean isHumanPlayersTurn) {
+		this.isHumanPlayersTurn = isHumanPlayersTurn;
 	}
 	
 }
