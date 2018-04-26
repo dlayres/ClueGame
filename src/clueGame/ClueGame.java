@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,8 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ClueGame extends JFrame {
+public class ClueGame extends JFrame implements ComponentListener{ // Implements ComponentListener to listen for window resizes
 
+	public static int boardWidth = 1200; // Width and height of JFrame
+	public static int boardHeight = 1000;
+	
 	private static Board board; // Board GUI JPanel
 	private DetectiveNotes detectiveNotes;
 	private MyCardsGUI myCardsGUI;
@@ -42,11 +47,13 @@ public class ClueGame extends JFrame {
 		board.loadCards();
 		board.selectAnswer();
 		board.dealCards();
+		
+		addComponentListener(this); // Add component listener to check for window resizes
 
 		// Create a JFrame with all the normal functionality
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("ClueGame");
-		setSize(1000, 800);
+		setSize(boardWidth, boardHeight);
 		setLayout(new BorderLayout());
 
 		// Create the JPanel for the board GUI and add it to the JFrame
@@ -107,6 +114,22 @@ public class ClueGame extends JFrame {
 		return item;
 	}
 	
+	/**
+	 * Listens for a window resize, and changes its width and height accordingly, then repaints the board
+	 */
+	@Override
+	public void componentResized(ComponentEvent e) {
+		boardWidth = e.getComponent().getWidth();
+		boardHeight = e.getComponent().getHeight();
+		board.repaint();
+		
+	}
+	// Functions that must be created for ComponentListener
+	public void componentHidden(ComponentEvent e) {}
+	public void componentMoved(ComponentEvent e) {}
+	public void componentShown(ComponentEvent e) {}
+
+
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame(); // Make ClueGame GUI
 		game.setVisible(true); // Display the GUI

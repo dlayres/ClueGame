@@ -12,6 +12,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -26,6 +28,7 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -685,6 +688,16 @@ public class Board extends JPanel implements MouseListener{
 		super.paintComponent(g); // Always called
 		setLayout(new BorderLayout());
 		
+		if(ClueGame.boardWidth < ClueGame.boardHeight){ // If the ClueGame JFrame width is smaller than the height, proportion cells based on width
+			BoardCell.CELL_WIDTH = (int)((ClueGame.boardWidth - 270) / 20);
+			BoardCell.CELL_HEIGHT = BoardCell.CELL_WIDTH;
+		}
+		else{
+			BoardCell.CELL_HEIGHT = (int)((ClueGame.boardHeight - 270) / 20); // If the ClueGame JFrame height is smaller than the width, proportion cells based on height
+			BoardCell.CELL_WIDTH = BoardCell.CELL_HEIGHT;
+		}
+		BoardCell.OFFSET = (int)(2 * BoardCell.CELL_WIDTH);
+		
 		add(myCards, BorderLayout.EAST); // Add the myCards GUI to the right side of the board
 		
 		// Segment to initialize grid background
@@ -835,5 +848,4 @@ public class Board extends JPanel implements MouseListener{
 	public void setHumanPlayersTurn(boolean isHumanPlayersTurn) {
 		this.isHumanPlayersTurn = isHumanPlayersTurn;
 	}
-	
 }

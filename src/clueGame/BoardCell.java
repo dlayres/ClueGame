@@ -7,6 +7,7 @@ package clueGame;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -20,9 +21,9 @@ public class BoardCell {
 	private DoorDirection doorDirection;
 	private boolean nameMe;
 
-	public static final int CELL_WIDTH = 30;
-	public static final int CELL_HEIGHT = 30;
-	public static final int OFFSET = 2 * CELL_WIDTH;
+	public static int CELL_WIDTH = 20;
+	public static int CELL_HEIGHT = 20;
+	public static int OFFSET = 2 * CELL_WIDTH;
 
 	/**
 	 * BoardCell test constructor
@@ -93,6 +94,7 @@ public class BoardCell {
 		g.setColor(new Color(122, 16, 229)); // set color to purple
 		if (this.isRoom()) { // if the cell is a room
 			if (this.nameMe == true) { // and it's where we should put the name
+				g.setFont(new Font("SansSerif", Font.PLAIN, (int)(CELL_WIDTH / 2.2))); // Proportions font size based on cell size 
 				g.drawString(legend.get(this.getInitial()), column * BoardCell.CELL_HEIGHT + BoardCell.OFFSET, row * BoardCell.CELL_WIDTH); // Draw the room name at that cell
 			}
 			return;
