@@ -68,14 +68,14 @@ public class HumanPlayer extends Player{
 				return cardToDisprove;
 			}
 		}
-		else {
-			disprovingCard = null;
-			CardSelectionDialog cardOptionsGUI = new CardSelectionDialog(matchingCards);
+		else { // The human player has more than one card they can show, allow them to choose
+			disprovingCard = null; // Set the card they choose to null first
+			CardSelectionDialog cardOptionsGUI = new CardSelectionDialog(matchingCards); // Dialog box allowing them to choose the card
 			cardOptionsGUI.setVisible(true);
-			if(disprovingCard != null){
+			if(disprovingCard != null){ // If the card isn't null, they picked one, so return that card
 				return disprovingCard;
 			}
-			else{
+			else{ // If the card is still null, they didn't pick one (clicked the X), so pick a random card from the options
 				int randMatchingCard = (int)Math.floor((Math.random() * matchingCards.size()));
 				int i = 0;
 				for(Card next : matchingCards) { // Iterates through weapon card set until i equals the randomly chosen number

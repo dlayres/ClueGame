@@ -25,18 +25,18 @@ public class CardSelectionDialog extends JDialog{
 		setTitle("Select a card to disprove");
 		setSize(550, 200);
 		setLayout(new GridLayout(3, 1));
-		setLocationRelativeTo(board);
+		setLocationRelativeTo(board); // Appears in the middle of the board JFrame
 		
 		JLabel instructionLabel = new JLabel("A player made a suggestion and you have to disprove it! Select a card you want to show");
 		
 		add(instructionLabel);
 		
-		JComboBox cardOptions = new JComboBox();
+		JComboBox cardOptions = new JComboBox(); // Combo box that adds all the cards the human player can choose from
 		for(Card nextCard : matchingCards){
 			cardOptions.addItem(nextCard);
 		}
 		
-		add(cardOptions);
+		add(cardOptions); // Adds the combo box panel to the dialog box
 		
 		
 		// CODE FROM THE COMPUTING GODS
@@ -44,15 +44,15 @@ public class CardSelectionDialog extends JDialog{
 		// WHICH WILL PREVENT SUSEQUENT CODE FROM RUNNING
 		setModal(true);
 		
-		JButton selectionSubmitButton = new JButton("Submit");
+		JButton selectionSubmitButton = new JButton("Submit"); // Makes a new "Submit" button
 		selectionSubmitButton.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
-				((HumanPlayer)board.getPlayerList()[0]).setDisprovingCard((Card)cardOptions.getSelectedItem());
-				dispose();
+				((HumanPlayer)board.getPlayerList()[0]).setDisprovingCard((Card)cardOptions.getSelectedItem()); // Sets the disproving card to the item selected
+				dispose(); // Closes the dialog box
 			}
 		});
 		
-		add(selectionSubmitButton);
+		add(selectionSubmitButton); // Add button to the dialog box
 		
 	}
 	

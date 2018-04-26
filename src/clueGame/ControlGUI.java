@@ -114,19 +114,19 @@ public class ControlGUI extends JPanel {
 		panel.add(makeAccusation);
 		return panel;
 	}
-	
-	public void setSuggestionText(String suggestionString){
-		lastSuggestion.setText(suggestionString);
-	}
-	
+
+	/**
+	 * findDisprovingCard : calls handleSuggestion on a given suggestion so that it can update its JTextField for disprovingResult
+	 * @param suggestion
+	 */
 	public static void findDisprovingCard(Solution suggestion) {
-		lastSuggestion.setText(suggestion.player + ", " + suggestion.room + ", " + suggestion.weapon);
-		board.lastestDisprovingCard = board.handleSuggestion(board.getCurrentPlayerIndex(), suggestion, board.getPlayerList());
-		if (board.lastestDisprovingCard == null) {
+		lastSuggestion.setText(suggestion.player + ", " + suggestion.room + ", " + suggestion.weapon); // Sets the suggestion JTextField
+		board.lastestDisprovingCard = board.handleSuggestion(board.getCurrentPlayerIndex(), suggestion, board.getPlayerList()); // Uses board to handle the suggestion and gets a card that disproves it
+		if (board.lastestDisprovingCard == null) { // If a disproving card wasn't found
 			disprovingResult.setText("No new clue!");
 		}
-		else {
-			disprovingResult.setText(board.lastestDisprovingCard.getCardName());
+		else { // A disproving card was found
+			disprovingResult.setText(board.lastestDisprovingCard.getCardName()); // Set the JTextField of the disprovingResult to the card name
 		}
 	}
 	

@@ -190,6 +190,10 @@ public class Board extends JPanel implements MouseListener{
 		return isHumanPlayersTurn;
 	}
 	
+	/**
+	 * Gets the index in the playerList array of the current player
+	 * @return
+	 */
 	public int getCurrentPlayerIndex() {
 		return currentPlayer;
 	}
@@ -737,7 +741,7 @@ public class Board extends JPanel implements MouseListener{
 						suggestionDialog.setRoomLabel(legend.get(board[playerList[0].getRow()][playerList[0].getColumn()].getInitial())); // Sets the suggestion dialog to use the name of the room the player is currently in
 						suggestionDialog.setVisible(true);
 					}
-					currentPlayer = (currentPlayer + 1) % playerList.length;
+					currentPlayer = (currentPlayer + 1) % playerList.length; //Human's turn is over, go to next player's turn
 					break;
 				}
 			}
@@ -776,7 +780,7 @@ public class Board extends JPanel implements MouseListener{
 			BoardCell targetCell = ((ComputerPlayer) nextPlayer).selectTarget(getTargets());
 			((ComputerPlayer) nextPlayer).updateLocation(targetCell);
 			repaint(); // Redraws board to display computer player's new location
-			currentPlayer = (currentPlayer + 1) % playerList.length;
+			currentPlayer = (currentPlayer + 1) % playerList.length; // Computer's turn is over, go to next player's turn
 		}
 		else {
 			isHumanPlayersTurn = true; // It is the human player's turn

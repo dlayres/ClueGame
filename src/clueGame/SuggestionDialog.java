@@ -26,29 +26,29 @@ public class SuggestionDialog extends JDialog{
 		setTitle("Make a suggestion");
 		setSize(300, 250);
 		setLayout(new BorderLayout());
-		setModal(true);
+		setModal(true); // Pauses code until the dialog box is closed
 		
-		JPanel suggestionButtons = new JPanel();
+		JPanel suggestionButtons = new JPanel(); // Panel for the buttons
 		suggestionButtons.setLayout(new GridLayout(1, 2));
-		JButton suggestionSubmitButton = new JButton("Submit");
+		JButton suggestionSubmitButton = new JButton("Submit"); // Make a new "Submit" button
 		suggestionSubmitButton.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				dispose(); // Closes the dialog box and sets the selection to the selected items
 				Solution newSuggestion = new Solution((String)playerChoiceBox.getSelectedItem(), roomChoiceLabel.getText(), (String)weaponChoiceBox.getSelectedItem());
-				ControlGUI.findDisprovingCard(newSuggestion);
+				ControlGUI.findDisprovingCard(newSuggestion); // The ControlGUI updates the disprovingCard text field to display the card that disproved the suggestion
 			}
 		});
-		JButton suggestionCancelButton = new JButton("Cancel");
+		JButton suggestionCancelButton = new JButton("Cancel"); // Make a new "Cancel" button
 		suggestionCancelButton.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
 				dispose(); // Closes the suggestion dialog when "Cancel" is clicked
 			}
 		});
-		suggestionButtons.add(suggestionSubmitButton);
+		suggestionButtons.add(suggestionSubmitButton); // Add both buttons to the button panel
 		suggestionButtons.add(suggestionCancelButton);
-		add(suggestionButtons, BorderLayout.SOUTH);
+		add(suggestionButtons, BorderLayout.SOUTH); // Buttons are at the south of the dialog box
 
-		JPanel suggestionChoices = new JPanel();
+		JPanel suggestionChoices = new JPanel(); // Panels for all combo boxes relating to rooms, weapons, and players
 		suggestionChoices.setLayout(new GridLayout(3, 1));
 		JPanel playerChoice = new JPanel();
 		playerChoice.setLayout(new GridLayout(1, 2));
@@ -76,11 +76,11 @@ public class SuggestionDialog extends JDialog{
 		weaponChoice.add(weaponSuggestionLabel);
 		weaponChoice.add(weaponChoiceBox);
 
-		suggestionChoices.add(roomChoice);
+		suggestionChoices.add(roomChoice); // Adds the combo box panels to the main dialog box
 		suggestionChoices.add(playerChoice);
 		suggestionChoices.add(weaponChoice);
 
-		add(suggestionChoices, BorderLayout.CENTER);
+		add(suggestionChoices, BorderLayout.CENTER); // Place the combo box panels in the center of the dialog box
 
 	}
 	
