@@ -39,8 +39,8 @@ public class Board extends JPanel implements MouseListener{
 	public static final int MAX_BOARD_SIZE = 50;
 	public static final int NUM_PLAYERS = 6;
 	private int currentPlayer = 0; // Player 0 is the human player and should go first
-	public Player nextPlayer; // Player whose turn is next
-	public boolean isHumanPlayersTurn = false;
+	private Player nextPlayer; // Player whose turn is next
+	private boolean isHumanPlayersTurn = false;
 	private int mouseX; // Stores the x and y position of the mouse when board is clicked
 	private int mouseY;
 	private SuggestionDialog suggestionDialog;
@@ -60,7 +60,7 @@ public class Board extends JPanel implements MouseListener{
 	
 	private Player[] playerList; // Array of players in the game
 	private Set<Card> cards; // Set of every card in the game
-	public static Solution answer; // The three cards randomly chosen as the game's solution
+	private Solution answer; // The three cards randomly chosen as the game's solution
 	
 	private Set<Card> weaponCards; // Set of weapon cards
 	private Set<Card> roomCards; // Set of room cards
