@@ -52,7 +52,7 @@ public class AccusationDialog extends JDialog{
 		JButton suggestionCancelButton = new JButton("Cancel"); // Make a new "Cancel" button
 		suggestionCancelButton.addActionListener(new ActionListener(){ // Listens for a button click
 			public void actionPerformed(ActionEvent e) {
-				dispose(); // Closes the suggestion dialog when "Cancel" is clicked
+				dispose(); // Closes the accusation dialog when "Cancel" is clicked
 			}
 		});
 		suggestionButtons.add(suggestionSubmitButton); // Add both buttons to the button panel

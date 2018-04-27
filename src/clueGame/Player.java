@@ -8,6 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Player {
+	// If variables are set to protected, it's so that
+	// ComputerPlayer and HumanPlayer can access them
+	
 	private String playerName; // Name of player
 	protected int row; // Location of player (row/column)
 	protected int column;

@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * HumanPlayer class is an extension of the Player class and is used for human players
  */
 public class HumanPlayer extends Player{
-	Card disprovingCard;
+	private Card chosenDisprovingCard;
 
 	// Default constructor (used for testing)
 	public HumanPlayer() {
@@ -34,6 +34,13 @@ public class HumanPlayer extends Player{
 		super(row, column, playerName, color);
 	}
 
+	/**
+	 * makeAccusation() : make accusation given input from the user
+	 * @param player
+	 * @param weapon
+	 * @param room
+	 * @return
+	 */
 	public Solution makeAccusation(String player, String weapon, String room) {
 		Solution proposedSolution = new Solution();
 		proposedSolution.player = player;
@@ -50,7 +57,7 @@ public class HumanPlayer extends Player{
 		Card cardToDisprove = null; // set disproving card to null initially
 		HashSet<Card> matchingCards = new HashSet<Card>();
 		for(Card nextCard : myCards){ // for each of the cpu's cards
-			if(nextCard.getCardName() == suggestion.player || nextCard.getCardName() == suggestion.weapon || nextCard.getCardName() == suggestion.room) { // if we find a matching card
+			if(nextCard.getCardName().equals(suggestion.player) || nextCard.getCardName().equals(suggestion.weapon) || nextCard.getCardName().equals(suggestion.room)) { // if we find a matching card
 				matchingCards.add(nextCard); // add to list of matching cards
 			}
 		}
@@ -69,11 +76,11 @@ public class HumanPlayer extends Player{
 			}
 		}
 		else { // The human player has more than one card they can show, allow them to choose
-			disprovingCard = null; // Set the card they choose to null first
+			chosenDisprovingCard = null; // Set the card they choose to null first
 			CardSelectionDialog cardOptionsGUI = new CardSelectionDialog(matchingCards); // Dialog box allowing them to choose the card
 			cardOptionsGUI.setVisible(true);
-			if(disprovingCard != null){ // If the card isn't null, they picked one, so return that card
-				return disprovingCard;
+			if(chosenDisprovingCard != null){ // If the card isn't null, they picked one, so return that card
+				return chosenDisprovingCard;
 			}
 			else{ // If the card is still null, they didn't pick one (clicked the X), so pick a random card from the options
 				int randMatchingCard = (int)Math.floor((Math.random() * matchingCards.size()));
@@ -123,7 +130,7 @@ public class HumanPlayer extends Player{
 	}
 	
 	public void setDisprovingCard(Card cardToDisprove){
-		disprovingCard = cardToDisprove;
+		chosenDisprovingCard = cardToDisprove;
 	}
 
 }
