@@ -11,9 +11,9 @@ public class ComputerPlayer extends Player {
 	private Set<Card> unseenWeaponCards;
 	private Set<Card> unseenPlayerCards;
 
-	private boolean shouldMakeAccusation = false;
-	private boolean recentlyWrong = false;
-	private Solution rightAccusation = new Solution();
+	private boolean shouldMakeAccusation = false; // flag that says whether or not cpu should make accusation next turn
+	private boolean recentlyWrong = false; // flag that says whether an accusation the cpu just made is true or false
+	private Solution rightAccusation = new Solution(); // used to store cpu's suggestion that none of the other players could disprove
 
 	/**
 	 * @return the shouldMakeAccusation
@@ -169,12 +169,7 @@ public class ComputerPlayer extends Player {
 			i++;
 		}
 		suggestion.room = legend.get(locationCell.getInitial()); // make the cpu's room suggestion based on which cell/room the cpu is currently located at (supplies char initial as input to map)
-
-
-		//		suggestion.room = Board.answer.room;
-		//		suggestion.player = Board.answer.player;
-		//		suggestion.weapon = Board.answer.weapon;
-
+		
 		return suggestion;
 	}
 
@@ -254,12 +249,16 @@ public class ComputerPlayer extends Player {
 	public boolean getRecentlyWrong() {
 		return recentlyWrong;
 	}
-
+	
 	public void setRecentlyWrong(boolean result) {
 		recentlyWrong = result;
 	}
 
-
+	/**
+	 * updateCards() : If a card has been shown to disprove the computer's latest suggestion,
+	 * need to remove this card from unseen list so cpu doesn't suggest it again
+	 * @param latestDisprovingCard - The card used that disproved the suggestion
+	 */
 	public void updateCards(Card latestDisprovingCard) {
 		switch(latestDisprovingCard.getType()){
 		case WEAPON:

@@ -15,11 +15,13 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ControlGUI extends JPanel {
+	// Used to display the text boxes
 	private JTextField playerName;
 	private JTextField rollNumber;
 	private static JTextField lastSuggestion;
 	private static JTextField disprovingResult;
 
+	// Panels for the text boxes
 	private JPanel namePanel;
 	private JPanel rollPanel;
 	private JPanel guessPanel;
@@ -87,7 +89,7 @@ public class ControlGUI extends JPanel {
 	 * @return panel
 	 */
 	private JPanel createButtonPanel() { // Creates two buttons to end turn (go to next player) and make accusation
-		JButton nextPlayer = new JButton("Next player");
+		JButton nextPlayer = new JButton("Next player"); // "Next Player" Button
 		nextPlayer.addActionListener(new ActionListener(){ // Listens for a button click of "Next Player"
 			public void actionPerformed(ActionEvent e) {
 				if(board.getIsHumanPlayersTurn()){ // If it is still the human's turn, they can't go to the next player until their turn is over
@@ -96,32 +98,31 @@ public class ControlGUI extends JPanel {
 				else{
 					playerName.setText(board.displayNextPlayer()); // Set the playerName JTextField to the current player
 					board.movePlayer(rollNumber); // Allows the current player to move
-					if (board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer) {
-						if (((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).getRecentlyWrong() == true) {
-							((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setRecentlyWrong(false);
-							board.endTurn();
-							return;
+					if (board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer) { // If the current player is a cpu
+						if (((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).getRecentlyWrong() == true) { // If the cpu has recently made an incorrect accusation
+							((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setRecentlyWrong(false); // Remove flag so that cpu doesn't try same accusation again
+							board.endTurn(); // end cpu's turn because they were wrong
+							return; // move is over
 						}
 					}
-					// make suggestion based on move
-					if (board.checkNextPlayerIsHuman() == false) {
-						if (board.checkIfInRoom() == true) {
-							Solution suggestion = board.makeSuggestion();
-							findDisprovingCard(suggestion);
+					if (board.checkCurrentPlayerIsHuman() == false) { // if the current player is not a human
+						if (board.checkIfInRoom() == true) { // if the cpu is in a room
+							Solution suggestion = board.makeSuggestion(); // cpu make suggestion
+							findDisprovingCard(suggestion); // try to disprove suggestion
 						}
-						board.endTurn();
+						board.endTurn(); // turn is over
 					}
 				}
 			}
 		});
 
-		JButton makeAccusation = new JButton("Make an accusation");
+		JButton makeAccusation = new JButton("Make an accusation"); // "Make Accusation" button
 		makeAccusation.addActionListener(new ActionListener(){ // Listens for a button click of "Make Accusation"
 			public void actionPerformed(ActionEvent e) {
 				if(!board.getIsHumanPlayersTurn()){ // If it is still the human's turn, they can't go to the next player until their turn is over
 					JOptionPane.showMessageDialog(board, "It is not your turn"); // Error message
 				}
-				else{
+				else{ // Display an accusation window
 					AccusationDialog accusationDialog = new AccusationDialog();
 					accusationDialog.setVisible(true);
 				}
@@ -144,23 +145,23 @@ public class ControlGUI extends JPanel {
 		lastSuggestion.setText(suggestion.player + ", " + suggestion.room + ", " + suggestion.weapon); // Sets the suggestion JTextField
 		board.setLatestDisprovingCard(board.handleSuggestion(board.getCurrentPlayerIndex(), suggestion, board.getPlayerList())); // Uses board to handle the suggestion and gets a card that disproves it
 		if (board.getLatestDisprovingCard() == null) { // If a disproving card wasn't found
-			if (board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer){
-				boolean matchingRoomCard = false;
-				for(Card nextCard : ((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).getMyCards()){
-					if(nextCard.getCardName().equals(suggestion.room)){
-						matchingRoomCard = true;
+			if (board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer){ // If the current player is a computer
+				boolean matchingRoomCard = false; // need to check if cpu has the room card they're currently in
+				for(Card nextCard : ((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).getMyCards()){ // for each of the cpu's cards
+					if(nextCard.getCardName().equals(suggestion.room)){ // check if current card is the room card cpu is in
+						matchingRoomCard = true; // cpu does have the room card they're in
 					}
 				}
-				if(!matchingRoomCard){
-					((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setShouldMakeAccusation(true);
-					((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setRightAccusation(suggestion);
+				if(!matchingRoomCard){ // if cpu doesn't contain the room card and no-one could disprove
+					((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setShouldMakeAccusation(true); // cpu should make an accusation next turn
+					((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).setRightAccusation(suggestion); // accusation should be their latest suggestion
 				}
 			}
-			disprovingResult.setText("No new clue!");
+			disprovingResult.setText("No new clue!"); // no new clue was found
 		}
 		else { // A disproving card was found
-			if(board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer){
-				((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).updateCards(board.getLatestDisprovingCard());
+			if(board.getPlayerList()[board.getCurrentPlayerIndex()] instanceof ComputerPlayer){ // if they're a cpu we need to edit their unseen card lists
+				((ComputerPlayer)board.getPlayerList()[board.getCurrentPlayerIndex()]).updateCards(board.getLatestDisprovingCard()); // edit the cpu's card list
 			}
 			disprovingResult.setText(board.getLatestDisprovingCard().getCardName()); // Set the JTextField of the disprovingResult to the card name
 		}

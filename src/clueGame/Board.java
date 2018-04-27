@@ -66,6 +66,9 @@ public class Board extends JPanel implements MouseListener{
 	private Set<Card> roomCards; // Set of room cards
 	private Set<Card> playerCards; // Set of player cards
 	
+	private Set<Card> weaponCardsCopy; // copy of the weapon cards (used for cpu)
+	private Set<Card> playerCardsCopy; // copy of the player cards (used for cpu)
+	
 	private MyCardsGUI myCards; // GUI that displays the cards dealt to the human player
 	
 	private Set<BoardCell> doorways = new HashSet<BoardCell>(); // Set containing all the doorway cells
@@ -446,10 +449,10 @@ public class Board extends JPanel implements MouseListener{
 
 		for(int k = 0; k < 6; k++){ // For every player
 			if (playerList[k] instanceof ComputerPlayer) {
-				ComputerPlayer thisPlayer = (ComputerPlayer) playerList[k];
-				thisPlayer.setUnseenWeaponCards(weaponCards);
-				thisPlayer.setUnseenPlayerCards(playerCards);
-				playerList[k] = thisPlayer;
+				weaponCardsCopy = new HashSet<Card>(weaponCards);
+				playerCardsCopy = new HashSet<Card>(playerCards);
+				((ComputerPlayer)playerList[k]).setUnseenWeaponCards(weaponCardsCopy); // put card copy for the cpu
+				((ComputerPlayer)playerList[k]).setUnseenPlayerCards(playerCardsCopy);
 			}
 			Set<Card> cardList = new HashSet<Card>(); // Create list of cards to deal to the player
 			for(int j = 0; j < 3; j++){ // Repeat three times (for weapon, player, and room card)
@@ -813,18 +816,33 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
+	/**
+	 * checkIfInRoom() : check if player is in room
+	 * @return
+	 */
 	public boolean checkIfInRoom() {
 		return nextPlayer.currentlyInRoom;
 	}
-	
-	public boolean checkNextPlayerIsHuman() {
+
+	/**
+	 * check if player is human
+	 * @return
+	 */
+	public boolean checkCurrentPlayerIsHuman() {
 		return (nextPlayer instanceof HumanPlayer);
 	}
 	
+	/**
+	 * Tell board to tell cpu to make a suggestion
+	 * @return
+	 */
 	public Solution makeSuggestion() {
 		return ((ComputerPlayer)nextPlayer).makeSuggestion(this.getCellAt(nextPlayer.getRow(), nextPlayer.getColumn()), legend);
 	}
 	
+	/**
+	 * end turn and increment index
+	 */
 	public void endTurn(){
 		currentPlayer = (currentPlayer + 1) % playerList.length;
 	}
